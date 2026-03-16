@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { BrokerSection } from "@/components/BrokerSection";
 import { ContactSection } from "@/components/ContactSection";
 
@@ -14,12 +12,29 @@ export const metadata: Metadata = {
     description: "Earn up to 2% per deal. Dedicated support. Fast closings.",
     url: "https://sgcapital.io/broker-program",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Broker Program | Earn Up to 2% Per Deal | Southern Ground Capital",
+    description: "Partner with SGC and earn competitive commissions on every closed deal. Dedicated support, fast closings.",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://sgcapital.io" },
+    { "@type": "ListItem", position: 2, name: "Broker Program", item: "https://sgcapital.io/broker-program" },
+  ],
 };
 
 export default function BrokerProgramPage() {
   return (
     <>
-      <Navbar />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main>
         <section className="sgc-section-dark py-20 pt-32">
           <div className="container mx-auto px-4 max-w-4xl text-center">
@@ -32,7 +47,6 @@ export default function BrokerProgramPage() {
         <BrokerSection />
         <ContactSection />
       </main>
-      <Footer />
     </>
   );
 }

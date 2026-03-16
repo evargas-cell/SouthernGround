@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { ContactSection } from "@/components/ContactSection";
 import { Testimonials } from "@/components/Testimonials";
 import { HowItWorks } from "@/components/HowItWorks";
+import { RelatedPrograms } from "@/components/RelatedPrograms";
 
 export const metadata: Metadata = {
   title: "Cash-Out Refinance | Access Equity in Investment Properties",
@@ -15,23 +14,48 @@ export const metadata: Metadata = {
     description: "Up to 70% LTV. Min 30% equity. Close in 7–14 days.",
     url: "https://sgcapital.io/cash-out-refinance",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cash-Out Refinance | 70% LTV | Southern Ground Capital",
+    description:
+      "Unlock equity in your investment properties. Up to 70% LTV, 30% equity required, close in 7–14 days. No income verification.",
+  },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "LoanOrCredit",
-  name: "Cash-Out Refinance Loan",
-  provider: { "@type": "FinancialService", name: "Southern Ground Capital" },
-  description: "Cash-out refinance loans allowing investors to access equity in investment properties.",
-  loanTerm: { "@type": "QuantitativeValue", minValue: 12, maxValue: 24, unitCode: "MON" },
-  loanType: "Refinance Loan",
+  "@graph": [
+    {
+      "@type": "LoanOrCredit",
+      name: "Cash-Out Refinance Loan",
+      provider: { "@type": "FinancialService", name: "Southern Ground Capital" },
+      description:
+        "Cash-out refinance loans allowing investors to access equity in investment properties.",
+      loanTerm: { "@type": "QuantitativeValue", minValue: 12, maxValue: 24, unitCode: "MON" },
+      loanType: "Refinance Loan",
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://sgcapital.io" },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Cash-Out Refinance",
+          item: "https://sgcapital.io/cash-out-refinance",
+        },
+      ],
+    },
+  ],
 };
 
 export default function CashOutRefinancePage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <Navbar />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main>
         <section className="sgc-section-dark py-20 pt-32">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -88,9 +112,9 @@ export default function CashOutRefinancePage() {
         </section>
         <HowItWorks />
         <Testimonials />
-        <ContactSection />
+        <RelatedPrograms exclude="/cash-out-refinance" />
+        <ContactSection defaultLoanType="Cash-Out Refinance" />
       </main>
-      <Footer />
     </>
   );
 }

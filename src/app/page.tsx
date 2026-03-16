@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/Navbar";
 import { HeroSection } from "@/components/HeroSection";
 import { LoanPrograms } from "@/components/LoanPrograms";
 import { HowItWorks } from "@/components/HowItWorks";
@@ -8,7 +7,6 @@ import { Testimonials } from "@/components/Testimonials";
 import { ServiceArea } from "@/components/ServiceArea";
 import { BrokerSection } from "@/components/BrokerSection";
 import { ContactSection } from "@/components/ContactSection";
-import { Footer } from "@/components/Footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -62,6 +60,12 @@ const homepageJsonLd = {
         hoursAvailable: "Mo-Fr 08:00-18:00",
       },
     },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://sgcapital.io" },
+      ],
+    },
   ],
 };
 
@@ -72,21 +76,17 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageJsonLd) }}
       />
-      <div className="min-h-screen">
-        <Navbar />
-        <main>
-          <HeroSection />
-          <LoanPrograms />
-          <HowItWorks />
-          <WhyChooseUs />
-          <LoanCalculator />
-          <Testimonials />
-          <ServiceArea />
-          <BrokerSection />
-          <ContactSection />
-        </main>
-        <Footer />
-      </div>
+      <main>
+        <HeroSection />
+        <LoanPrograms />
+        <HowItWorks />
+        <WhyChooseUs />
+        <LoanCalculator />
+        <Testimonials />
+        <ServiceArea />
+        <BrokerSection />
+        <ContactSection />
+      </main>
     </>
   );
 }

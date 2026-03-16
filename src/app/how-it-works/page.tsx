@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { HowItWorks } from "@/components/HowItWorks";
 import { ContactSection } from "@/components/ContactSection";
 
@@ -14,12 +12,29 @@ export const metadata: Metadata = {
     description: "4 simple steps from application to funding. As fast as 5 days.",
     url: "https://sgcapital.io/how-it-works",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "How It Works | Southern Ground Capital Hard Money Loans",
+    description: "From application to funded in as little as 5 business days. 4 simple steps.",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://sgcapital.io" },
+    { "@type": "ListItem", position: 2, name: "How It Works", item: "https://sgcapital.io/how-it-works" },
+  ],
 };
 
 export default function HowItWorksPage() {
   return (
     <>
-      <Navbar />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main>
         <section className="sgc-section-dark py-20 pt-32">
           <div className="container mx-auto px-4 max-w-4xl text-center">
@@ -35,7 +50,6 @@ export default function HowItWorksPage() {
         <HowItWorks />
         <ContactSection />
       </main>
-      <Footer />
     </>
   );
 }

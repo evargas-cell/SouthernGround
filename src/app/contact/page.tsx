@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { ContactSection } from "@/components/ContactSection";
 
 export const metadata: Metadata = {
@@ -13,12 +11,29 @@ export const metadata: Metadata = {
     description: "Call (678) 842-8084 or submit online. No-obligation quote in 24 hours.",
     url: "https://sgcapital.io/contact",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Southern Ground Capital | Free Loan Quote",
+    description: "Call (678) 842-8084 or submit online. Free, no-obligation hard money loan quote within 24 hours.",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://sgcapital.io" },
+    { "@type": "ListItem", position: 2, name: "Contact", item: "https://sgcapital.io/contact" },
+  ],
 };
 
 export default function ContactPage() {
   return (
     <>
-      <Navbar />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main>
         <section className="sgc-section-dark py-20 pt-32">
           <div className="container mx-auto px-4 max-w-4xl text-center">
@@ -30,7 +45,6 @@ export default function ContactPage() {
         </section>
         <ContactSection />
       </main>
-      <Footer />
     </>
   );
 }

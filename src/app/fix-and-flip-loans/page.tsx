@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { ContactSection } from "@/components/ContactSection";
 import { Testimonials } from "@/components/Testimonials";
 import { HowItWorks } from "@/components/HowItWorks";
+import { RelatedPrograms } from "@/components/RelatedPrograms";
 
 export const metadata: Metadata = {
   title: "Fix and Flip Loans | Up to 90% LTC, 75% ARV | Fast Approval",
@@ -15,19 +14,41 @@ export const metadata: Metadata = {
     description: "Up to 90% LTC, 75% ARV. Close in as fast as 5 days.",
     url: "https://sgcapital.io/fix-and-flip-loans",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Fix & Flip Loans | Up to 90% LTC | Southern Ground Capital",
+    description:
+      "Up to 90% LTC, 75% ARV. Close in as fast as 5 days. Expert fix and flip financing from a direct lender.",
+  },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "LoanOrCredit",
-  name: "Fix and Flip Loan",
-  provider: { "@type": "FinancialService", name: "Southern Ground Capital" },
-  description:
-    "Short-term financing for residential real estate investors purchasing and renovating properties.",
-  amount: { "@type": "MonetaryAmount", minValue: 50000, currency: "USD" },
-  loanTerm: { "@type": "QuantitativeValue", minValue: 6, maxValue: 18, unitCode: "MON" },
-  annualPercentageRate: "10.99",
-  loanType: "Hard Money Loan",
+  "@graph": [
+    {
+      "@type": "LoanOrCredit",
+      name: "Fix and Flip Loan",
+      provider: { "@type": "FinancialService", name: "Southern Ground Capital" },
+      description:
+        "Short-term financing for residential real estate investors purchasing and renovating properties.",
+      amount: { "@type": "MonetaryAmount", minValue: 50000, currency: "USD" },
+      loanTerm: { "@type": "QuantitativeValue", minValue: 6, maxValue: 18, unitCode: "MON" },
+      annualPercentageRate: "10.99",
+      loanType: "Hard Money Loan",
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://sgcapital.io" },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Fix & Flip Loans",
+          item: "https://sgcapital.io/fix-and-flip-loans",
+        },
+      ],
+    },
+  ],
 };
 
 export default function FixAndFlipLoansPage() {
@@ -37,7 +58,6 @@ export default function FixAndFlipLoansPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Navbar />
       <main>
         <section className="sgc-section-dark py-20 pt-32">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -97,9 +117,9 @@ export default function FixAndFlipLoansPage() {
         </section>
         <HowItWorks />
         <Testimonials />
-        <ContactSection />
+        <RelatedPrograms exclude="/fix-and-flip-loans" />
+        <ContactSection defaultLoanType="Fix & Flip" />
       </main>
-      <Footer />
     </>
   );
 }

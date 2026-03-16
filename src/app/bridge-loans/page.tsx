@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { ContactSection } from "@/components/ContactSection";
 import { Testimonials } from "@/components/Testimonials";
 import { HowItWorks } from "@/components/HowItWorks";
+import { RelatedPrograms } from "@/components/RelatedPrograms";
 
 export const metadata: Metadata = {
   title: "Bridge Loans | Short-Term Real Estate Bridge Financing",
@@ -15,24 +14,49 @@ export const metadata: Metadata = {
     description: "Up to 75% LTV. Close in 7–10 days. Rates from 10.99%.",
     url: "https://sgcapital.io/bridge-loans",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bridge Loans | 75% LTV | Close in 7–10 Days | Southern Ground Capital",
+    description:
+      "Move fast on acquisitions with bridge financing. Up to 75% LTV, rates from 10.99%, close in 7–10 days.",
+  },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "LoanOrCredit",
-  name: "Bridge Loan",
-  provider: { "@type": "FinancialService", name: "Southern Ground Capital" },
-  description: "Short-term bridge financing to acquire properties or bridge to permanent financing.",
-  loanTerm: { "@type": "QuantitativeValue", minValue: 3, maxValue: 24, unitCode: "MON" },
-  annualPercentageRate: "10.99",
-  loanType: "Bridge Loan",
+  "@graph": [
+    {
+      "@type": "LoanOrCredit",
+      name: "Bridge Loan",
+      provider: { "@type": "FinancialService", name: "Southern Ground Capital" },
+      description:
+        "Short-term bridge financing to acquire properties or bridge to permanent financing.",
+      loanTerm: { "@type": "QuantitativeValue", minValue: 3, maxValue: 24, unitCode: "MON" },
+      annualPercentageRate: "10.99",
+      loanType: "Bridge Loan",
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://sgcapital.io" },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Bridge Loans",
+          item: "https://sgcapital.io/bridge-loans",
+        },
+      ],
+    },
+  ],
 };
 
 export default function BridgeLoansPage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <Navbar />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main>
         <section className="sgc-section-dark py-20 pt-32">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -89,9 +113,9 @@ export default function BridgeLoansPage() {
         </section>
         <HowItWorks />
         <Testimonials />
-        <ContactSection />
+        <RelatedPrograms exclude="/bridge-loans" />
+        <ContactSection defaultLoanType="Bridge Loan" />
       </main>
-      <Footer />
     </>
   );
 }

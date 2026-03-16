@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { ContactSection } from "@/components/ContactSection";
 import { Testimonials } from "@/components/Testimonials";
 import { HowItWorks } from "@/components/HowItWorks";
+import { RelatedPrograms } from "@/components/RelatedPrograms";
 
 export const metadata: Metadata = {
   title: "Multi-Family Loans | 2–20 Unit Investment Property Financing",
@@ -15,23 +14,48 @@ export const metadata: Metadata = {
     description: "2–20 units. Up to 75% LTV. Close in 10–14 days.",
     url: "https://sgcapital.io/multi-family-loans",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Multi-Family Loans | 2–20 Units | 75% LTV | Southern Ground Capital",
+    description:
+      "Acquire and renovate 2–20 unit investment properties. Up to 75% LTV, 12–36 month terms, close in 10–14 days.",
+  },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "LoanOrCredit",
-  name: "Multi-Family Loan",
-  provider: { "@type": "FinancialService", name: "Southern Ground Capital" },
-  description: "Bridge and term financing for 2–20 unit multi-family investment properties.",
-  loanTerm: { "@type": "QuantitativeValue", minValue: 12, maxValue: 36, unitCode: "MON" },
-  loanType: "Multi-Family Loan",
+  "@graph": [
+    {
+      "@type": "LoanOrCredit",
+      name: "Multi-Family Loan",
+      provider: { "@type": "FinancialService", name: "Southern Ground Capital" },
+      description:
+        "Bridge and term financing for 2–20 unit multi-family investment properties.",
+      loanTerm: { "@type": "QuantitativeValue", minValue: 12, maxValue: 36, unitCode: "MON" },
+      loanType: "Multi-Family Loan",
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://sgcapital.io" },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Multi-Family Loans",
+          item: "https://sgcapital.io/multi-family-loans",
+        },
+      ],
+    },
+  ],
 };
 
 export default function MultiFamilyLoansPage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <Navbar />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main>
         <section className="sgc-section-dark py-20 pt-32">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -88,9 +112,9 @@ export default function MultiFamilyLoansPage() {
         </section>
         <HowItWorks />
         <Testimonials />
-        <ContactSection />
+        <RelatedPrograms exclude="/multi-family-loans" />
+        <ContactSection defaultLoanType="Multi-Family" />
       </main>
-      <Footer />
     </>
   );
 }

@@ -31,12 +31,12 @@ const states = [
   "West Virginia", "Wisconsin", "Wyoming", "Other",
 ];
 
-export function ContactSection() {
+export function ContactSection({ defaultLoanType = "" }: { defaultLoanType?: string }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    loanType: "",
+    loanType: defaultLoanType,
     loanAmount: "",
     propertyState: "",
     message: "",

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { ContactSection } from "@/components/ContactSection";
 import { Testimonials } from "@/components/Testimonials";
 import { HowItWorks } from "@/components/HowItWorks";
+import { RelatedPrograms } from "@/components/RelatedPrograms";
 
 export const metadata: Metadata = {
   title: "New Construction Loans | Ground-Up Construction Financing",
@@ -15,24 +14,49 @@ export const metadata: Metadata = {
     description: "Up to 85% LTC. Flexible draws. Min loan $150,000.",
     url: "https://sgcapital.io/new-construction-loans",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "New Construction Loans | 85% LTC | Southern Ground Capital",
+    description:
+      "Ground-up construction financing. Up to 85% LTC, flexible draw schedules, 12–24 month terms. $150K minimum loan.",
+  },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "LoanOrCredit",
-  name: "New Construction Loan",
-  provider: { "@type": "FinancialService", name: "Southern Ground Capital" },
-  description: "Ground-up construction financing for residential and light commercial developers.",
-  amount: { "@type": "MonetaryAmount", minValue: 150000, currency: "USD" },
-  loanTerm: { "@type": "QuantitativeValue", minValue: 12, maxValue: 24, unitCode: "MON" },
-  loanType: "Construction Loan",
+  "@graph": [
+    {
+      "@type": "LoanOrCredit",
+      name: "New Construction Loan",
+      provider: { "@type": "FinancialService", name: "Southern Ground Capital" },
+      description:
+        "Ground-up construction financing for residential and light commercial developers.",
+      amount: { "@type": "MonetaryAmount", minValue: 150000, currency: "USD" },
+      loanTerm: { "@type": "QuantitativeValue", minValue: 12, maxValue: 24, unitCode: "MON" },
+      loanType: "Construction Loan",
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://sgcapital.io" },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "New Construction Loans",
+          item: "https://sgcapital.io/new-construction-loans",
+        },
+      ],
+    },
+  ],
 };
 
 export default function NewConstructionLoansPage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <Navbar />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main>
         <section className="sgc-section-dark py-20 pt-32">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -89,9 +113,9 @@ export default function NewConstructionLoansPage() {
         </section>
         <HowItWorks />
         <Testimonials />
-        <ContactSection />
+        <RelatedPrograms exclude="/new-construction-loans" />
+        <ContactSection defaultLoanType="New Construction" />
       </main>
-      <Footer />
     </>
   );
 }

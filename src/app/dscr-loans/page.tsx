@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { ContactSection } from "@/components/ContactSection";
 import { Testimonials } from "@/components/Testimonials";
 import { HowItWorks } from "@/components/HowItWorks";
+import { RelatedPrograms } from "@/components/RelatedPrograms";
 
 export const metadata: Metadata = {
   title: "DSCR Loans | Debt Service Coverage Ratio Loans for Investors",
@@ -15,24 +14,49 @@ export const metadata: Metadata = {
     description: "Qualify on rental income. No W-2 required. Up to 80% LTV.",
     url: "https://sgcapital.io/dscr-loans",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "DSCR Loans | No Income Verification | Southern Ground Capital",
+    description:
+      "Qualify on rental income — no W-2, no tax returns. Up to 80% LTV, 30-year fixed terms. Southern Ground Capital DSCR lending.",
+  },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "LoanOrCredit",
-  name: "DSCR Loan",
-  provider: { "@type": "FinancialService", name: "Southern Ground Capital" },
-  description: "Debt Service Coverage Ratio loans for real estate investors — qualify on property cash flow, no personal income verification required.",
-  amount: { "@type": "MonetaryAmount", minValue: 75000, currency: "USD" },
-  loanTerm: { "@type": "QuantitativeValue", value: 360, unitCode: "MON" },
-  loanType: "DSCR Loan",
+  "@graph": [
+    {
+      "@type": "LoanOrCredit",
+      name: "DSCR Loan",
+      provider: { "@type": "FinancialService", name: "Southern Ground Capital" },
+      description:
+        "Debt Service Coverage Ratio loans for real estate investors — qualify on property cash flow, no personal income verification required.",
+      amount: { "@type": "MonetaryAmount", minValue: 75000, currency: "USD" },
+      loanTerm: { "@type": "QuantitativeValue", value: 360, unitCode: "MON" },
+      loanType: "DSCR Loan",
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://sgcapital.io" },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "DSCR Loans",
+          item: "https://sgcapital.io/dscr-loans",
+        },
+      ],
+    },
+  ],
 };
 
 export default function DscrLoansPage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <Navbar />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main>
         <section className="sgc-section-dark py-20 pt-32">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -90,9 +114,9 @@ export default function DscrLoansPage() {
         </section>
         <HowItWorks />
         <Testimonials />
-        <ContactSection />
+        <RelatedPrograms exclude="/dscr-loans" />
+        <ContactSection defaultLoanType="DSCR Loan" />
       </main>
-      <Footer />
     </>
   );
 }

@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
 import { ContactSection } from "@/components/ContactSection";
 
@@ -14,12 +12,29 @@ export const metadata: Metadata = {
     description: "$500M+ funded. 1,200+ deals. 15+ years. Your trusted hard money partner.",
     url: "https://sgcapital.io/about",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Southern Ground Capital | Direct Private Hard Money Lender",
+    description: "$500M+ funded, 1,200+ deals closed, 15+ years experience. Your trusted nationwide lending partner.",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://sgcapital.io" },
+    { "@type": "ListItem", position: 2, name: "About Us", item: "https://sgcapital.io/about" },
+  ],
 };
 
 export default function AboutPage() {
   return (
     <>
-      <Navbar />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main>
         <section className="sgc-section-dark py-20 pt-32">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -35,7 +50,6 @@ export default function AboutPage() {
         <WhyChooseUs />
         <ContactSection />
       </main>
-      <Footer />
     </>
   );
 }
