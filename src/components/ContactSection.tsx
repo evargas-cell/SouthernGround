@@ -50,10 +50,15 @@ export function ContactSection({ defaultLoanType = "" }: { defaultLoanType?: str
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetch("/.netlify/functions/send-email", {
+      const body = new URLSearchParams({
+        "form-name": "contact",
+        formType: "contact",
+        ...formData,
+      });
+      const res = await fetch("/", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, formType: "contact" }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
       });
       if (!res.ok) throw new Error("Submission failed");
       setSubmitted(true);
@@ -162,7 +167,15 @@ export function ContactSection({ defaultLoanType = "" }: { defaultLoanType?: str
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form
+                  name="contact"
+                  data-netlify="true"
+                  netlify-honeypot="bot-field"
+                  onSubmit={handleSubmit}
+                  className="space-y-5"
+                >
+                  <input type="hidden" name="form-name" value="contact" />
+                  <input type="hidden" name="bot-field" />
                   <div className="sgc-amber-bar mb-6">
                     <h3 className="font-display text-white text-xl">LOAN REQUEST FORM</h3>
                     <p className="text-white/40 text-xs mt-1">All fields required</p>
