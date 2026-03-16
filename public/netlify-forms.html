@@ -2,7 +2,19 @@
 <html>
   <head><title>Netlify Form Detection</title></head>
   <body>
-    <!-- Hidden form for Netlify build bot to detect fields -->
+    <!-- Hero quote form -->
+    <form name="quote" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="quote" />
+      <input name="bot-field" />
+      <input name="loanType" />
+      <input name="loanAmount" />
+      <input name="propertyType" />
+      <input name="name" />
+      <input name="phone" />
+      <input name="email" />
+    </form>
+
+    <!-- Contact / loan request form -->
     <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
       <input type="hidden" name="form-name" value="contact" />
       <input name="bot-field" />

@@ -45,10 +45,14 @@ export function HeroSection() {
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetch("/.netlify/functions/send-email", {
+      const body = new URLSearchParams({
+        "form-name": "quote",
+        ...formData,
+      });
+      const res = await fetch("/", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, formType: "hero" }),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
       });
       if (!res.ok) throw new Error("Submission failed");
       setSubmitted(true);
@@ -158,7 +162,15 @@ export function HeroSection() {
                     </p>
                   </div>
 
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                  <form
+                    name="quote"
+                    data-netlify="true"
+                    netlify-honeypot="bot-field"
+                    onSubmit={handleSubmit}
+                    className="space-y-4"
+                  >
+                    <input type="hidden" name="form-name" value="quote" />
+                    <input type="hidden" name="bot-field" />
                     {/* Loan Type */}
                     <div>
                       <label className="block text-white/60 text-xs font-mono tracking-wider mb-1.5 uppercase">
@@ -166,6 +178,7 @@ export function HeroSection() {
                       </label>
                       <div className="relative">
                         <select
+                          name="loanType"
                           required
                           value={formData.loanType}
                           onChange={(e) => setFormData({ ...formData, loanType: e.target.value })}
@@ -187,6 +200,7 @@ export function HeroSection() {
                       </label>
                       <div className="relative">
                         <select
+                          name="loanAmount"
                           required
                           value={formData.loanAmount}
                           onChange={(e) => setFormData({ ...formData, loanAmount: e.target.value })}
@@ -210,6 +224,7 @@ export function HeroSection() {
                       </label>
                       <div className="relative">
                         <select
+                          name="propertyType"
                           required
                           value={formData.propertyType}
                           onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
@@ -233,6 +248,7 @@ export function HeroSection() {
                       </label>
                       <input
                         type="text"
+                        name="name"
                         required
                         placeholder="John Smith"
                         value={formData.name}
@@ -249,6 +265,7 @@ export function HeroSection() {
                         </label>
                         <input
                           type="tel"
+                          name="phone"
                           required
                           placeholder="(555) 000-0000"
                           value={formData.phone}
@@ -262,6 +279,7 @@ export function HeroSection() {
                         </label>
                         <input
                           type="email"
+                          name="email"
                           required
                           placeholder="you@email.com"
                           value={formData.email}

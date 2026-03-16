@@ -189,6 +189,7 @@ export function ContactSection({ defaultLoanType = "" }: { defaultLoanType?: str
                       </label>
                       <input
                         type="text"
+                        name="name"
                         required
                         placeholder="John Smith"
                         value={formData.name}
@@ -202,6 +203,7 @@ export function ContactSection({ defaultLoanType = "" }: { defaultLoanType?: str
                       </label>
                       <input
                         type="tel"
+                        name="phone"
                         required
                         placeholder="(555) 000-0000"
                         value={formData.phone}
@@ -218,6 +220,7 @@ export function ContactSection({ defaultLoanType = "" }: { defaultLoanType?: str
                     </label>
                     <input
                       type="email"
+                      name="email"
                       required
                       placeholder="you@email.com"
                       value={formData.email}
@@ -234,6 +237,7 @@ export function ContactSection({ defaultLoanType = "" }: { defaultLoanType?: str
                       </label>
                       <div className="relative">
                         <select
+                          name="loanType"
                           required
                           value={formData.loanType}
                           onChange={(e) => setFormData({ ...formData, loanType: e.target.value })}
@@ -253,6 +257,7 @@ export function ContactSection({ defaultLoanType = "" }: { defaultLoanType?: str
                       </label>
                       <div className="relative">
                         <select
+                          name="loanAmount"
                           required
                           value={formData.loanAmount}
                           onChange={(e) => setFormData({ ...formData, loanAmount: e.target.value })}
@@ -277,6 +282,7 @@ export function ContactSection({ defaultLoanType = "" }: { defaultLoanType?: str
                     </label>
                     <div className="relative">
                       <select
+                        name="propertyState"
                         required
                         value={formData.propertyState}
                         onChange={(e) => setFormData({ ...formData, propertyState: e.target.value })}
@@ -297,6 +303,7 @@ export function ContactSection({ defaultLoanType = "" }: { defaultLoanType?: str
                       Tell Us About Your Deal
                     </label>
                     <textarea
+                      name="message"
                       rows={4}
                       placeholder="Property address, purchase price, renovation budget, timeline, or any other details..."
                       value={formData.message}
