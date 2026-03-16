@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(start \"\" \"C:/Users/evarg/Documents/SouthernGroundWebsite/index.html\")",
+      "Bash(grep -r \"loans@sgcapital.io\\\\|email\\\\|API\\\\|send\\\\|submit\" c:UsersevargDocumentsSouthernGroundWebsite/client/src --include=*.tsx --include=*.ts)",
+      "Bash(grep -rn \"DATABASE\\\\|BACKEND\\\\|SERVER\\\\|API_URL\\\\|ENDPOINT\" c:UsersevargDocumentsSouthernGroundWebsite --include=*.json --include=*.env* --include=*.ts --include=*.tsx)",
+      "Bash(xargs grep:*)",
+      "Bash(grep -rn \"setSubmitted\\\\|useState\\\\|formData\" c:UsersevargDocumentsSouthernGroundWebsite/client/src/components --include=*.tsx)",
+      "Bash(grep -rn \"localStorage\\\\|sessionStorage\\\\|window\\\\.location\\\\|navigate\\\\|Router\" c:UsersevargDocumentsSouthernGroundWebsite/client/src/components --include=*.tsx)"
+    ]
+  }
+}
