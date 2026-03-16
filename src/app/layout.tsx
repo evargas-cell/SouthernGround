@@ -61,6 +61,30 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body>
+        {/* Hidden forms for Netlify Forms build-bot detection */}
+        <div hidden aria-hidden="true">
+          <form name="quote" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="quote" />
+            <input name="bot-field" />
+            <input name="loanType" />
+            <input name="loanAmount" />
+            <input name="propertyType" />
+            <input name="name" />
+            <input name="phone" />
+            <input name="email" />
+          </form>
+          <form name="contact" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="contact" />
+            <input name="bot-field" />
+            <input name="name" />
+            <input name="email" />
+            <input name="phone" />
+            <input name="loanType" />
+            <input name="loanAmount" />
+            <input name="propertyState" />
+            <textarea name="message"></textarea>
+          </form>
+        </div>
         <Navbar />
         {children}
         <Footer />
