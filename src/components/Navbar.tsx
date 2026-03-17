@@ -44,6 +44,8 @@ const loanPrograms = [
 ];
 
 const mainNavLinks = [
+  { label: "Rates & Terms", href: "/rates-and-terms" },
+  { label: "Calculator", href: "/calculator" },
   { label: "How It Works", href: "/how-it-works" },
   { label: "About Us", href: "/about" },
   { label: "Testimonials", href: "/testimonials" },

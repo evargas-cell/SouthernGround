@@ -17,5 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/testimonials`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/contact`, lastModified, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/broker-program`, lastModified, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/calculator`, lastModified, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/rates-and-terms`, lastModified, changeFrequency: "monthly", priority: 0.8 },
   ];
 }

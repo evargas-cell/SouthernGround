@@ -20,6 +20,8 @@ const loanLinks = [
 const companyLinks = [
   { label: "About Us", href: "/about" },
   { label: "How It Works", href: "/how-it-works" },
+  { label: "Rates & Terms", href: "/rates-and-terms" },
+  { label: "Loan Calculator", href: "/calculator" },
   { label: "Testimonials", href: "/testimonials" },
   { label: "Contact", href: "/contact" },
   { label: "Become a Broker", href: "/broker-program" },
