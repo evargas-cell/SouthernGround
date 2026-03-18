@@ -34,6 +34,11 @@ export const metadata: Metadata = {
     title: "Southern Ground Capital | Hard Money Loans",
     description: "Fast hard money loans nationwide. 24–48 hour approvals.",
   },
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
   robots: {
     index: true,
     follow: true,
