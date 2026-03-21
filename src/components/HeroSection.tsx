@@ -8,6 +8,7 @@
 
 import { useState } from "react";
 import { ArrowRight, CheckCircle2, ChevronDown } from "lucide-react";
+import { useAffiliateRef } from "@/hooks/useAffiliateRef";
 
 const HERO_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/95558444/SRpei9L9RnhAsFaEksuafb/sgc-hero-fpazMZkWBgDV6FeDdaQhg6.webp";
 
@@ -28,6 +29,7 @@ const trustBadges = [
 ];
 
 export function HeroSection() {
+  const affiliateRef = useAffiliateRef();
   const [formData, setFormData] = useState({
     loanType: "",
     loanAmount: "",
@@ -48,6 +50,7 @@ export function HeroSection() {
       const body = new URLSearchParams({
         "form-name": "quote",
         ...formData,
+        ...(affiliateRef ? { affiliateRef } : {}),
       });
       const res = await fetch("/netlify-forms.html", {
         method: "POST",

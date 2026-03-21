@@ -8,6 +8,7 @@
 
 import { useState } from "react";
 import { Phone, Mail, MapPin, ArrowRight, CheckCircle2, ChevronDown } from "lucide-react";
+import { useAffiliateRef } from "@/hooks/useAffiliateRef";
 
 const loanTypes = [
   "Fix & Flip",
@@ -32,6 +33,7 @@ const states = [
 ];
 
 export function ContactSection({ defaultLoanType = "" }: { defaultLoanType?: string }) {
+  const affiliateRef = useAffiliateRef();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -54,6 +56,7 @@ export function ContactSection({ defaultLoanType = "" }: { defaultLoanType?: str
         "form-name": "contact",
         formType: "contact",
         ...formData,
+        ...(affiliateRef ? { affiliateRef } : {}),
       });
       const res = await fetch("/netlify-forms.html", {
         method: "POST",

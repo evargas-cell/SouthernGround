@@ -77,6 +77,7 @@ export default function RootLayout({
             <input name="name" />
             <input name="phone" />
             <input name="email" />
+            <input name="affiliateRef" />
           </form>
           <form name="contact" data-netlify="true" netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="contact" />
@@ -88,6 +89,7 @@ export default function RootLayout({
             <input name="loanAmount" />
             <input name="propertyState" />
             <textarea name="message"></textarea>
+            <input name="affiliateRef" />
           </form>
         </div>
         <Navbar />
