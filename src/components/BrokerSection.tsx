@@ -1,18 +1,12 @@
-'use client';
-
 /*
  * BrokerSection — Southern Ground Capital
- * Design: Industrial Precision — amber CTA banner for broker referrals
+ * Affiliate program CTA banner
  */
 
+import Link from "next/link";
 import { ArrowRight, DollarSign, Users, Handshake } from "lucide-react";
 
 export function BrokerSection() {
-  const scrollToContact = () => {
-    const el = document.querySelector("#contact");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <section className="py-20 bg-[#162B52] relative overflow-hidden">
       {/* Background dot pattern */}
@@ -25,23 +19,23 @@ export function BrokerSection() {
             <div className="flex items-center gap-3 mb-4">
               <div className="h-px w-12 bg-[#E8A020]" />
               <span className="text-[#E8A020] text-xs font-mono tracking-[0.25em] uppercase">
-                Broker Program
+                Affiliate Program
               </span>
             </div>
             <h2 className="font-display text-white text-4xl md:text-5xl leading-tight mb-4">
-              EARN MORE BY<br />
-              <span className="text-[#E8A020]">BECOMING A BROKER</span>
+              GROW TOGETHER.<br />
+              <span className="text-[#E8A020]">GET REWARDED.</span>
             </h2>
             <p className="text-white/60 text-sm leading-relaxed mb-8 max-w-md">
-              Join the Southern Ground Capital broker network and earn competitive referral commissions on every deal you bring us. We close fast, pay promptly, and treat your clients right.
+              Join the Southern Ground Capital affiliate program and earn competitive referral commissions on every deal you bring us. We close fast, pay promptly, and treat your clients right.
             </p>
-            <button
-              onClick={scrollToContact}
+            <Link
+              href="/affiliates"
               className="btn-amber px-8 py-3.5 rounded-sm text-sm inline-flex items-center gap-2"
             >
-              Become a Broker Partner
+              Become an Affiliate
               <ArrowRight size={15} />
-            </button>
+            </Link>
           </div>
 
           {/* Right: Benefits */}
@@ -49,8 +43,8 @@ export function BrokerSection() {
             {[
               {
                 icon: DollarSign,
-                title: "Competitive Commissions",
-                description: "Earn up to 2% on every funded deal you refer to our network.",
+                title: "Earn Commissions",
+                description: "Get paid on every funded deal you refer to our network.",
               },
               {
                 icon: Users,
