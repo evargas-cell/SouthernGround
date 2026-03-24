@@ -100,17 +100,19 @@ export function HeroSection() {
             {/* Headline */}
             <div>
               <h1 className="font-display text-white leading-none">
-                <span className="block text-5xl md:text-6xl xl:text-7xl">FUND YOUR</span>
-                <span className="block text-5xl md:text-6xl xl:text-7xl">NEXT DEAL</span>
-                <span className="block text-5xl md:text-6xl xl:text-7xl text-[#E8A020]">
-                  FAST.
+                <span className="block text-4xl md:text-5xl xl:text-6xl">FUND YOUR NEXT DEAL—</span>
+                <span className="block text-4xl md:text-5xl xl:text-6xl text-[#E8A020]">
+                  WITHOUT THE BANK
+                </span>
+                <span className="block text-4xl md:text-5xl xl:text-6xl text-[#E8A020]">
+                  SLOWING YOU DOWN.
                 </span>
               </h1>
             </div>
 
             {/* Subheadline */}
             <p className="text-white/75 text-lg leading-relaxed max-w-md font-light">
-              Southern Ground Capital delivers flexible, fast-close hard money loans for real estate investors nationwide. No red tape. No delays. Just capital.
+              Fast, investor-focused financing for fix &amp; flips and rentals. Close in days, not weeks.
             </p>
 
             {/* Trust Badges */}
@@ -124,6 +126,28 @@ export function HeroSection() {
                   <span className="text-white/80 text-xs font-medium">{badge}</span>
                 </div>
               ))}
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={() => {
+                  const el = document.querySelector("#contact");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="btn-amber px-6 py-3 rounded-sm text-sm inline-flex items-center gap-2"
+              >
+                Submit Your Deal <ArrowRight size={14} />
+              </button>
+              <button
+                onClick={() => {
+                  const el = document.querySelector("#contact");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="px-6 py-3 rounded-sm text-sm border border-white/20 text-white/80 hover:border-[#E8A020]/50 hover:text-white transition-colors"
+              >
+                Get Pre-Approved
+              </button>
             </div>
 
             {/* Stats Row */}

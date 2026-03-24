@@ -6,36 +6,29 @@
  * 4-step process with connecting line
  */
 
-import { ClipboardList, Phone, FileCheck, Banknote } from "lucide-react";
+import { ClipboardList, FileCheck, Banknote } from "lucide-react";
 
 const steps = [
   {
     number: "01",
     icon: ClipboardList,
-    title: "Submit Your Request",
+    title: "Submit Your Deal",
     description:
-      "Complete our short online form with your deal details — property address, loan type, and amount. Takes less than 3 minutes.",
+      "Send us the property details — purchase price, rehab budget, and ARV. Our form takes less than 3 minutes.",
   },
   {
     number: "02",
-    icon: Phone,
-    title: "Speak with a Specialist",
+    icon: FileCheck,
+    title: "Get Terms Fast",
     description:
-      "A dedicated loan specialist will contact you within 24 hours to discuss your deal, answer questions, and outline your options.",
+      "Clear numbers within 24–48 hours. No obligation. No hidden fees. Just a straightforward term sheet so you can decide.",
   },
   {
     number: "03",
-    icon: FileCheck,
-    title: "Receive Your Term Sheet",
-    description:
-      "We issue a clear, no-obligation term sheet outlining rates, terms, and conditions. No hidden fees, no surprises.",
-  },
-  {
-    number: "04",
     icon: Banknote,
-    title: "Close & Get Funded",
+    title: "Close & Execute",
     description:
-      "Once approved, we move quickly to close. Many deals fund in as few as 5–7 business days. Your capital, on your timeline.",
+      "We fund so you can focus on the project — not the paperwork. Many deals close in 5–10 business days.",
   },
 ];
 
@@ -68,9 +61,9 @@ export function HowItWorks() {
         {/* Steps */}
         <div className="relative">
           {/* Connecting line (desktop) */}
-          <div className="hidden lg:block absolute top-14 left-[12.5%] right-[12.5%] h-px bg-[#E8A020]/30 z-0" />
+          <div className="hidden lg:block absolute top-14 left-[16.5%] right-[16.5%] h-px bg-[#E8A020]/30 z-0" />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+          <div className="grid md:grid-cols-3 gap-8 relative z-10">
             {steps.map((step, index) => {
               const Icon = step.icon;
               return (

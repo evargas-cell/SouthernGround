@@ -1,7 +1,11 @@
 import { HeroSection } from "@/components/HeroSection";
-import { LoanPrograms } from "@/components/LoanPrograms";
-import { HowItWorks } from "@/components/HowItWorks";
+import { ProblemSection } from "@/components/ProblemSection";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
+import { HowItWorks } from "@/components/HowItWorks";
+import { LoanPrograms } from "@/components/LoanPrograms";
+import { ProofSection } from "@/components/ProofSection";
+import { FailureSuccessSection } from "@/components/FailureSuccessSection";
+import { WhoWeServeSection } from "@/components/WhoWeServeSection";
 import { LoanCalculator } from "@/components/LoanCalculator";
 import { Testimonials } from "@/components/Testimonials";
 import { ServiceArea } from "@/components/ServiceArea";
@@ -78,9 +82,13 @@ export default function HomePage() {
       />
       <main>
         <HeroSection />
-        <LoanPrograms />
-        <HowItWorks />
+        <ProblemSection />
         <WhyChooseUs />
+        <HowItWorks />
+        <LoanPrograms />
+        <ProofSection />
+        <FailureSuccessSection />
+        <WhoWeServeSection />
         <LoanCalculator />
         <Testimonials />
         <ServiceArea />

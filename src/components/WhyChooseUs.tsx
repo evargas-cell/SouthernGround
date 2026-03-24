@@ -135,15 +135,29 @@ export function WhyChooseUs() {
             <div className="flex items-center gap-3 mb-4">
               <div className="h-px w-12 bg-[#E8A020]" />
               <span className="text-[#E8A020] text-xs font-mono tracking-[0.25em] uppercase">
-                Why Southern Ground Capital
+                Your Capital Partner
               </span>
             </div>
             <h2 className="font-display text-white text-4xl md:text-5xl leading-tight mb-6">
-              YOUR DEAL DESERVES<br />
-              <span className="text-[#E8A020]">A REAL PARTNER</span>
+              WE UNDERSTAND HOW<br />
+              <span className="text-[#E8A020]">INVESTORS OPERATE.</span>
             </h2>
+            <p className="text-white/60 text-sm leading-relaxed mb-6">
+              We&apos;re not a bank. We&apos;re not a broker. At SG Capital, we work with deals every day—and we know what makes a deal fundable. We focus on three things:
+            </p>
+
+            {/* The 3 Focus Areas */}
+            <div className="flex gap-4 mb-8">
+              {["The Market", "The Borrower", "The Deal"].map((label, i) => (
+                <div key={label} className="flex-1 bg-[#162B52]/60 border border-[#E8A020]/20 rounded-sm p-4 text-center">
+                  <div className="font-mono text-[#E8A020] text-xs tracking-widest mb-2">0{i + 1}</div>
+                  <div className="font-display text-white text-sm leading-tight">{label}</div>
+                </div>
+              ))}
+            </div>
+
             <p className="text-white/60 text-sm leading-relaxed mb-8">
-              We're not a bank. We're not a broker. Southern Ground Capital is a direct private lender built specifically for real estate investors who need speed, flexibility, and a team that understands the deal.
+              If those align — we move fast. Our streamlined process gets you from application to funded in days, not weeks.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-5">
