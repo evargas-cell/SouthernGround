@@ -49,6 +49,7 @@ const mainNavLinks = [
   { label: "How It Works", href: "/how-it-works" },
   { label: "About Us", href: "/about" },
   { label: "Testimonials", href: "/testimonials" },
+  { label: "Affiliates", href: "/affiliates" },
   { label: "Contact", href: "/contact" },
 ];
 
