@@ -125,11 +125,10 @@ export function HeroSection() {
             </div>
 
             {/* Stats Row */}
-            <div className="grid grid-cols-3 gap-6 pt-4 border-t border-white/10">
+            <div className="grid grid-cols-2 gap-6 pt-4 border-t border-white/10">
               {[
                 { value: "$500M+", label: "Loans Funded" },
                 { value: "48hr", label: "Avg. Approval" },
-                { value: "12%", label: "Starting Rate" },
               ].map((stat) => (
                 <div key={stat.label}>
                   <div className="font-mono-nums text-[#E8A020] text-2xl md:text-3xl">
