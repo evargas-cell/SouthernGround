@@ -9,6 +9,7 @@
 import { useState } from "react";
 import { Phone, Mail, MapPin, ArrowRight, CheckCircle2, ChevronDown } from "lucide-react";
 import { useAffiliateRef } from "@/hooks/useAffiliateRef";
+import { AFFILIATES } from "@/lib/affiliates";
 
 const loanTypes = [
   "Fix & Flip",
@@ -42,6 +43,7 @@ export function ContactSection({ defaultLoanType = "" }: { defaultLoanType?: str
     loanAmount: "",
     propertyState: "",
     message: "",
+    referredBy: "",
   });
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -299,6 +301,29 @@ export function ContactSection({ defaultLoanType = "" }: { defaultLoanType?: str
                       <ChevronDown size={13} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#E8A020] pointer-events-none" />
                     </div>
                   </div>
+
+                  {/* Referred By */}
+                  {AFFILIATES.length > 0 && (
+                    <div>
+                      <label className="block text-white/50 text-xs font-mono tracking-wider mb-1.5 uppercase">
+                        Referred By <span className="text-white/30">(Optional)</span>
+                      </label>
+                      <div className="relative">
+                        <select
+                          name="referredBy"
+                          value={formData.referredBy}
+                          onChange={(e) => setFormData({ ...formData, referredBy: e.target.value })}
+                          className="w-full bg-[#162B52] border border-[#E8A020]/20 text-white text-sm rounded-sm px-3 py-2.5 appearance-none focus:border-[#E8A020] focus:outline-none transition-colors"
+                        >
+                          <option value="">Select affiliate...</option>
+                          {AFFILIATES.map((a) => (
+                            <option key={a} value={a}>{a}</option>
+                          ))}
+                        </select>
+                        <ChevronDown size={13} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#E8A020] pointer-events-none" />
+                      </div>
+                    </div>
+                  )}
 
                   {/* Message */}
                   <div>
