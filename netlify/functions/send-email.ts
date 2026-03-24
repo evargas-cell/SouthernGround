@@ -29,21 +29,32 @@ function formatPropertyType(val: string) {
 
 function buildHtml(data: Record<string, string>, formType: string) {
   const isHero = formType === "hero";
-  const title = isHero ? "New Quick Quote Request" : "New Loan Request";
+  const isAffiliate = formType === "affiliate";
+  const title = isAffiliate
+    ? "New Affiliate Application"
+    : isHero
+    ? "New Quick Quote Request"
+    : "New Loan Request";
 
-  const rows = [
-    ["Name", data.name],
-    ["Email", data.email],
-    ["Phone", data.phone],
-    ["Loan Type", data.loanType],
-    ["Loan Amount", formatAmount(data.loanAmount)],
-    ...(isHero
-      ? [["Property Type", formatPropertyType(data.propertyType)]]
-      : [
-          ["Property State", data.propertyState],
-          ["Message", data.message],
-        ]),
-  ]
+  const rows = isAffiliate
+    ? [
+        ["Name", data.name],
+        ["Email", data.email],
+        ["Phone", data.phone],
+      ]
+    : [
+        ["Name", data.name],
+        ["Email", data.email],
+        ["Phone", data.phone],
+        ["Loan Type", data.loanType],
+        ["Loan Amount", formatAmount(data.loanAmount)],
+        ...(isHero
+          ? [["Property Type", formatPropertyType(data.propertyType)]]
+          : [
+              ["Property State", data.propertyState],
+              ["Message", data.message],
+            ]),
+      ]
     .filter(([, v]) => v)
     .map(
       ([label, value]) => `
@@ -105,7 +116,10 @@ export const handler: Handler = async (event) => {
     }
 
     const isHero = formType === "hero";
-    const subject = isHero
+    const isAffiliate = formType === "affiliate";
+    const subject = isAffiliate
+      ? `New Affiliate Application — ${fields.name}`
+      : isHero
       ? `Quick Quote Request — ${fields.loanType || "Loan"} — ${fields.name}`
       : `Loan Request — ${fields.loanType || "Loan"} — ${fields.name}`;
 
