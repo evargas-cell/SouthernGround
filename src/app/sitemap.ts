@@ -20,5 +20,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/calculator`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/rates-and-terms`, lastModified, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/affiliates`, lastModified, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/espanol`, lastModified, changeFrequency: "monthly", priority: 0.8 },
   ];
 }

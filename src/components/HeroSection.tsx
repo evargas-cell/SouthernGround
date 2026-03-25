@@ -7,7 +7,8 @@
  */
 
 import { useState } from "react";
-import { ArrowRight, CheckCircle2, ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, CheckCircle2, ChevronDown, Globe } from "lucide-react";
 import { useAffiliateRef } from "@/hooks/useAffiliateRef";
 import { AFFILIATES } from "@/lib/affiliates";
 
@@ -148,6 +149,18 @@ export function HeroSection() {
               >
                 Get Pre-Approved
               </button>
+            </div>
+
+            {/* Spanish language link */}
+            <div>
+              <Link
+                href="/espanol"
+                className="inline-flex items-center gap-2 text-white/50 hover:text-[#E8A020] text-sm transition-colors group"
+              >
+                <Globe size={14} className="group-hover:text-[#E8A020]" />
+                <span>¿Hablas Español?</span>
+                <span className="text-white/25 group-hover:text-[#E8A020]/60">Ver en Español →</span>
+              </Link>
             </div>
 
             {/* Stats Row */}
