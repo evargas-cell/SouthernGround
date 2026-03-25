@@ -19,7 +19,7 @@ const problems = [
   {
     icon: AlertTriangle,
     headline: "Hard money lenders retrade",
-    body: "They say "yes" to get you in the door, then change the terms at the last minute—leaving you scrambling at closing.",
+    body: 'They say "yes" to get you in the door, then change the terms at the last minute—leaving you scrambling at closing.',
   },
 ];
 
