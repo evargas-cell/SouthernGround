@@ -10,6 +10,7 @@ import { LoanCalculator } from "@/components/LoanCalculator";
 import { Testimonials } from "@/components/Testimonials";
 import { ServiceArea } from "@/components/ServiceArea";
 import { BrokerSection } from "@/components/BrokerSection";
+import { SpanishSection } from "@/components/SpanishSection";
 import { ContactSection } from "@/components/ContactSection";
 import type { Metadata } from "next";
 
@@ -93,6 +94,7 @@ export default function HomePage() {
         <Testimonials />
         <ServiceArea />
         <BrokerSection />
+        <SpanishSection />
         <ContactSection />
       </main>
     </>
