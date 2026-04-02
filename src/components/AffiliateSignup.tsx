@@ -6,7 +6,7 @@
  */
 
 import { useState } from "react";
-import { ArrowRight, CheckCircle2, DollarSign, Users, Zap } from "lucide-react";
+import { ArrowRight, CheckCircle2, Copy, DollarSign, Users, Zap } from "lucide-react";
 
 const benefits = [
   {
@@ -29,8 +29,16 @@ const benefits = [
 export function AffiliateSignup() {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [affiliateLink, setAffiliateLink] = useState("");
+  const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(affiliateLink);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,6 +56,7 @@ export function AffiliateSignup() {
         body: body.toString(),
       });
       if (!res.ok) throw new Error("Submission failed");
+      setAffiliateLink(`https://sgcapital.io?ref=${encodeURIComponent(formData.name)}`);
       setSubmitted(true);
     } catch {
       setError("Something went wrong. Please try again or call us directly.");
@@ -98,14 +107,38 @@ export function AffiliateSignup() {
           {/* Right: Form */}
           <div className="bg-[#0F2040] border border-[#E8A020]/20 rounded-sm p-6 md:p-10">
             {submitted ? (
-              <div className="text-center py-12 space-y-5">
-                <div className="w-20 h-20 rounded-full bg-[#E8A020]/20 flex items-center justify-center mx-auto">
-                  <CheckCircle2 size={40} className="text-[#E8A020]" />
+              <div className="py-8 space-y-6">
+                <div className="text-center space-y-3">
+                  <div className="w-20 h-20 rounded-full bg-[#E8A020]/20 flex items-center justify-center mx-auto">
+                    <CheckCircle2 size={40} className="text-[#E8A020]" />
+                  </div>
+                  <h3 className="font-display text-white text-3xl">WELCOME TO THE TEAM!</h3>
+                  <p className="text-white/60 text-sm max-w-sm mx-auto leading-relaxed">
+                    Congratulations! A member of our team will reach out shortly. In the meantime, here is your personal affiliate link — share it with anyone who needs a loan.
+                  </p>
                 </div>
-                <h3 className="font-display text-white text-3xl">WELCOME TO THE TEAM!</h3>
-                <p className="text-white/60 text-sm max-w-sm mx-auto leading-relaxed">
-                  Congratulations on joining the Southern Ground Capital affiliate program! We&apos;re excited to have you on board. A member of our team will reach out shortly to chat more about the opportunities ahead.
-                </p>
+
+                {/* Affiliate Link Box */}
+                <div className="bg-[#0A1628] border border-[#E8A020]/30 rounded-sm p-4 space-y-2">
+                  <div className="text-[#E8A020] text-xs font-mono tracking-[0.2em] uppercase">
+                    Your Affiliate Link
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 bg-[#162B52] border border-white/10 rounded-sm px-3 py-2 text-white/70 text-xs font-mono truncate">
+                      {affiliateLink}
+                    </div>
+                    <button
+                      onClick={copyLink}
+                      className="flex-shrink-0 flex items-center gap-1.5 bg-[#E8A020] text-[#0A1628] text-xs font-bold px-3 py-2 rounded-sm hover:bg-[#E8A020]/90 transition-colors"
+                    >
+                      <Copy size={12} />
+                      {copied ? "Copied!" : "Copy"}
+                    </button>
+                  </div>
+                  <p className="text-white/30 text-[10px]">
+                    Share this link. When someone submits a loan request through it, we track it back to you automatically.
+                  </p>
+                </div>
               </div>
             ) : (
               <>

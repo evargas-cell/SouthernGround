@@ -5,6 +5,5 @@
 
 export const AFFILIATES = [
   // Add affiliate names below, one per line:
-  // "John Smith",
-  // "Sarah Realty Group",
+  "Daxton Rogers",
 ] as const;
