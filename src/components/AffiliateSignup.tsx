@@ -56,7 +56,7 @@ export function AffiliateSignup() {
         body: body.toString(),
       });
       if (!res.ok) throw new Error("Submission failed");
-      setAffiliateLink(`https://sgcapital.io?ref=${encodeURIComponent(formData.name)}`);
+      setAffiliateLink(`https://sgcapital.io?ref=${formData.name.trim().replace(/\s+/g, '_')}`);
       setSubmitted(true);
     } catch {
       setError("Something went wrong. Please try again or call us directly.");
