@@ -1,0 +1,7 @@
+# Original uncompressed video files — use flip-compressed.mp4 and flip.webm instead
+flip.mp4
+flip-highlight.mp4
+
+# Internal docs — not needed for production
+CHANGES.md
+MARKETING-AUDIT.md
