@@ -215,14 +215,20 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: nameVal, email: emailVal, phone: phoneVal, role: roleVal }),
       })
-        .then(function (res) { return res.json(); })
+        .then(function (res) {
+          if (!res.ok) throw new Error('Server error ' + res.status);
+          return res.json();
+        })
         .then(function (data) {
           var fields = affForm.querySelector('.affiliate-form-fields');
           var successEl = document.getElementById('aff-success');
           var linkDisplay = document.getElementById('aff-link-display');
           if (linkDisplay) linkDisplay.textContent = data.affiliateLink;
           if (fields) fields.hidden = true;
-          if (successEl) successEl.hidden = false;
+          if (successEl) {
+            successEl.hidden = false;
+            successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
 
           var copyBtn = document.getElementById('aff-copy-btn');
           if (copyBtn && navigator.clipboard) {
@@ -234,12 +240,13 @@
             });
           }
         })
-        .catch(function () {
+        .catch(function (err) {
+          console.error('Affiliate registration error:', err);
           if (submitBtn) {
             submitBtn.disabled = false;
             submitBtn.textContent = 'Join Affiliate Program →';
           }
-          alert('Something went wrong. Email edgar@sgcapital.io to register as an affiliate.');
+          alert('Something went wrong. Please call (678) 842-8084 or email edgar@sgcapital.io.');
         });
     });
   }
