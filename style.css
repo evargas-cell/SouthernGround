@@ -2087,3 +2087,62 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   .badge-dot { animation: none; }
   .scroll-line { animation: none; }
 }
+
+/* ============================================================
+   AFFILIATE REGISTRATION FORM
+   ============================================================ */
+.affiliate-form { margin-top: 28px; }
+
+.affiliate-form-fields { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+
+.affiliate-form-fields .form-group {
+  flex: 1 1 200px;
+  margin: 0;
+}
+
+.affiliate-form-fields .btn { flex-shrink: 0; white-space: nowrap; }
+
+.aff-success {
+  background: var(--forest-lightest, #f0f5f1);
+  border: 1px solid rgba(16,30,20,0.12);
+  border-radius: 8px;
+  padding: 24px 28px;
+  margin-top: 20px;
+}
+
+.aff-success p { margin: 0 0 12px; color: var(--charcoal); font-size: 15px; }
+.aff-success p:first-child { font-weight: 600; color: var(--forest); }
+
+.aff-link-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid rgba(16,30,20,0.15);
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+}
+
+.aff-link-box code {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: var(--amber);
+  word-break: break-all;
+  flex: 1;
+}
+
+.btn-copy {
+  background: var(--forest);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .2s;
+}
+.btn-copy:hover { background: var(--amber); }
+
+.aff-email-note { font-size: 13px !important; color: var(--slate, #667) !important; margin: 0 !important; }

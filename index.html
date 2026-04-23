@@ -890,7 +890,8 @@
         </div>
 
         <div class="lm-form-wrap fade-in">
-          <form class="lm-form" id="lead-magnet-form" novalidate aria-label="Download free checklist">
+          <form class="lm-form" id="lead-magnet-form" name="lead-magnet-form" data-netlify="true" novalidate aria-label="Download free checklist">
+            <input type="hidden" name="form-name" value="lead-magnet-form" />
             <h3>Get Instant Access</h3>
             <p class="form-note">Free for real estate investors.</p>
             <div class="form-group">
@@ -943,7 +944,48 @@
             </div>
           </div>
 
-          <a href="#contact" class="btn btn-gold btn-lg">Become an Affiliate Partner →</a>
+          <form class="affiliate-form" id="affiliate-form" novalidate>
+            <div class="affiliate-form-fields">
+              <div class="form-group">
+                <label for="aff-name">Your Name</label>
+                <input type="text" id="aff-name" name="aff-name" placeholder="First &amp; Last Name" required autocomplete="name" />
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="aff-email">Email Address</label>
+                <input type="email" id="aff-email" name="aff-email" placeholder="you@example.com" required autocomplete="email" />
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="aff-phone">Phone Number</label>
+                <input type="tel" id="aff-phone" name="aff-phone" placeholder="(678) 000-0000" required autocomplete="tel" />
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="aff-role">Your Role</label>
+                <select id="aff-role" name="aff-role" required>
+                  <option value="">Select your role…</option>
+                  <option value="Real Estate Agent">Real Estate Agent</option>
+                  <option value="Mortgage Broker">Mortgage Broker</option>
+                  <option value="Wholesaler">Wholesaler</option>
+                  <option value="Real Estate Investor">Real Estate Investor</option>
+                  <option value="Title / Closing Agent">Title / Closing Agent</option>
+                  <option value="Financial Advisor">Financial Advisor</option>
+                  <option value="Other">Other</option>
+                </select>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+              <button type="submit" class="btn btn-gold">Join Affiliate Program →</button>
+            </div>
+            <div class="aff-success" id="aff-success" hidden>
+              <p>✅ Welcome to the team! Your unique affiliate link:</p>
+              <div class="aff-link-box">
+                <code id="aff-link-display"></code>
+                <button type="button" class="btn-copy" id="aff-copy-btn">Copy</button>
+              </div>
+              <p class="aff-email-note">We emailed you the link along with tips to get your first deal.</p>
+            </div>
+          </form>
         </div>
       </div>
     </section>
@@ -1021,7 +1063,9 @@
         </div>
 
         <div class="contact-form-wrap fade-in">
-          <form class="contact-form" id="contact-form" novalidate aria-label="Deal submission form">
+          <form class="contact-form" id="contact-form" name="contact-form" data-netlify="true" novalidate aria-label="Deal submission form">
+            <input type="hidden" name="form-name" value="contact-form" />
+            <input type="hidden" name="referred_by" id="referred-by-field" value="" />
             <h3>Submit Your Deal</h3>
             <p class="form-note">A specialist responds within 24 hours.</p>
 

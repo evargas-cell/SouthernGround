@@ -126,7 +126,6 @@
     var successEl = document.getElementById(successId);
     var inputs = form.querySelectorAll('input, select, textarea');
 
-    // Inline validation on blur
     inputs.forEach(function (input) {
       input.addEventListener('blur', function () { validateField(input); });
       input.addEventListener('input', function () {
@@ -142,32 +141,123 @@
       });
       if (!allValid) return;
 
-      // Simulate submission (replace with real endpoint)
       var submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.textContent = 'Submitting…';
       }
-      setTimeout(function () {
-        form.reset();
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = submitBtn.dataset.originalText || 'Submit';
-        }
-        if (successEl) {
-          successEl.hidden = false;
-          successEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-      }, 900);
+
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form)).toString(),
+      })
+        .then(function () {
+          form.reset();
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = submitBtn.dataset.originalText || 'Submit';
+          }
+          if (successEl) {
+            successEl.hidden = false;
+            successEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        })
+        .catch(function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = submitBtn.dataset.originalText || 'Submit';
+          }
+          alert('Something went wrong. Please call us at (678) 842-8084.');
+        });
     });
 
-    // Store original button text
     var btn = form.querySelector('button[type="submit"]');
     if (btn) btn.dataset.originalText = btn.textContent;
   }
 
   setupForm('contact-form', 'form-success');
   setupForm('lead-magnet-form', 'lm-success');
+
+  // === AFFILIATE REGISTRATION FORM ===
+  var affForm = document.getElementById('affiliate-form');
+  if (affForm) {
+    var affInputs = affForm.querySelectorAll('input, select');
+    affInputs.forEach(function (input) {
+      input.addEventListener('blur', function () { validateField(input); });
+      input.addEventListener('input', function () {
+        if (input.classList.contains('error')) validateField(input);
+      });
+    });
+
+    affForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var allValid = true;
+      affInputs.forEach(function (input) {
+        if (!validateField(input)) allValid = false;
+      });
+      if (!allValid) return;
+
+      var submitBtn = affForm.querySelector('button[type="submit"]');
+      var nameVal  = affForm.querySelector('[name="aff-name"]').value.trim();
+      var emailVal = affForm.querySelector('[name="aff-email"]').value.trim();
+      var phoneVal = affForm.querySelector('[name="aff-phone"]').value.trim();
+      var roleEl   = affForm.querySelector('[name="aff-role"]');
+      var roleVal  = roleEl ? roleEl.value : '';
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Joining…';
+      }
+
+      fetch('/.netlify/functions/affiliate-register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: nameVal, email: emailVal, phone: phoneVal, role: roleVal }),
+      })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          var fields = affForm.querySelector('.affiliate-form-fields');
+          var successEl = document.getElementById('aff-success');
+          var linkDisplay = document.getElementById('aff-link-display');
+          if (linkDisplay) linkDisplay.textContent = data.affiliateLink;
+          if (fields) fields.hidden = true;
+          if (successEl) successEl.hidden = false;
+
+          var copyBtn = document.getElementById('aff-copy-btn');
+          if (copyBtn && navigator.clipboard) {
+            copyBtn.addEventListener('click', function () {
+              navigator.clipboard.writeText(data.affiliateLink).then(function () {
+                copyBtn.textContent = 'Copied!';
+                setTimeout(function () { copyBtn.textContent = 'Copy'; }, 2000);
+              });
+            });
+          }
+        })
+        .catch(function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Join Affiliate Program →';
+          }
+          alert('Something went wrong. Email edgar@sgcapital.io to register as an affiliate.');
+        });
+    });
+  }
+
+  // === AFFILIATE REF TRACKING ===
+  // Capture ?ref= from URL and persist it so it survives page navigation.
+  // The value is injected into the contact form's hidden referred_by field.
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var ref = params.get('ref');
+    if (ref) localStorage.setItem('sgc_ref', ref);
+
+    var storedRef = localStorage.getItem('sgc_ref');
+    if (storedRef) {
+      var refField = document.getElementById('referred-by-field');
+      if (refField) refField.value = storedRef;
+    }
+  })();
 
   // === FOOTER YEAR ===
   var yearEl = document.getElementById('footer-year');

@@ -704,7 +704,8 @@
         </div>
 
         <div class="lm-form-wrap fade-in">
-          <form class="lm-form" id="lead-magnet-form" novalidate aria-label="Descargar lista de verificación gratis">
+          <form class="lm-form" id="lead-magnet-form" name="lead-magnet-form-es" data-netlify="true" novalidate aria-label="Descargar lista de verificación gratis">
+            <input type="hidden" name="form-name" value="lead-magnet-form-es" />
             <h3>Acceso Inmediato</h3>
             <p class="form-note">Gratis para inversionistas de bienes raíces.</p>
             <div class="form-group">
@@ -757,7 +758,48 @@
             </div>
           </div>
 
-          <a href="#contact" class="btn btn-gold btn-lg">Convertirse en Socio Afiliado →</a>
+          <form class="affiliate-form" id="affiliate-form" novalidate>
+            <div class="affiliate-form-fields">
+              <div class="form-group">
+                <label for="aff-name">Tu Nombre</label>
+                <input type="text" id="aff-name" name="aff-name" placeholder="Nombre y Apellido" required autocomplete="name" />
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="aff-email">Correo Electrónico</label>
+                <input type="email" id="aff-email" name="aff-email" placeholder="tu@ejemplo.com" required autocomplete="email" />
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="aff-phone">Número de Teléfono</label>
+                <input type="tel" id="aff-phone" name="aff-phone" placeholder="(678) 000-0000" required autocomplete="tel" />
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="aff-role">Tu Rol</label>
+                <select id="aff-role" name="aff-role" required>
+                  <option value="">Selecciona tu rol…</option>
+                  <option value="Real Estate Agent">Agente de Bienes Raíces</option>
+                  <option value="Mortgage Broker">Broker Hipotecario</option>
+                  <option value="Wholesaler">Mayorista</option>
+                  <option value="Real Estate Investor">Inversionista de Bienes Raíces</option>
+                  <option value="Title / Closing Agent">Agente de Título / Cierre</option>
+                  <option value="Financial Advisor">Asesor Financiero</option>
+                  <option value="Other">Otro</option>
+                </select>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+              <button type="submit" class="btn btn-gold">Unirse al Programa →</button>
+            </div>
+            <div class="aff-success" id="aff-success" hidden>
+              <p>✅ ¡Bienvenido al equipo! Tu enlace de afiliado único:</p>
+              <div class="aff-link-box">
+                <code id="aff-link-display"></code>
+                <button type="button" class="btn-copy" id="aff-copy-btn">Copiar</button>
+              </div>
+              <p class="aff-email-note">Te enviamos el enlace junto con consejos para conseguir tu primer negocio.</p>
+            </div>
+          </form>
         </div>
       </div>
     </section>
@@ -833,7 +875,9 @@
         </div>
 
         <div class="contact-form-wrap fade-in">
-          <form class="contact-form" id="contact-form" novalidate aria-label="Formulario de envío de negocio">
+          <form class="contact-form" id="contact-form" name="contact-form-es" data-netlify="true" novalidate aria-label="Formulario de envío de negocio">
+            <input type="hidden" name="form-name" value="contact-form-es" />
+            <input type="hidden" name="referred_by" id="referred-by-field" value="" />
             <h3>Envía Tu Negocio</h3>
             <p class="form-note">Un especialista responde en 24 horas.</p>
 
