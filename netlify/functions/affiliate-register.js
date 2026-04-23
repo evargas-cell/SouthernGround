@@ -37,7 +37,7 @@ exports.handler = async function (event) {
 
   if (AIRTABLE_TOKEN && AIRTABLE_BASE_ID) {
     try {
-      await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Affiliates`, {
+      const atRes = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/Affiliates`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${AIRTABLE_TOKEN}`,
@@ -55,9 +55,17 @@ exports.handler = async function (event) {
           },
         }),
       });
+      if (!atRes.ok) {
+        const atErr = await atRes.text();
+        console.error('Airtable error:', atRes.status, atErr);
+      } else {
+        console.log('Airtable record created successfully');
+      }
     } catch (err) {
-      console.error('Airtable error:', err);
+      console.error('Airtable fetch error:', err);
     }
+  } else {
+    console.log('Airtable env vars missing — AIRTABLE_TOKEN:', !!AIRTABLE_TOKEN, 'AIRTABLE_BASE_ID:', !!AIRTABLE_BASE_ID);
   }
 
   // Send welcome email via Resend
