@@ -2281,12 +2281,38 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   line-height: 1.6;
 }
 .checkbox-label input[type="checkbox"] {
-  margin-top: 2px;
+  appearance: none;
+  -webkit-appearance: none;
   flex-shrink: 0;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  background: var(--white);
   cursor: pointer;
-  accent-color: var(--amber);
+  transition: background 0.15s, border-color 0.15s;
+  position: relative;
+}
+.checkbox-label input[type="checkbox"]:checked {
+  background: var(--amber);
+  border-color: var(--amber);
+}
+.checkbox-label input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 6px;
+  height: 11px;
+  border: 2px solid #fff;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+.checkbox-label input[type="checkbox"]:focus {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
 }
 
 /* Nav buttons */
