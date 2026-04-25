@@ -2171,7 +2171,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
 .apply-hero {
   background: var(--forest-deep);
   color: var(--text-light);
-  padding: 72px 0 64px;
+  padding: 140px 0 72px;
   text-align: center;
 }
 .apply-hero .section-eyebrow {
