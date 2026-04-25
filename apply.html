@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+  <title>Loan Application | Southern Ground Capital</title>
+  <meta name="description" content="Submit your full loan application to Southern Ground Capital. Fix &amp; flip, DSCR, bridge, and construction loans. Fast approval, no upfront fees." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <a href="#main" class="skip-nav">Skip to content</a>
+
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main navigation">
+      <a href="/" class="nav-logo" aria-label="Southern Ground Capital — Home">
+        <img src="logo.png" alt="" class="nav-logo-img" role="presentation" />
+        <span class="nav-logo-name">Southern Ground<br>Capital</span>
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="/#loan-programs">Loan Programs</a></li>
+        <li><a href="/#how-it-works">How It Works</a></li>
+        <li><a href="/#rates">Rates &amp; Terms</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#affiliates">Affiliates</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="tel:+16788428084" class="nav-phone">(678) 842-8084</a>
+        <a href="/#contact" class="btn btn-gold nav-cta">Get a Free Quote</a>
+      </div>
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <ul role="list">
+        <li><a href="/#loan-programs">Loan Programs</a></li>
+        <li><a href="/#how-it-works">How It Works</a></li>
+        <li><a href="/#rates">Rates &amp; Terms</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+      <a href="tel:+16788428084" class="mobile-phone-link">(678) 842-8084</a>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="apply-hero">
+      <div class="container">
+        <p class="section-eyebrow">Loan Application</p>
+        <h1>Complete Your Application</h1>
+        <p>This application takes about 5 minutes. All information is kept strictly confidential.<br/>
+        Questions? Call us at <a href="tel:+16788428084">(678) 842-8084</a>.</p>
+      </div>
+    </section>
+
+    <section class="apply-section">
+      <div class="apply-container">
+
+        <div class="apply-progress" id="apply-progress" aria-label="Application progress">
+          <div class="apply-progress-track">
+            <div class="apply-progress-fill" id="apply-progress-fill" style="width:20%"></div>
+          </div>
+          <div class="apply-step-dots">
+            <div class="step-dot active" data-step="1"><span>1</span><small>Deal Type</small></div>
+            <div class="step-dot" data-step="2"><span>2</span><small>Property</small></div>
+            <div class="step-dot" data-step="3"><span>3</span><small>Loan</small></div>
+            <div class="step-dot" data-step="4"><span>4</span><small>Borrower</small></div>
+            <div class="step-dot" data-step="5"><span>5</span><small>Final</small></div>
+          </div>
+        </div>
+
+        <div class="apply-form-card" id="apply-form-card">
+
+          <form id="apply-form" novalidate>
+
+            <!-- ===== STEP 1: Contact & Deal Type ===== -->
+            <div class="apply-step-panel" data-step="1">
+              <div class="step-header">
+                <h2>Step 1 of 5 — Who Are You &amp; What Do You Need?</h2>
+                <p>Tell us about yourself and the type of loan you're looking for.</p>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="a-first-name">First Name <span class="req">*</span></label>
+                  <input type="text" id="a-first-name" name="first_name" placeholder="First Name" required autocomplete="given-name" />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label for="a-last-name">Last Name <span class="req">*</span></label>
+                  <input type="text" id="a-last-name" name="last_name" placeholder="Last Name" required autocomplete="family-name" />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="a-email">Email Address <span class="req">*</span></label>
+                  <input type="email" id="a-email" name="email" placeholder="you@email.com" required autocomplete="email" />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label for="a-phone">Phone Number <span class="req">*</span></label>
+                  <input type="tel" id="a-phone" name="phone" placeholder="(678) 000-0000" required autocomplete="tel" />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="a-role">Who are you? <span class="req">*</span></label>
+                <select id="a-role" name="role" required>
+                  <option value="">Select…</option>
+                  <option value="Borrower">Borrower (I'm buying / refinancing)</option>
+                  <option value="Broker">Broker (submitting on behalf of a client)</option>
+                  <option value="Wholesaler">Wholesaler</option>
+                  <option value="Connector">Connector / Referral Partner</option>
+                  <option value="Other">Other</option>
+                </select>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="a-loan-program">Loan Program <span class="req">*</span></label>
+                <select id="a-loan-program" name="loan_program" required>
+                  <option value="">Select a program…</option>
+                  <option value="Fix &amp; Flip / Fix2Rent">Fix &amp; Flip / Fix2Rent</option>
+                  <option value="DSCR Rental Loan">DSCR Rental Loan</option>
+                  <option value="Bridge Loan">Bridge / Stabilized Bridge Loan</option>
+                  <option value="Ground Up Construction">Ground Up Construction</option>
+                  <option value="Multi-Family (5+ Units)">Multi-Family (5+ Units)</option>
+                  <option value="Cash-Out Refinance">Cash-Out Refinance</option>
+                  <option value="Portfolio Loan">Portfolio Loan</option>
+                  <option value="Not Sure">Not Sure Yet</option>
+                </select>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="a-close-date">Target Close Date <span class="req">*</span></label>
+                <input type="date" id="a-close-date" name="target_close_date" required />
+                <span class="form-note-inline">Close date is subject to third-party timelines.</span>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+            </div>
+
+            <!-- ===== STEP 2: Property Details ===== -->
+            <div class="apply-step-panel" data-step="2" hidden>
+              <div class="step-header">
+                <h2>Step 2 of 5 — Property Details</h2>
+                <p>Tell us about the subject property.</p>
+              </div>
+
+              <div class="form-group">
+                <label for="a-address">Property Address <span class="req">*</span></label>
+                <input type="text" id="a-address" name="property_address" placeholder="123 Main St" required autocomplete="street-address" />
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-row form-row--3">
+                <div class="form-group">
+                  <label for="a-city">City <span class="req">*</span></label>
+                  <input type="text" id="a-city" name="property_city" placeholder="Atlanta" required autocomplete="address-level2" />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label for="a-state">State <span class="req">*</span></label>
+                  <select id="a-state" name="property_state" required>
+                    <option value="">State…</option>
+                    <option value="AL">Alabama</option>
+                    <option value="AK">Alaska</option>
+                    <option value="AZ">Arizona (Not Available)</option>
+                    <option value="AR">Arkansas</option>
+                    <option value="CA">California</option>
+                    <option value="CO">Colorado</option>
+                    <option value="CT">Connecticut</option>
+                    <option value="DE">Delaware</option>
+                    <option value="FL">Florida</option>
+                    <option value="GA">Georgia</option>
+                    <option value="HI">Hawaii</option>
+                    <option value="ID">Idaho</option>
+                    <option value="IL">Illinois</option>
+                    <option value="IN">Indiana</option>
+                    <option value="IA">Iowa</option>
+                    <option value="KS">Kansas</option>
+                    <option value="KY">Kentucky</option>
+                    <option value="LA">Louisiana</option>
+                    <option value="ME">Maine</option>
+                    <option value="MD">Maryland</option>
+                    <option value="MA">Massachusetts</option>
+                    <option value="MI">Michigan</option>
+                    <option value="MN">Minnesota</option>
+                    <option value="MS">Mississippi</option>
+                    <option value="MO">Missouri</option>
+                    <option value="MT">Montana</option>
+                    <option value="NE">Nebraska</option>
+                    <option value="NV">Nevada (Not Available)</option>
+                    <option value="NH">New Hampshire</option>
+                    <option value="NJ">New Jersey</option>
+                    <option value="NM">New Mexico</option>
+                    <option value="NY">New York</option>
+                    <option value="NC">North Carolina</option>
+                    <option value="ND">North Dakota (Not Available)</option>
+                    <option value="OH">Ohio</option>
+                    <option value="OK">Oklahoma</option>
+                    <option value="OR">Oregon (Not Available)</option>
+                    <option value="PA">Pennsylvania</option>
+                    <option value="RI">Rhode Island</option>
+                    <option value="SC">South Carolina</option>
+                    <option value="SD">South Dakota (Not Available)</option>
+                    <option value="TN">Tennessee</option>
+                    <option value="TX">Texas</option>
+                    <option value="UT">Utah (Not Available)</option>
+                    <option value="VT">Vermont (Not Available)</option>
+                    <option value="VA">Virginia</option>
+                    <option value="WA">Washington</option>
+                    <option value="WV">West Virginia</option>
+                    <option value="WI">Wisconsin</option>
+                    <option value="WY">Wyoming</option>
+                  </select>
+                  <span class="form-error" aria-live="polite"></span>
+                  <span class="state-warning" id="apply-state-warning" hidden>We do not currently lend in this state (AZ, NV, ND, OR, SD, UT, VT). Please contact us to discuss.</span>
+                </div>
+                <div class="form-group">
+                  <label for="a-zip">Zip <span class="req">*</span></label>
+                  <input type="text" id="a-zip" name="property_zip" placeholder="30301" required maxlength="10" />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="a-prop-type">Property Type <span class="req">*</span></label>
+                <select id="a-prop-type" name="property_type" required>
+                  <option value="">Select…</option>
+                  <option value="Single-Family (SFR)">Single-Family Residential (SFR)</option>
+                  <option value="Duplex">Duplex (2-Unit)</option>
+                  <option value="Triplex">Triplex (3-Unit)</option>
+                  <option value="Quadplex">Quadplex (4-Unit)</option>
+                  <option value="Multi-Family (5+ Units)">Multi-Family (5+ Units)</option>
+                  <option value="Condominium">Condominium</option>
+                  <option value="Townhouse">Townhouse</option>
+                  <option value="Mixed Use">Mixed Use</option>
+                  <option value="Commercial">Commercial</option>
+                  <option value="Manufactured Home">Manufactured Home</option>
+                  <option value="Planned Unit Development">Planned Unit Development (PUD)</option>
+                  <option value="Other">Other</option>
+                </select>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="a-as-is-value">As-Is Value <span class="req">*</span></label>
+                  <input type="text" id="a-as-is-value" name="as_is_value" placeholder="$250,000" required />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label for="a-arv">After Repair Value (ARV) <span class="optional">(if applicable)</span></label>
+                  <input type="text" id="a-arv" name="after_repair_value" placeholder="$350,000" />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="a-renovation">Is this a renovation / rehab project? <span class="req">*</span></label>
+                <select id="a-renovation" name="is_renovation" required>
+                  <option value="">Select…</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group" id="rehab-budget-group" hidden>
+                <label for="a-rehab-budget">Estimated Rehab Budget <span class="req">*</span></label>
+                <input type="text" id="a-rehab-budget" name="rehab_budget" placeholder="$45,000" />
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+            </div>
+
+            <!-- ===== STEP 3: Loan Details ===== -->
+            <div class="apply-step-panel" data-step="3" hidden>
+              <div class="step-header">
+                <h2>Step 3 of 5 — Loan Details</h2>
+                <p>Help us understand your financing need.</p>
+              </div>
+
+              <div class="form-group">
+                <label for="a-transaction-type">Purchase or Refinance? <span class="req">*</span></label>
+                <select id="a-transaction-type" name="transaction_type" required>
+                  <option value="">Select…</option>
+                  <option value="Purchase - Under Contract">Purchase — Currently under contract</option>
+                  <option value="Purchase - Not Under Contract">Purchase — Not under contract yet</option>
+                  <option value="Refinance - Already Own">Refinance — I already own the property</option>
+                </select>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="a-purchase-price">Purchase Price / Current Value <span class="req">*</span></label>
+                  <input type="text" id="a-purchase-price" name="purchase_price" placeholder="$300,000" required />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label for="a-loan-amount">Desired Loan Amount <span class="req">*</span></label>
+                  <input type="text" id="a-loan-amount" name="desired_loan_amount" placeholder="$225,000" required />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="a-leverage">Desired Leverage (LTV) <span class="req">*</span></label>
+                <select id="a-leverage" name="desired_leverage" required>
+                  <option value="">Select…</option>
+                  <option value="60-65%">60–65%</option>
+                  <option value="66-70%">66–70%</option>
+                  <option value="71-75%">71–75%</option>
+                  <option value="76-80%">76–80%</option>
+                  <option value="81-85%">81–85%</option>
+                  <option value="86-90%">86–90%</option>
+                  <option value="91-95%">91–95%</option>
+                  <option value="96-99%">96–99%</option>
+                  <option value="100%">100%</option>
+                </select>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="a-exit-strategy">Exit Strategy <span class="req">*</span></label>
+                <select id="a-exit-strategy" name="exit_strategy" required>
+                  <option value="">Select…</option>
+                  <option value="Sell (Flip)">Sell / Flip the property</option>
+                  <option value="Refinance into DSCR">Refinance into DSCR / long-term rental loan</option>
+                  <option value="Refinance into Conventional">Refinance into conventional loan</option>
+                  <option value="Hold as Rental">Hold as rental (current financing)</option>
+                  <option value="Other">Other</option>
+                </select>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="a-gap-funding">Do you need Gap Funding? <span class="req">*</span></label>
+                <select id="a-gap-funding" name="needs_gap_funding" required>
+                  <option value="">Select…</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+                <span class="form-note-inline">Gap funding covers down payment, interest reserves, or closing costs via a 2nd position lien.</span>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+            </div>
+
+            <!-- ===== STEP 4: Borrower Profile ===== -->
+            <div class="apply-step-panel" data-step="4" hidden>
+              <div class="step-header">
+                <h2>Step 4 of 5 — Borrower Profile</h2>
+                <p>Help us assess the strength of your application. No credit pull required.</p>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="a-credit-score">Estimated Credit Score <span class="req">*</span></label>
+                  <select id="a-credit-score" name="credit_score" required>
+                    <option value="">Select…</option>
+                    <option value="760+">760+ (Excellent)</option>
+                    <option value="720-759">720–759 (Very Good)</option>
+                    <option value="680-719">680–719 (Good)</option>
+                    <option value="640-679">640–679 (Fair)</option>
+                    <option value="600-639">600–639 (Needs Work)</option>
+                    <option value="Below 600">Below 600</option>
+                  </select>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label for="a-cash-reserves">Cash Reserves Available <span class="req">*</span></label>
+                  <select id="a-cash-reserves" name="cash_reserves" required>
+                    <option value="">Select…</option>
+                    <option value="Under $10,000">Under $10,000</option>
+                    <option value="$10,000 – $25,000">$10,000 – $25,000</option>
+                    <option value="$25,000 – $50,000">$25,000 – $50,000</option>
+                    <option value="$50,000 – $100,000">$50,000 – $100,000</option>
+                    <option value="Over $100,000">Over $100,000</option>
+                  </select>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="a-experience">Prior Investment Deals Completed <span class="req">*</span></label>
+                <select id="a-experience" name="experience_level" required>
+                  <option value="">Select…</option>
+                  <option value="0 — First Deal">0 — This is my first deal</option>
+                  <option value="1-2 deals">1–2 deals</option>
+                  <option value="3-5 deals">3–5 deals</option>
+                  <option value="6-10 deals">6–10 deals</option>
+                  <option value="11-20 deals">11–20 deals</option>
+                  <option value="20+ deals">20+ deals</option>
+                </select>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="a-citizenship">Citizenship Status <span class="req">*</span></label>
+                <select id="a-citizenship" name="citizenship_status" required>
+                  <option value="">Select…</option>
+                  <option value="US Citizen">US Citizen</option>
+                  <option value="Permanent Resident (Green Card)">US Permanent Resident (Green Card)</option>
+                  <option value="Foreign National">Foreign National (Non-US Citizen)</option>
+                </select>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="a-bankruptcy">Bankruptcy, Foreclosure, or Mortgage Lates in last 5 years? <span class="req">*</span></label>
+                  <select id="a-bankruptcy" name="bankruptcy_foreclosure" required>
+                    <option value="">Select…</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label for="a-judgments">Judgments or Felonies in last 7 years? <span class="req">*</span></label>
+                  <select id="a-judgments" name="judgments_felonies" required>
+                    <option value="">Select…</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="a-co-borrower">Will someone else be on the loan with you? <span class="req">*</span></label>
+                <select id="a-co-borrower" name="co_borrower" required>
+                  <option value="">Select…</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+            </div>
+
+            <!-- ===== STEP 5: Entity & Final ===== -->
+            <div class="apply-step-panel" data-step="5" hidden>
+              <div class="step-header">
+                <h2>Step 5 of 5 — Entity &amp; Final Details</h2>
+                <p>Almost there — just a few last details.</p>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="a-entity-name">Entity / Vesting Name <span class="req">*</span></label>
+                  <input type="text" id="a-entity-name" name="entity_name" placeholder="My Holdings LLC" required />
+                  <span class="form-note-inline">As it appears in filing. Enter "Individual" if not using an entity.</span>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label for="a-entity-type">Entity Type <span class="req">*</span></label>
+                  <select id="a-entity-type" name="entity_type" required>
+                    <option value="">Select…</option>
+                    <option value="Individual">Individual (No Entity)</option>
+                    <option value="LLC">LLC</option>
+                    <option value="Corporation">Corporation (C or S Corp)</option>
+                    <option value="Trust">Trust</option>
+                    <option value="Partnership">Partnership / LP</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="a-notes">Additional Notes or Questions <span class="optional">(optional)</span></label>
+                <textarea id="a-notes" name="additional_notes" rows="4"
+                  placeholder="Anything else you'd like us to know about your deal or your situation…"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="a-consent" name="consent" required />
+                  <span>By submitting this application, I agree to receive calls, texts, and emails from Southern Ground Capital regarding this inquiry. My information will remain private and will not be sold or shared. <span class="req">*</span></span>
+                </label>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <p class="form-disclaimer">No credit pull &middot; No upfront fees &middot; All information is kept strictly confidential</p>
+            </div>
+
+            <!-- NAV BUTTONS -->
+            <div class="apply-nav-btns" id="apply-nav-btns">
+              <button type="button" class="btn btn-outline" id="apply-back-btn" hidden>&#8592; Back</button>
+              <button type="button" class="btn btn-gold" id="apply-next-btn">Next Step &#8594;</button>
+              <button type="submit" class="btn btn-gold" id="apply-submit-btn" hidden>Submit Application &#8594;</button>
+            </div>
+
+          </form>
+
+          <!-- SUCCESS STATE -->
+          <div id="apply-success" hidden>
+            <div class="apply-success-inner">
+              <div class="apply-success-icon">&#10003;</div>
+              <h2>Application Received!</h2>
+              <p>Thank you — your loan application has been submitted to Southern Ground Capital. A specialist will review your details and reach out within <strong>24 business hours</strong>.</p>
+              <p>In the meantime, if you have any questions:</p>
+              <ul>
+                <li>Call or text: <a href="tel:+16788428084">(678) 842-8084</a></li>
+                <li>Email: <a href="mailto:loans@sgcapital.io">loans@sgcapital.io</a></li>
+              </ul>
+              <a href="/" class="btn btn-gold" style="margin-top:2rem; display:inline-block">&#8592; Back to Homepage</a>
+            </div>
+          </div>
+
+        </div><!-- /.apply-form-card -->
+      </div><!-- /.apply-container -->
+    </section>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="logo.png" alt="Southern Ground Capital" class="footer-logo-img" />
+        </div>
+        <p class="footer-tagline">Direct private lending for real estate investors. 43 states. No banks. No brokers.</p>
+        <address class="footer-nap" aria-label="Contact information">
+          <a href="tel:+16788428084">(678) 842-8084</a>
+          <a href="mailto:loans@sgcapital.io">loans@sgcapital.io</a>
+        </address>
+      </div>
+      <nav class="footer-nav" aria-label="Loan programs">
+        <strong>Loan Programs</strong>
+        <ul role="list">
+          <li><a href="/#loan-programs">Fix &amp; Flip</a></li>
+          <li><a href="/#loan-programs">DSCR Loans</a></li>
+          <li><a href="/#loan-programs">Bridge Loans</a></li>
+          <li><a href="/#loan-programs">New Construction</a></li>
+          <li><a href="/#loan-programs">Multi-Family</a></li>
+          <li><a href="/#loan-programs">Cash-Out Refinance</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-nav" aria-label="Company links">
+        <strong>Company</strong>
+        <ul role="list">
+          <li><a href="/#how-it-works">How It Works</a></li>
+          <li><a href="/#rates">Rates &amp; Terms</a></li>
+          <li><a href="/#about">About Us</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="footer-legal">
+        <strong>Legal</strong>
+        <ul role="list">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+        <p class="footer-states">Lending available in 43 states. Excludes AZ, NV, ND, OR, SD, UT, VT. All loans for investment purposes only. Not owner-occupied.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; <span id="footer-year"></span> Southern Ground Capital, LLC &middot; All rights reserved</p>
+        <p>Investment property loans only &middot; Not FDIC insured &middot; Subject to underwriting and property evaluation</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js?v=4" defer></script>
+  <script src="apply.js?v=1" defer></script>
+</body>
+</html>

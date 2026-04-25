@@ -179,6 +179,16 @@
   setupForm('contact-form', 'form-success');
   setupForm('lead-magnet-form', 'lm-success');
 
+  // === CONTACT FORM STATE WARNING ===
+  var EXCLUDED_STATES = ['AZ', 'NV', 'ND', 'OR', 'SD', 'UT', 'VT'];
+  var contactStateSelect = document.getElementById('c-state');
+  var contactStateWarning = document.getElementById('contact-state-warning');
+  if (contactStateSelect && contactStateWarning) {
+    contactStateSelect.addEventListener('change', function () {
+      contactStateWarning.hidden = !EXCLUDED_STATES.includes(this.value);
+    });
+  }
+
   // === AFFILIATE REGISTRATION FORM ===
   var affForm = document.getElementById('affiliate-form');
   if (affForm) {
