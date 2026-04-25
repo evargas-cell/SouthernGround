@@ -2254,7 +2254,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
 /* Step panels */
 .apply-step-panel[hidden] { display: none; }
 .step-header { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-.step-header h2 { font-size: 20px; color: var(--text); margin: 0 0 6px; }
+.step-header h2 { font-size: 20px !important; color: var(--text); margin: 0 0 6px; font-family: var(--font-body) !important; font-weight: 600; }
 .step-header p { font-size: 14px; color: var(--text-muted); margin: 0; }
 
 /* Form rows */
