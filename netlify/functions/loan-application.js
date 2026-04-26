@@ -26,7 +26,7 @@ exports.handler = async function (event) {
     first_name, last_name, email, phone, role, loan_program, target_close_date,
     property_address, property_city, property_state, property_zip, property_type,
     as_is_value, after_repair_value, is_renovation, rehab_budget,
-    transaction_type, purchase_price, desired_loan_amount, desired_leverage,
+    transaction_type, purchase_price,
     exit_strategy, needs_gap_funding,
     credit_score, cash_reserves, experience_level, citizenship_status,
     bankruptcy_foreclosure, judgments_felonies, co_borrower,
@@ -72,8 +72,6 @@ exports.handler = async function (event) {
             'Rehab Budget':          rehab_budget      || '',
             'Transaction Type':      transaction_type  || '',
             'Purchase Price':        purchase_price    || '',
-            'Desired Loan Amount':   desired_loan_amount || '',
-            'Desired Leverage':      desired_leverage  || '',
             'Exit Strategy':         exit_strategy     || '',
             'Gap Funding Needed':    needs_gap_funding || '',
             'Credit Score':          credit_score      || '',
@@ -167,7 +165,7 @@ function buildNotificationEmail(d, fullName, dateSubmitted) {
       <p style="color:#556B5C;margin:0 0 20px;font-size:14px">${d.role || ''} · ${d.loan_program || ''}</p>
 
       ${section('Contact', row('Email', d.email) + row('Phone', d.phone) + row('Role', d.role))}
-      ${section('Deal', row('Loan Program', d.loan_program) + row('Transaction Type', d.transaction_type) + row('Target Close Date', d.target_close_date) + row('Purchase Price', d.purchase_price) + row('Desired Loan Amount', d.desired_loan_amount) + row('Desired Leverage', d.desired_leverage) + row('Exit Strategy', d.exit_strategy) + row('Gap Funding', d.needs_gap_funding))}
+      ${section('Deal', row('Loan Program', d.loan_program) + row('Transaction Type', d.transaction_type) + row('Target Close Date', d.target_close_date) + row('Purchase Price', d.purchase_price) + row('Exit Strategy', d.exit_strategy) + row('Gap Funding', d.needs_gap_funding))}
       ${section('Property', row('Address', d.property_address) + row('City / State / Zip', [d.property_city, d.property_state, d.property_zip].filter(Boolean).join(', ')) + row('Property Type', d.property_type) + row('As-Is Value', d.as_is_value) + row('After Repair Value', d.after_repair_value) + row('Renovation?', d.is_renovation) + row('Rehab Budget', d.rehab_budget))}
       ${section('Borrower Profile', row('Credit Score', d.credit_score) + row('Cash Reserves', d.cash_reserves) + row('Experience', d.experience_level) + row('Citizenship', d.citizenship_status) + row('Bankruptcy/Foreclosure', d.bankruptcy_foreclosure) + row('Judgments/Felonies', d.judgments_felonies) + row('Co-Borrower', d.co_borrower))}
       ${section('Entity', row('Entity Name', d.entity_name) + row('Entity Type', d.entity_type))}

@@ -182,6 +182,18 @@
       });
   });
 
+  // === CURRENCY FORMATTING ===
+  function formatCurrency(input) {
+    var raw = input.value.replace(/[^0-9]/g, '');
+    if (!raw) { input.value = ''; return; }
+    input.value = '$' + parseInt(raw, 10).toLocaleString('en-US');
+  }
+
+  form.querySelectorAll('input[data-currency]').forEach(function (input) {
+    input.addEventListener('input', function () { formatCurrency(input); });
+    input.addEventListener('blur', function () { formatCurrency(input); });
+  });
+
   // === REF TRACKING ===
   var refField = document.getElementById('a-referred-by');
   if (refField) {

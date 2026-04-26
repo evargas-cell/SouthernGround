@@ -258,12 +258,12 @@
               <div class="form-row">
                 <div class="form-group">
                   <label for="a-as-is-value">As-Is Value <span class="req">*</span></label>
-                  <input type="text" id="a-as-is-value" name="as_is_value" placeholder="$250,000" required />
+                  <input type="text" id="a-as-is-value" name="as_is_value" placeholder="$250,000" required data-currency />
                   <span class="form-error" aria-live="polite"></span>
                 </div>
                 <div class="form-group">
                   <label for="a-arv">After Repair Value (ARV) <span class="optional">(if applicable)</span></label>
-                  <input type="text" id="a-arv" name="after_repair_value" placeholder="$350,000" />
+                  <input type="text" id="a-arv" name="after_repair_value" placeholder="$350,000" data-currency />
                   <span class="form-error" aria-live="polite"></span>
                 </div>
               </div>
@@ -280,7 +280,7 @@
 
               <div class="form-group" id="rehab-budget-group" hidden>
                 <label for="a-rehab-budget">Estimated Rehab Budget <span class="req">*</span></label>
-                <input type="text" id="a-rehab-budget" name="rehab_budget" placeholder="$45,000" />
+                <input type="text" id="a-rehab-budget" name="rehab_budget" placeholder="$45,000" data-currency />
                 <span class="form-error" aria-live="polite"></span>
               </div>
             </div>
@@ -303,33 +303,9 @@
                 <span class="form-error" aria-live="polite"></span>
               </div>
 
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="a-purchase-price">Purchase Price / Current Value <span class="req">*</span></label>
-                  <input type="text" id="a-purchase-price" name="purchase_price" placeholder="$300,000" required />
-                  <span class="form-error" aria-live="polite"></span>
-                </div>
-                <div class="form-group">
-                  <label for="a-loan-amount">Desired Loan Amount <span class="req">*</span></label>
-                  <input type="text" id="a-loan-amount" name="desired_loan_amount" placeholder="$225,000" required />
-                  <span class="form-error" aria-live="polite"></span>
-                </div>
-              </div>
-
               <div class="form-group">
-                <label for="a-leverage">Desired Leverage (LTV) <span class="req">*</span></label>
-                <select id="a-leverage" name="desired_leverage" required>
-                  <option value="">Select…</option>
-                  <option value="60-65%">60–65%</option>
-                  <option value="66-70%">66–70%</option>
-                  <option value="71-75%">71–75%</option>
-                  <option value="76-80%">76–80%</option>
-                  <option value="81-85%">81–85%</option>
-                  <option value="86-90%">86–90%</option>
-                  <option value="91-95%">91–95%</option>
-                  <option value="96-99%">96–99%</option>
-                  <option value="100%">100%</option>
-                </select>
+                <label for="a-purchase-price">Purchase Price / Current Value <span class="req">*</span></label>
+                <input type="text" id="a-purchase-price" name="purchase_price" placeholder="$300,000" required data-currency />
                 <span class="form-error" aria-live="polite"></span>
               </div>
 
