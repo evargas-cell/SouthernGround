@@ -161,6 +161,7 @@ p { line-height: 1.75; }
   justify-content: center;
   gap: 0.5rem;
   padding: 0.8rem 1.75rem;
+  min-height: 44px;
   border-radius: var(--radius-sm);
   font-family: var(--font-body);
   font-weight: 600;
@@ -381,7 +382,10 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   font-weight: 600;
   letter-spacing: 0.04em;
   color: rgba(255,255,255,0.7);
-  padding: 0.5rem 0.875rem;
+  padding: 0.75rem 0.875rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   border-radius: var(--radius-sm);
   transition: color var(--t-fast), background var(--t-fast);
 }
@@ -405,7 +409,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   flex-shrink: 0;
 }
 .lang-pill__opt {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   color: rgba(255,255,255,0.45);
@@ -616,7 +620,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   backdrop-filter: blur(8px);
 }
 .stats-panel-label {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -957,7 +961,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
 }
 .program-num {
   font-family: var(--font-body);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.14em;
   color: var(--gold);
@@ -1339,7 +1343,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   gap: 3rem;
 }
 .lm-eyebrow {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -1535,7 +1539,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   font-family: var(--font-body);
 }
 .ct-badge span {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -1746,7 +1750,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
 .article-hero-inner { position: relative; max-width: 780px; }
 .article-tag {
   display: inline-block;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;

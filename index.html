@@ -18,26 +18,35 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://sgcapital.io/" />
 
-  <!-- Fonts: Playfair Display (headings) + Inter (body) — fixes generic typography -->
+  <!-- Fonts: non-blocking load for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" /></noscript>
 
-  <!-- FinancialService Schema: fixes S4 -->
+  <!-- FinancialService Schema -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "FinancialService",
     "name": "Southern Ground Capital",
-    "description": "Direct private hard money lender for real estate investors. Fix and flip, DSCR, bridge, new construction, multi-family, and cash-out refinance loans in 43 states.",
+    "description": "Private lending firm providing hard money loans for real estate investors. Fix and flip, DSCR, bridge, new construction, multi-family, and cash-out refinance loans in 43 states.",
     "url": "https://sgcapital.io",
     "telephone": "+16788428084",
     "email": "loans@sgcapital.io",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Atlanta",
+      "addressRegion": "GA",
+      "addressCountry": "US"
+    },
     "areaServed": {
       "@type": "Country",
       "name": "United States"
     },
-    "sameAs": []
+    "priceRange": "$$",
+    "openingHours": "Mo-Fr 09:00-18:00"
   }
   </script>
 
@@ -114,7 +123,7 @@
   }
   </script>
 
-  <link rel="stylesheet" href="style.css?v=3" />
+  <link rel="stylesheet" href="style.css?v=4" />
 </head>
 <body>
 
