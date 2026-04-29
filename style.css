@@ -161,7 +161,8 @@ p { line-height: 1.75; }
   justify-content: center;
   gap: 0.5rem;
   padding: 0.8rem 1.75rem;
-  min-height: 44px;
+  min-height: 48px;
+  min-width: 48px;
   border-radius: var(--radius-sm);
   font-family: var(--font-body);
   font-weight: 600;
@@ -383,7 +384,8 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   letter-spacing: 0.04em;
   color: rgba(255,255,255,0.7);
   padding: 0.75rem 0.875rem;
-  min-height: 44px;
+  min-height: 48px;
+  min-width: 48px;
   display: inline-flex;
   align-items: center;
   border-radius: var(--radius-sm);
@@ -648,7 +650,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
 }
 .stat-desc {
   display: block;
-  font-size: 0.725rem;
+  font-size: 0.75rem;
   color: rgba(255,255,255,0.45);
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -662,7 +664,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   margin-bottom: 1.5rem;
 }
 .stats-programs-label {
-  font-size: 0.675rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -970,7 +972,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   border-radius: 4px;
 }
 .program-tag {
-  font-size: 0.675rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1003,7 +1005,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
 }
 .metric { display: flex; flex-direction: column; gap: 0.2rem; }
 .metric-l {
-  font-size: 0.675rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -2006,7 +2008,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   text-align: center;
 }
 .footer-bottom p {
-  font-size: 0.725rem;
+  font-size: 0.75rem;
   color: rgba(255,255,255,0.2);
   line-height: 1.6;
 }
@@ -2256,7 +2258,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   justify-content: center;
   transition: background 0.3s, color 0.3s;
 }
-.step-dot small { font-size: 11px; color: var(--text-muted); text-align: center; display: none; }
+.step-dot small { font-size: 12px; color: var(--text-muted); text-align: center; display: none; }
 @media (min-width: 480px) { .step-dot small { display: block; } }
 .step-dot.active span { background: var(--amber); color: #fff; }
 .step-dot.active small { color: var(--amber); font-weight: 600; }
