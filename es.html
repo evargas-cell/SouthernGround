@@ -871,57 +871,24 @@
         </div>
 
         <div class="contact-form-wrap fade-in">
-          <form class="contact-form" id="contact-form" name="contact-form-es" data-netlify="true" novalidate aria-label="Formulario de envío de negocio">
-            <input type="hidden" name="form-name" value="contact-form-es" />
-            <input type="hidden" name="referred_by" id="referred-by-field" value="" />
-            <h3>Envía Tu Negocio</h3>
-            <p class="form-note">Un especialista responde en 24 horas.</p>
+          <div class="contact-form">
+            <h3>Comienza Tu Solicitud</h3>
+            <p class="form-note">Completa nuestro formulario de 5 pasos en menos de 5 minutos. Sin consulta de crédito, sin compromiso — un especialista responde en 24 horas.</p>
 
-            <div class="form-group">
-              <label for="c-name">Tu Nombre</label>
-              <input type="text" id="c-name" name="name" placeholder="Nombre y Apellido" required autocomplete="name" />
-              <span class="form-error" aria-live="polite"></span>
-            </div>
+            <ol class="cta-apply-steps">
+              <li>Tipo de negocio e información de contacto</li>
+              <li>Detalles de la propiedad</li>
+              <li>Estructura del préstamo</li>
+              <li>Perfil del prestatario</li>
+              <li>Entidad y notas finales</li>
+            </ol>
 
-            <div class="form-group">
-              <label for="c-phone">Número de Teléfono</label>
-              <input type="tel" id="c-phone" name="phone" placeholder="(678) 000-0000" required autocomplete="tel" />
-              <span class="form-error" aria-live="polite"></span>
-            </div>
+            <a href="apply.html" class="btn btn-gold btn-full" style="margin-top:1.75rem; display:block">
+              Comenzar Mi Solicitud &rarr;
+            </a>
 
-            <div class="form-group">
-              <label for="c-loan-type">Programa de Préstamo</label>
-              <select id="c-loan-type" name="loan_type" required>
-                <option value="">Selecciona un programa…</option>
-                <option value="fix-flip">Fix &amp; Flip</option>
-                <option value="dscr">Préstamo DSCR</option>
-                <option value="bridge">Préstamo Puente</option>
-                <option value="construction">Nueva Construcción</option>
-                <option value="multifamily">Multifamiliar</option>
-                <option value="cashout">Refinanciamiento con Extracción de Capital</option>
-                <option value="unsure">No Estoy Seguro Todavía</option>
-              </select>
-              <span class="form-error" aria-live="polite"></span>
-            </div>
-
-            <div class="form-group">
-              <label for="c-deal">Detalles del Negocio</label>
-              <textarea id="c-deal" name="deal" rows="4"
-                placeholder="Dirección de la propiedad, precio de compra, ARV estimado, monto de préstamo necesario y cualquier otro detalle…"
-                required></textarea>
-              <span class="form-error" aria-live="polite"></span>
-            </div>
-
-            <button type="submit" class="btn btn-gold btn-full">
-              Enviar Mi Negocio — Obtener Cotización
-            </button>
-
-            <p class="form-disclaimer">Sin consulta de crédito · Sin tarifas iniciales · Respuesta garantizada en 24 horas</p>
-
-            <div class="form-success" id="form-success" aria-live="polite" hidden>
-              ✅ ¡Negocio enviado! Un especialista se comunicará contigo en 24 horas.
-            </div>
-          </form>
+            <p class="form-disclaimer">Sin consulta de crédito &middot; Sin tarifas iniciales &middot; Respuesta garantizada en 24 horas</p>
+          </div>
         </div>
 
       </div>
