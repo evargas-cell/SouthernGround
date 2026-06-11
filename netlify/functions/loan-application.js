@@ -30,7 +30,7 @@ exports.handler = async function (event) {
     exit_strategy, needs_gap_funding,
     credit_score, cash_reserves, experience_level, citizenship_status,
     bankruptcy_foreclosure, judgments_felonies, co_borrower,
-    entity_name, entity_type, additional_notes,
+    entity_name, entity_type, additional_notes, referred_by,
   } = body;
 
   if (!first_name || !last_name || !email || !phone) {
@@ -84,6 +84,7 @@ exports.handler = async function (event) {
             'Entity Name':           entity_name       || '',
             'Entity Type':           entity_type       || '',
             'Notes':                 additional_notes  || '',
+            'Referred By':           referred_by       || '',
             'Date Submitted':        dateSubmitted,
             'Status':                'New',
           },
@@ -164,7 +165,7 @@ function buildNotificationEmail(d, fullName, dateSubmitted) {
       <h2 style="color:#16261C;margin:0 0 4px">${fullName}</h2>
       <p style="color:#556B5C;margin:0 0 20px;font-size:14px">${d.role || ''} · ${d.loan_program || ''}</p>
 
-      ${section('Contact', row('Email', d.email) + row('Phone', d.phone) + row('Role', d.role))}
+      ${section('Contact', row('Email', d.email) + row('Phone', d.phone) + row('Role', d.role) + row('Referred By', d.referred_by || 'Direct (no affiliate)'))}
       ${section('Deal', row('Loan Program', d.loan_program) + row('Transaction Type', d.transaction_type) + row('Target Close Date', d.target_close_date) + row('Purchase Price', d.purchase_price) + row('Exit Strategy', d.exit_strategy) + row('Gap Funding', d.needs_gap_funding))}
       ${section('Property', row('Address', d.property_address) + row('City / State / Zip', [d.property_city, d.property_state, d.property_zip].filter(Boolean).join(', ')) + row('Property Type', d.property_type) + row('As-Is Value', d.as_is_value) + row('After Repair Value', d.after_repair_value) + row('Renovation?', d.is_renovation) + row('Rehab Budget', d.rehab_budget))}
       ${section('Borrower Profile', row('Credit Score', d.credit_score) + row('Cash Reserves', d.cash_reserves) + row('Experience', d.experience_level) + row('Citizenship', d.citizenship_status) + row('Bankruptcy/Foreclosure', d.bankruptcy_foreclosure) + row('Judgments/Felonies', d.judgments_felonies) + row('Co-Borrower', d.co_borrower))}
