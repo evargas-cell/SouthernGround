@@ -21,12 +21,37 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://sgcapital.io/blog/index.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://sgcapital.io/blog/llc-docs-checklist.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://sgcapital.io/blog/rehab-budget-guide.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sgcapital.io/blog/close-in-5-days.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sgcapital.io/blog/dscr-loans-explained.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sgcapital.io/blog/arv-explained.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://sgcapital.io/blog/construction-draw-schedule.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
