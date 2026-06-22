@@ -119,7 +119,7 @@
     return valid;
   }
 
-  function setupForm(formId, successId) {
+  function setupForm(formId, successId, endpoint) {
     var form = document.getElementById(formId);
     if (!form) return;
 
@@ -147,11 +147,31 @@
         submitBtn.textContent = 'Submitting…';
       }
 
-      fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(form)).toString(),
-      })
+      var request;
+      if (endpoint) {
+        // Submit as JSON to a Netlify function (e.g. delivers the lead magnet)
+        var payload = {};
+        new FormData(form).forEach(function (value, key) {
+          if (key !== 'form-name') payload[key] = value;
+        });
+        request = fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        }).then(function (res) {
+          if (!res.ok) throw new Error('Server error ' + res.status);
+          return res;
+        });
+      } else {
+        // Default: post to Netlify Forms
+        request = fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)).toString(),
+        });
+      }
+
+      request
         .then(function () {
           form.reset();
           if (submitBtn) {
@@ -177,7 +197,7 @@
   }
 
   setupForm('contact-form', 'form-success');
-  setupForm('lead-magnet-form', 'lm-success');
+  setupForm('lead-magnet-form', 'lm-success', '/.netlify/functions/lead-magnet');
 
   // === CONTACT FORM STATE WARNING ===
   var EXCLUDED_STATES = ['AZ', 'NV', 'ND', 'OR', 'SD', 'UT', 'VT'];
