@@ -1,3 +1,5 @@
+const { configured, sbInsert, findAffiliateByRef } = require('./lib/supabase');
+
 exports.handler = async function (event) {
   if (event.httpMethod === 'OPTIONS') {
     return {
@@ -104,6 +106,32 @@ exports.handler = async function (event) {
     console.log('Airtable env vars missing — AIRTABLE_TOKEN:', !!AIRTABLE_TOKEN, 'AIRTABLE_BASE_ID:', !!AIRTABLE_BASE_ID);
   }
 
+  // === STORE LEAD IN SUPABASE (affiliate attribution) ===
+  // Connects this application to the affiliate whose link referred it, so the
+  // portal can show click -> lead -> closed. Best-effort; never blocks the form.
+  if (configured()) {
+    try {
+      const affiliate_id = await findAffiliateByRef(referred_by);
+      const res = await sbInsert('leads', {
+        affiliate_id,
+        ref_code:        referred_by ? String(referred_by).toLowerCase() : null,
+        first_name,
+        last_name,
+        email,
+        phone,
+        loan_program:    loan_program     || null,
+        property_address: property_address || null,
+        loan_amount:     parseMoney(purchase_price) ?? parseMoney(after_repair_value),
+        status:          'new',
+      });
+      if (!res.ok) {
+        console.error('Supabase lead insert failed:', res.status, await res.text());
+      }
+    } catch (err) {
+      console.error('Supabase lead error:', err);
+    }
+  }
+
   // === SEND EMAILS VIA RESEND ===
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
   if (RESEND_API_KEY) {
@@ -142,6 +170,13 @@ exports.handler = async function (event) {
     body: JSON.stringify({ success: true }),
   };
 };
+
+// Pull a numeric dollar amount out of a free-text money field ("$250,000" -> 250000).
+function parseMoney(v) {
+  if (!v) return null;
+  const n = Number(String(v).replace(/[^0-9.]/g, ''));
+  return !n || isNaN(n) ? null : n;
+}
 
 function buildNotificationEmail(d, fullName, dateSubmitted) {
   const row = (label, value) => value

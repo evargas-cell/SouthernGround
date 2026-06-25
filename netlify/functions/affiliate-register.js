@@ -1,3 +1,5 @@
+const { configured, sbInsert } = require('./lib/supabase');
+
 exports.handler = async function (event) {
   if (event.httpMethod === 'OPTIONS') {
     return {
@@ -66,6 +68,26 @@ exports.handler = async function (event) {
     }
   } else {
     console.log('Airtable env vars missing — AIRTABLE_TOKEN:', !!AIRTABLE_TOKEN, 'AIRTABLE_BASE_ID:', !!AIRTABLE_BASE_ID);
+  }
+
+  // Store in Supabase (so this affiliate's links attribute clicks & leads)
+  if (configured()) {
+    try {
+      const res = await sbInsert('affiliates', {
+        name,
+        email,
+        phone:          phone || null,
+        role:           role || null,
+        ref_code:       slug,
+        affiliate_link: affiliateLink,
+      });
+      // 409 = this ref_code/email already exists — fine, don't duplicate.
+      if (!res.ok && res.status !== 409) {
+        console.error('Supabase affiliate insert failed:', res.status, await res.text());
+      }
+    } catch (err) {
+      console.error('Supabase affiliate error:', err);
+    }
   }
 
   // Send welcome email via Resend

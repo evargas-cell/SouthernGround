@@ -283,16 +283,63 @@
 
   // === AFFILIATE REF TRACKING ===
   // Capture ?ref= from URL and persist it so it survives page navigation.
-  // The value is injected into the contact form's hidden referred_by field.
+  // The value is injected into the contact form's hidden referred_by field,
+  // and a click is logged server-side once per browser session per ref.
   (function () {
+    var ATTR_DAYS = 90; // attribution window — a click credits a deal for 90 days
     var params = new URLSearchParams(window.location.search);
     var ref = params.get('ref');
-    if (ref) localStorage.setItem('sgc_ref', ref);
+
+    if (ref) {
+      localStorage.setItem('sgc_ref', ref);
+      localStorage.setItem('sgc_ref_ts', String(Date.now()));
+    }
 
     var storedRef = localStorage.getItem('sgc_ref');
+    var ts = parseInt(localStorage.getItem('sgc_ref_ts') || '0', 10);
+
+    // Expire stale attribution outside the window.
+    if (storedRef && ts && (Date.now() - ts) > ATTR_DAYS * 86400000) {
+      localStorage.removeItem('sgc_ref');
+      localStorage.removeItem('sgc_ref_ts');
+      storedRef = null;
+    }
+
     if (storedRef) {
       var refField = document.getElementById('referred-by-field');
       if (refField) refField.value = storedRef;
+    }
+
+    // Log a click only when the visitor actually arrived via a ?ref= link,
+    // and only once per browser session (sessionStorage guard + a per-session id).
+    if (ref) {
+      var guardKey = 'sgc_click_' + ref;
+      if (!sessionStorage.getItem(guardKey)) {
+        sessionStorage.setItem(guardKey, '1');
+
+        var sid = sessionStorage.getItem('sgc_sid');
+        if (!sid) {
+          sid = (window.crypto && crypto.randomUUID)
+            ? crypto.randomUUID()
+            : 'sid-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+          sessionStorage.setItem('sgc_sid', sid);
+        }
+
+        fetch('/.netlify/functions/track-click', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          keepalive: true,
+          body: JSON.stringify({
+            ref: ref,
+            sid: sid,
+            page: window.location.pathname,
+            referrer: document.referrer || '',
+            utm_source: params.get('utm_source') || '',
+            utm_medium: params.get('utm_medium') || '',
+            utm_campaign: params.get('utm_campaign') || ''
+          })
+        }).catch(function () { /* tracking is best-effort; never block the page */ });
+      }
     }
   })();
 
