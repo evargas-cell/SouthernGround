@@ -38,24 +38,25 @@ exports.handler = async function (event) {
     return json(502, { error: 'Airtable fetch error', detail: String(err) });
   }
 
-  // --- What's already in Supabase? ---
-  const existing = await sbSelect('affiliates', 'select=ref_code');
-  const have = new Set(existing.map((a) => (a.ref_code || '').toLowerCase()));
+  // --- What's already in Supabase? (dedupe on both ref_code AND email) ---
+  const existing = await sbSelect('affiliates', 'select=ref_code,email');
+  const haveRef   = new Set(existing.map((a) => (a.ref_code || '').toLowerCase()));
+  const haveEmail = new Set(existing.map((a) => (a.email || '').toLowerCase()));
 
   const toInsert = [];
   const skipped = [];
   for (const rec of records) {
     const f = rec.fields || {};
-    const slug = (f.Slug || deriveSlug(f.Name)).toLowerCase();
-    if (!f.Email || !slug) {
+    const slug  = (f.Slug || deriveSlug(f.Name)).toLowerCase();
+    const email = (f.Email || '').toLowerCase();
+    if (!email || !slug) {
       skipped.push({ id: rec.id, reason: 'missing email or slug' });
       continue;
     }
-    if (have.has(slug)) {
-      skipped.push({ slug, reason: 'already in supabase' });
-      continue;
-    }
-    have.add(slug);
+    if (haveRef.has(slug))    { skipped.push({ slug,  reason: 'ref_code already present' }); continue; }
+    if (haveEmail.has(email)) { skipped.push({ email, reason: 'email already present' });    continue; }
+    haveRef.add(slug);
+    haveEmail.add(email);
     toInsert.push({
       name:           f.Name || '',
       email:          f.Email,
@@ -67,17 +68,27 @@ exports.handler = async function (event) {
     });
   }
 
+  // Insert one at a time so a single duplicate can't abort the whole run.
   let inserted = 0;
-  if (toInsert.length) {
-    const res = await sbInsert('affiliates', toInsert);
-    if (!res.ok) return json(502, { error: 'Supabase insert failed', detail: await res.text() });
-    inserted = toInsert.length;
+  const failed = [];
+  for (const row of toInsert) {
+    const res = await sbInsert('affiliates', row);
+    if (res.ok) { inserted++; continue; }
+    const detail = await res.text();
+    // 409 / 23505 = already exists (race or in-Airtable dupe) — treat as skip.
+    if (res.status === 409 || detail.includes('23505')) {
+      skipped.push({ email: row.email, reason: 'duplicate (already exists)' });
+    } else {
+      failed.push({ email: row.email, status: res.status, detail });
+    }
   }
 
   return json(200, {
     airtableRecords: records.length,
     inserted,
     skipped: skipped.length,
+    failed: failed.length,
+    failedDetail: failed,
     skippedDetail: skipped,
   });
 };
