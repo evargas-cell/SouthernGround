@@ -35,6 +35,18 @@
   [headers.values]
     Cache-Control = "public, max-age=3600"
 
+# The portal/admin app scripts must always revalidate so deploys take effect
+# immediately (these rules come after /*.js so they win for these paths).
+[[headers]]
+  for = "/portal.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/admin.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 [[redirects]]
   from = "/portal"
   to = "/portal.html"
