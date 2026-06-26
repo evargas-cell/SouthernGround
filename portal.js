@@ -30,14 +30,49 @@ document.addEventListener('DOMContentLoaded', () => {
 sb.auth.onAuthStateChange(() => route());
 
 async function route() {
-  const { data: { session } } = await sb.auth.getSession();
+  // Surface an expired/invalid magic-link error (Supabase puts it in the hash).
+  surfaceUrlError();
+
+  let session = null;
+  try {
+    const res = await Promise.race([
+      sb.auth.getSession(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 6000)),
+    ]);
+    session = (res && res.data && res.data.session) || null;
+  } catch (e) {
+    session = null; // never hang on "Loading…" — fall back to the login form
+  }
+
   if (session) {
+    cleanUrl(); // strip ?code=/#tokens so a refresh can't re-trigger an exchange
     hide('view-loading'); hide('view-login');
     show('view-dash'); show('logout-btn');
     loadDashboard(session.access_token);
   } else {
     hide('view-loading'); hide('view-dash'); hide('logout-btn');
     show('view-login');
+  }
+}
+
+// If the sign-in link was expired/already used, tell the user instead of failing silently.
+function surfaceUrlError() {
+  const hash = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
+  const qs = new URLSearchParams(window.location.search);
+  const err = hash.get('error_description') || qs.get('error_description') || hash.get('error') || qs.get('error');
+  if (err) {
+    const note = $('login-note');
+    if (note) {
+      note.className = 'note err';
+      note.textContent = decodeURIComponent(err).replace(/\+/g, ' ') + ' — please request a new link.';
+    }
+    cleanUrl();
+  }
+}
+
+function cleanUrl() {
+  if (window.location.search || window.location.hash) {
+    window.history.replaceState({}, document.title, window.location.pathname);
   }
 }
 

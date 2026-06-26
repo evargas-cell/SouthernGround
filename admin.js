@@ -23,13 +23,44 @@ document.addEventListener('DOMContentLoaded', () => {
 sb.auth.onAuthStateChange(() => route());
 
 async function route() {
-  const { data: { session } } = await sb.auth.getSession();
+  surfaceUrlError();
+  let session = null;
+  try {
+    const res = await Promise.race([
+      sb.auth.getSession(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 6000)),
+    ]);
+    session = (res && res.data && res.data.session) || null;
+  } catch (e) {
+    session = null;
+  }
   if (session) {
+    cleanUrl();
     hide('view-loading'); hide('view-login');
     loadAdmin(session.access_token);
   } else {
     hide('view-loading'); hide('view-admin'); hide('view-denied'); hide('logout-btn');
     show('view-login');
+  }
+}
+
+function surfaceUrlError() {
+  const hash = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
+  const qs = new URLSearchParams(window.location.search);
+  const err = hash.get('error_description') || qs.get('error_description') || hash.get('error') || qs.get('error');
+  if (err) {
+    const note = $('login-note');
+    if (note) {
+      note.className = 'note err';
+      note.textContent = decodeURIComponent(err).replace(/\+/g, ' ') + ' — please request a new link.';
+    }
+    cleanUrl();
+  }
+}
+
+function cleanUrl() {
+  if (window.location.search || window.location.hash) {
+    window.history.replaceState({}, document.title, window.location.pathname);
   }
 }
 
