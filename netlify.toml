@@ -1,6 +1,12 @@
 [build]
   publish = "."
 
+[build.environment]
+  # SUPABASE_URL and the publishable key are PUBLIC by design — they belong in
+  # browser code (portal.js). Exclude only the URL from secret scanning so the
+  # scanner still protects real secrets (e.g. SUPABASE_SERVICE_ROLE_KEY).
+  SECRETS_SCAN_OMIT_KEYS = "SUPABASE_URL"
+
 [functions]
   directory = "netlify/functions"
 
