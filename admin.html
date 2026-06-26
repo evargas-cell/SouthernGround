@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin — Southern Ground Capital</title>
+  <link rel="icon" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --forest:#16261C; --forest-mid:#1E3226; --amber:#9B6820; --amber-dark:#7A5218;
+      --off-white:#F5F7F4; --surface:#fff; --border:#DAE3DC;
+      --text:#1C2B20; --muted:#556B5C; --good-text:#0A5C30; --good-bg:#E6F4ED;
+      --font-head:'Playfair Display',Georgia,serif; --font-body:'Inter',-apple-system,system-ui,sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--off-white);color:var(--text);font-family:var(--font-body);line-height:1.6}
+    .topbar{background:var(--forest);padding:18px 24px;display:flex;align-items:center;justify-content:space-between}
+    .topbar h1{margin:0;color:var(--amber);font-size:18px;letter-spacing:1px;font-weight:700}
+    .topbar .sub{color:rgba(255,255,255,.6);font-size:12px;margin-top:2px}
+    .topbar button{background:transparent;border:1px solid rgba(255,255,255,.25);color:#fff;padding:7px 14px;border-radius:6px;font-size:13px;cursor:pointer;font-family:inherit}
+    .wrap{max-width:1200px;margin:0 auto;padding:28px 24px 64px}
+    .login{max-width:420px;margin:8vh auto;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:40px;box-shadow:0 8px 30px rgba(22,38,28,.06)}
+    .login h2{font-family:var(--font-head);font-size:26px;margin:0 0 6px;color:var(--forest)}
+    .login p{color:var(--muted);font-size:14px;margin:0 0 24px}
+    label{display:block;font-size:13px;font-weight:600;margin:0 0 6px;color:var(--forest)}
+    input[type=email]{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit}
+    .btn{width:100%;background:var(--amber);color:#fff;border:none;padding:13px 20px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:16px}
+    .btn:hover{background:var(--amber-dark)}
+    .note{font-size:13px;margin-top:18px;padding:12px 14px;border-radius:8px;display:none}
+    .note.ok{display:block;background:var(--good-bg);color:var(--good-text)}
+    .note.err{display:block;background:#FDEDED;color:#8B1A1A}
+
+    .head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+    .head h2{font-family:var(--font-head);font-size:28px;color:var(--forest);margin:0}
+    .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin-bottom:24px}
+    .scard{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px}
+    .scard .num{font-family:var(--font-head);font-size:26px;font-weight:700;color:var(--forest)}
+    .scard .cap{font-size:12px;color:var(--muted)}
+    .tablewrap{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow-x:auto}
+    table{width:100%;border-collapse:collapse;min-width:920px}
+    th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);padding:11px 14px;border-bottom:1px solid var(--border);background:var(--off-white);white-space:nowrap}
+    td{padding:11px 14px;border-bottom:1px solid var(--border);font-size:13.5px;vertical-align:middle}
+    tr:last-child td{border-bottom:none}
+    .applicant{font-weight:600;color:var(--forest)}
+    .meta{color:var(--muted);font-size:12px}
+    select,.fee-in,.pct-in{padding:7px 9px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:13px}
+    .fee-in{width:90px}.pct-in{width:56px}
+    .commission{font-weight:600;color:var(--good-text);white-space:nowrap}
+    .saveb{background:var(--forest);color:#fff;border:none;padding:7px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+    .saveb:hover{background:var(--forest-mid)}
+    .saveb.saved{background:var(--good-text)}
+    .pill{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;text-transform:capitalize}
+    .hidden{display:none}
+    .loading{text-align:center;color:var(--muted);padding:60px 0}
+    .denied{max-width:480px;margin:10vh auto;text-align:center;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div><h1>SOUTHERN GROUND CAPITAL</h1><div class="sub">Admin · Deal & Commission Management</div></div>
+    <button id="logout-btn" class="hidden">Sign out</button>
+  </div>
+
+  <div id="view-loading" class="loading">Loading…</div>
+
+  <div id="view-login" class="login hidden">
+    <h2>Admin Sign In</h2>
+    <p>Sign in with your admin email. We'll send a secure one-time link.</p>
+    <form id="login-form">
+      <label for="email">Email address</label>
+      <input type="email" id="email" required autocomplete="email" placeholder="edgar@sgcapital.io">
+      <button type="submit" class="btn" id="login-btn">Send my sign-in link</button>
+    </form>
+    <div id="login-note" class="note"></div>
+  </div>
+
+  <div id="view-denied" class="denied hidden">
+    <h2>Not authorized</h2>
+    <p>This account isn't on the admin list. <a href="/portal">Go to the affiliate portal →</a></p>
+  </div>
+
+  <div id="view-admin" class="wrap hidden">
+    <div class="head"><h2>All Referrals</h2></div>
+    <div class="summary" id="summary"></div>
+    <div class="tablewrap"><table>
+      <thead><tr>
+        <th>Date</th><th>Applicant</th><th>Affiliate</th><th>Loan</th>
+        <th>Status</th><th>Orig. Fee</th><th>Share %</th><th>Commission</th><th></th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

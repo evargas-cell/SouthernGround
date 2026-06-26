@@ -61,4 +61,31 @@ function hashIp(ip) {
     .digest('hex');
 }
 
-module.exports = { configured, headers, sbInsert, sbSelect, findAffiliateByRef, hashIp };
+// Verify a Supabase access token; returns the user object (with email/id) or null.
+async function verifySession(token) {
+  if (!token) return null;
+  try {
+    const res = await fetch(`${SB_URL}/auth/v1/user`, {
+      headers: { Authorization: `Bearer ${token}`, apikey: SB_KEY },
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+// Is this email an admin? Allowlist via ADMIN_EMAILS env (comma-separated).
+function isAdmin(email) {
+  if (!email) return false;
+  const list = (process.env.ADMIN_EMAILS || 'edgar@sgcapital.io')
+    .split(',')
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
+  return list.includes(email.toLowerCase());
+}
+
+module.exports = {
+  configured, headers, sbInsert, sbSelect, findAffiliateByRef, hashIp,
+  verifySession, isAdmin, SB_URL, SB_KEY,
+};
