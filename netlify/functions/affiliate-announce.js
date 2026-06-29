@@ -221,6 +221,15 @@ function buildAnnounceEmail(name, email, affiliateLink) {
           <strong>${loginEmail}</strong>, and we'll email you a secure one-time login link
           &mdash; no password to remember.
         </p>
+        <div style="background:#fff;border:1px dashed #c3d9c8;border-radius:6px;padding:14px 18px;margin:0 0 16px">
+          <p style="margin:0;color:#46604f;font-size:13.5px;line-height:1.7">
+            <strong>Note: live tracking started this week.</strong> Your portal shows clicks,
+            leads, and earnings from here forward &mdash; any referrals you sent before this
+            week won't appear in it yet. If you'd like a status update on an earlier
+            submission, just reply to this email or call us at <strong>(678) 842-8084</strong>
+            and we'll fill you in.
+          </p>
+        </div>
         <a href="${portalUrl}" style="background:#101e14;color:#fff;text-decoration:none;padding:11px 26px;border-radius:6px;font-size:14px;font-weight:bold;display:inline-block">Open Your Portal &rarr;</a>
       </div>
 
