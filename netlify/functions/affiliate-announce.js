@@ -156,8 +156,12 @@ async function sendEmail(key, to, html) {
 
 exports.buildAnnounceEmail = buildAnnounceEmail;
 
+function titleCase(str) {
+  return str.replace(/\b\w/g, c => c.toUpperCase());
+}
+
 function buildAnnounceEmail(name, email, affiliateLink) {
-  const firstName  = (name || 'there').split(' ')[0];
+  const firstName  = titleCase((name || 'there').split(' ')[0]);
   const year       = new Date().getFullYear();
   const portalUrl  = 'https://sgcapital.io/portal';
   const brrrrUrl   = 'https://sgcapital.io/brrrr-analyzer.html';
