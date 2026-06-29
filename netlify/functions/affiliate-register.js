@@ -105,7 +105,7 @@ exports.handler = async function (event) {
           to:  [email],
           bcc: ['edgar@sgcapital.io'],
           subject: 'Welcome to the Southern Ground Capital Affiliate Program!',
-          html: buildWelcomeEmail(name, phone, role, affiliateLink),
+          html: buildWelcomeEmail(name, email, phone, role, affiliateLink),
         }),
       });
     } catch (err) {
@@ -123,9 +123,13 @@ exports.handler = async function (event) {
   };
 };
 
-function buildWelcomeEmail(name, phone, role, affiliateLink) {
+exports.buildWelcomeEmail = buildWelcomeEmail;
+
+function buildWelcomeEmail(name, email, phone, role, affiliateLink) {
   const firstName = name.split(' ')[0];
   const year = new Date().getFullYear();
+  const portalUrl  = 'https://sgcapital.io/portal';
+  const loginEmail = email || 'the email you registered with';
   const roleLine = role ? `<p style="margin:4px 0 0;color:#888;font-size:13px">${role}</p>` : '';
   const phoneLine = phone
     ? `<p style="margin:0 0 4px;color:#555;font-size:14px"><strong>Phone:</strong> ${phone}</p>`
@@ -154,6 +158,26 @@ function buildWelcomeEmail(name, phone, role, affiliateLink) {
       <div style="background:#f9f6f0;border-left:4px solid #c8923a;padding:20px 24px;margin:28px 0;border-radius:0 6px 6px 0">
         <p style="margin:0 0 8px;font-weight:bold;color:#101e14;font-size:13px;text-transform:uppercase;letter-spacing:.5px">Your Unique Affiliate Link</p>
         <p style="margin:0;font-family:monospace;font-size:16px;color:#c8923a;word-break:break-all">${affiliateLink}</p>
+      </div>
+
+      <div style="background:#f0f6f2;border:1px solid #c3d9c8;border-radius:8px;padding:24px 28px;margin:28px 0">
+        <p style="margin:0 0 6px;font-size:12px;font-weight:bold;text-transform:uppercase;letter-spacing:.5px;color:#2a6645">Your Affiliate Portal</p>
+        <h3 style="color:#101e14;font-size:19px;margin:0 0 10px">Track your submissions in real time</h3>
+        <p style="margin:0 0 12px;color:#1C3D26;font-size:14.5px;line-height:1.7">
+          You get your own portal to follow every referral as it moves through our pipeline.
+          Log in any time to see:
+        </p>
+        <ul style="margin:0 0 14px;padding-left:20px;color:#1C3D26;font-size:14.5px;line-height:1.8">
+          <li>Clicks on your referral link</li>
+          <li>Leads &mdash; the clients who submitted a loan application through you</li>
+          <li>Your earnings as deals close</li>
+        </ul>
+        <p style="margin:0 0 14px;color:#1C3D26;font-size:14.5px;line-height:1.7">
+          <strong>How to log in:</strong> go to the portal, enter
+          <strong>${loginEmail}</strong>, and we'll email you a secure one-time login link
+          &mdash; no password to remember.
+        </p>
+        <a href="${portalUrl}" style="background:#101e14;color:#fff;text-decoration:none;padding:11px 26px;border-radius:6px;font-size:14px;font-weight:bold;display:inline-block">Open Your Portal &rarr;</a>
       </div>
 
       <h3 style="color:#101e14;font-size:18px;margin:28px 0 12px">Tips to Get Your First Deal</h3>
