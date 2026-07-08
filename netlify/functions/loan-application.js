@@ -28,9 +28,11 @@ exports.handler = async function (event) {
     first_name, last_name, email, phone, role, loan_program, target_close_date,
     property_address, property_city, property_state, property_zip, property_type,
     as_is_value, after_repair_value, is_renovation, rehab_budget,
-    transaction_type, purchase_price,
-    exit_strategy, needs_gap_funding,
+    transaction_type, loan_purpose, purchase_price, purchase_date,
+    work_completed, reno_spent_to_date, property_liens,
+    exit_strategy, rental_strategy, is_rural, needs_gap_funding,
     credit_score, cash_reserves, experience_level, citizenship_status,
+    professional_licenses, hiring_gc,
     bankruptcy_foreclosure, judgments_felonies, co_borrower,
     entity_name, entity_type, additional_notes, referred_by,
   } = body;
@@ -73,13 +75,22 @@ exports.handler = async function (event) {
             'Renovation Project':    is_renovation     || '',
             'Rehab Budget':          rehab_budget      || '',
             'Transaction Type':      transaction_type  || '',
+            'Loan Purpose':          loan_purpose      || '',
             'Purchase Price':        purchase_price    || '',
+            'Purchase Date':         purchase_date     || '',
+            'Work Completed':        work_completed    || '',
+            'Reno Spent to Date':    reno_spent_to_date || '',
+            'Property Liens':        property_liens    || '',
             'Exit Strategy':         exit_strategy     || '',
+            'Rental Strategy':       rental_strategy   || '',
+            'Rural Area':            is_rural          || '',
             'Gap Funding Needed':    needs_gap_funding || '',
-            'Credit Score':          credit_score      || '',
-            'Cash Reserves':         cash_reserves     || '',
+            'Credit Score (FICO)':   credit_score ? Number(String(credit_score).replace(/[^0-9]/g, '')) : null,
+            'Cash Reserves':         parseMoney(cash_reserves),
             'Experience Level':      experience_level  || '',
             'Citizenship Status':    citizenship_status || '',
+            'Professional Licenses': professional_licenses || '',
+            'Hiring General Contractor': hiring_gc     || '',
             'Bankruptcy/Foreclosure': bankruptcy_foreclosure || '',
             'Judgments/Felonies':    judgments_felonies || '',
             'Co-Borrower':           co_borrower       || '',
@@ -201,9 +212,9 @@ function buildNotificationEmail(d, fullName, dateSubmitted) {
       <p style="color:#556B5C;margin:0 0 20px;font-size:14px">${d.role || ''} · ${d.loan_program || ''}</p>
 
       ${section('Contact', row('Email', d.email) + row('Phone', d.phone) + row('Role', d.role) + row('Referred By', d.referred_by || 'Direct (no affiliate)'))}
-      ${section('Deal', row('Loan Program', d.loan_program) + row('Transaction Type', d.transaction_type) + row('Target Close Date', d.target_close_date) + row('Purchase Price', d.purchase_price) + row('Exit Strategy', d.exit_strategy) + row('Gap Funding', d.needs_gap_funding))}
+      ${section('Deal', row('Loan Program', d.loan_program) + row('Transaction Type', d.transaction_type) + row('Loan Purpose', d.loan_purpose) + row('Target Close Date', d.target_close_date) + row('Purchase Price', d.purchase_price) + row('Purchase Date', d.purchase_date) + row('Work Completed?', d.work_completed) + row('Reno Spent to Date', d.reno_spent_to_date) + row('Liens', d.property_liens) + row('Exit Strategy', d.exit_strategy) + row('Rental Strategy', d.rental_strategy) + row('Rural Area?', d.is_rural) + row('Gap Funding', d.needs_gap_funding))}
       ${section('Property', row('Address', d.property_address) + row('City / State / Zip', [d.property_city, d.property_state, d.property_zip].filter(Boolean).join(', ')) + row('Property Type', d.property_type) + row('As-Is Value', d.as_is_value) + row('After Repair Value', d.after_repair_value) + row('Renovation?', d.is_renovation) + row('Rehab Budget', d.rehab_budget))}
-      ${section('Borrower Profile', row('Credit Score', d.credit_score) + row('Cash Reserves', d.cash_reserves) + row('Experience', d.experience_level) + row('Citizenship', d.citizenship_status) + row('Bankruptcy/Foreclosure', d.bankruptcy_foreclosure) + row('Judgments/Felonies', d.judgments_felonies) + row('Co-Borrower', d.co_borrower))}
+      ${section('Borrower Profile', row('Credit Score (FICO)', d.credit_score) + row('Cash Reserves', d.cash_reserves) + row('Experience', d.experience_level) + row('Citizenship', d.citizenship_status) + row('Professional Licenses', d.professional_licenses) + row('Hiring GC?', d.hiring_gc) + row('Bankruptcy/Foreclosure', d.bankruptcy_foreclosure) + row('Judgments/Felonies', d.judgments_felonies) + row('Co-Borrower', d.co_borrower))}
       ${section('Entity', row('Entity Name', d.entity_name) + row('Entity Type', d.entity_type))}
       ${d.additional_notes ? `<div style="background:#f9f6f0;border-left:4px solid #9B6820;padding:16px 20px;margin-top:20px;border-radius:0 6px 6px 0"><strong style="font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:#9B6820">Notes</strong><p style="margin:8px 0 0;color:#1C2B20;font-size:14px">${d.additional_notes}</p></div>` : ''}
     </div>

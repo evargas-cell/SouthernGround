@@ -75,6 +75,13 @@
       if (errorEl) errorEl.textContent = 'Please select an option.';
       input.classList.add('error');
       valid = false;
+    } else if (input.id === 'a-credit-score' && input.value.trim()) {
+      var fico = parseInt(input.value, 10);
+      if (isNaN(fico) || fico < 300 || fico > 850) {
+        if (errorEl) errorEl.textContent = 'Enter a valid FICO score between 300 and 850.';
+        input.classList.add('error');
+        valid = false;
+      }
     }
 
     return valid;
@@ -113,6 +120,67 @@
       rehabBudgetGroup.hidden = !isRenovation;
       rehabBudgetInput.required = isRenovation;
       if (!isRenovation) rehabBudgetInput.value = '';
+    });
+  }
+
+  // === CONDITIONAL: REFINANCE-ONLY FIELDS ===
+  // Show Loan Purpose + Purchase Date only for refinances; relabel purchase price.
+  var transactionSelect = document.getElementById('a-transaction-type');
+  var loanPurposeGroup  = document.getElementById('loan-purpose-group');
+  var loanPurposeInput  = document.getElementById('a-loan-purpose');
+  var purchaseDateGroup = document.getElementById('purchase-date-group');
+  var purchaseDateInput = document.getElementById('a-purchase-date');
+  var purchasePriceLabel = document.getElementById('a-purchase-price-label');
+
+  function toggleRefinanceFields() {
+    if (!transactionSelect) return;
+    var isRefi = transactionSelect.value.indexOf('Refinance') === 0;
+    if (loanPurposeGroup) {
+      loanPurposeGroup.hidden = !isRefi;
+      if (loanPurposeInput) loanPurposeInput.required = isRefi;
+      if (!isRefi && loanPurposeInput) loanPurposeInput.value = '';
+    }
+    if (purchaseDateGroup) {
+      purchaseDateGroup.hidden = !isRefi;
+      if (purchaseDateInput) purchaseDateInput.required = isRefi;
+      if (!isRefi && purchaseDateInput) purchaseDateInput.value = '';
+    }
+    if (purchasePriceLabel) {
+      purchasePriceLabel.innerHTML = isRefi
+        ? 'Original Purchase Price <span class="req">*</span>'
+        : 'Purchase Price / Current Value <span class="req">*</span>';
+    }
+  }
+  if (transactionSelect) {
+    transactionSelect.addEventListener('change', toggleRefinanceFields);
+    toggleRefinanceFields();
+  }
+
+  // === CONDITIONAL: RENO SPENT (only if work completed) ===
+  var workCompletedSelect = document.getElementById('a-work-completed');
+  var renoSpentGroup      = document.getElementById('reno-spent-group');
+  var renoSpentInput      = document.getElementById('a-reno-spent');
+
+  if (workCompletedSelect && renoSpentGroup && renoSpentInput) {
+    workCompletedSelect.addEventListener('change', function () {
+      var done = this.value === 'Yes';
+      renoSpentGroup.hidden = !done;
+      renoSpentInput.required = done;
+      if (!done) renoSpentInput.value = '';
+    });
+  }
+
+  // === CONDITIONAL: RENTAL STRATEGY (only for rental holds) ===
+  var exitStrategySelect  = document.getElementById('a-exit-strategy');
+  var rentalStrategyGroup = document.getElementById('rental-strategy-group');
+  var rentalStrategyInput = document.getElementById('a-rental-strategy');
+
+  if (exitStrategySelect && rentalStrategyGroup && rentalStrategyInput) {
+    exitStrategySelect.addEventListener('change', function () {
+      var isRental = this.value === 'Hold as Rental' || this.value === 'Refinance into DSCR';
+      rentalStrategyGroup.hidden = !isRental;
+      rentalStrategyInput.required = isRental;
+      if (!isRental) rentalStrategyInput.value = '';
     });
   }
 

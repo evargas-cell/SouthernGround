@@ -306,9 +306,59 @@
                 <span class="form-error" aria-live="polite"></span>
               </div>
 
+              <!-- Refinance-only: loan purpose -->
+              <div class="form-group" id="loan-purpose-group" hidden>
+                <label for="a-loan-purpose">Loan Purpose <span class="req">*</span></label>
+                <select id="a-loan-purpose" name="loan_purpose">
+                  <option value="">Select…</option>
+                  <option value="Delayed Purchase">Delayed Purchase</option>
+                  <option value="Cash-Out Refinance">Cash-Out Refinance</option>
+                  <option value="Rate &amp; Term Refinance">Rate &amp; Term Refinance</option>
+                  <option value="Mid-Construction Refinance">Mid-Construction Refinance</option>
+                </select>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="a-purchase-price" id="a-purchase-price-label">Purchase Price / Current Value <span class="req">*</span></label>
+                  <input type="text" id="a-purchase-price" name="purchase_price" placeholder="$300,000" required data-currency />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <!-- Refinance-only: when did you buy it -->
+                <div class="form-group" id="purchase-date-group" hidden>
+                  <label for="a-purchase-date">When did you purchase this property? <span class="req">*</span></label>
+                  <input type="date" id="a-purchase-date" name="purchase_date" />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="a-work-completed">Has work already been completed? <span class="req">*</span></label>
+                  <select id="a-work-completed" name="work_completed" required>
+                    <option value="">Select…</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <!-- Conditional: only if work completed -->
+                <div class="form-group" id="reno-spent-group" hidden>
+                  <label for="a-reno-spent">Construction / Reno Spent to Date <span class="req">*</span></label>
+                  <input type="text" id="a-reno-spent" name="reno_spent_to_date" placeholder="$30,000" data-currency />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
               <div class="form-group">
-                <label for="a-purchase-price">Purchase Price / Current Value <span class="req">*</span></label>
-                <input type="text" id="a-purchase-price" name="purchase_price" placeholder="$300,000" required data-currency />
+                <label for="a-liens">Are there any liens on the property? <span class="req">*</span></label>
+                <select id="a-liens" name="property_liens" required>
+                  <option value="">Select…</option>
+                  <option value="Yes - 1 lien">Yes — 1 lien</option>
+                  <option value="Yes - More than 1 lien">Yes — More than 1 lien</option>
+                  <option value="No - Owned Free and Clear">No — Owned free and clear</option>
+                </select>
                 <span class="form-error" aria-live="polite"></span>
               </div>
 
@@ -325,15 +375,42 @@
                 <span class="form-error" aria-live="polite"></span>
               </div>
 
-              <div class="form-group">
-                <label for="a-gap-funding">Do you need Gap Funding? <span class="req">*</span></label>
-                <select id="a-gap-funding" name="needs_gap_funding" required>
+              <!-- Rental-only: shown when exit strategy is a rental hold -->
+              <div class="form-group" id="rental-strategy-group" hidden>
+                <label for="a-rental-strategy">Rental Strategy <span class="req">*</span></label>
+                <select id="a-rental-strategy" name="rental_strategy">
                   <option value="">Select…</option>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
+                  <option value="Long-term Rental (LTR)">Long-term Rental (LTR)</option>
+                  <option value="Short-term Rental (STR)">Short-term Rental (STR)</option>
+                  <option value="Mid-term Rental (MTR)">Mid-term Rental (MTR)</option>
+                  <option value="Sober Living">Sober Living</option>
+                  <option value="Co-living">Co-living</option>
+                  <option value="Section 8">Section 8</option>
                 </select>
-                <span class="form-note-inline">Gap funding covers down payment, interest reserves, or closing costs via a 2nd position lien.</span>
                 <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="a-rural">Is the property in a rural area? <span class="req">*</span></label>
+                  <select id="a-rural" name="is_rural" required>
+                    <option value="">Select…</option>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                    <option value="Not Sure">Not sure</option>
+                  </select>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label for="a-gap-funding">Do you need Gap Funding? <span class="req">*</span></label>
+                  <select id="a-gap-funding" name="needs_gap_funding" required>
+                    <option value="">Select…</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                  <span class="form-note-inline">Gap funding covers down payment, interest reserves, or closing costs via a 2nd position lien.</span>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
               </div>
             </div>
 
@@ -346,55 +423,70 @@
 
               <div class="form-row">
                 <div class="form-group">
-                  <label for="a-credit-score">Estimated Credit Score <span class="req">*</span></label>
-                  <select id="a-credit-score" name="credit_score" required>
+                  <label for="a-credit-score">Borrower's Est. Credit Score (FICO) <span class="req">*</span></label>
+                  <input type="number" id="a-credit-score" name="credit_score" placeholder="e.g. 720" required min="300" max="850" step="1" inputmode="numeric" />
+                  <span class="form-note-inline">Enter your actual FICO score (300–850). A soft estimate is fine — no credit pull.</span>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label for="a-cash-reserves">Borrower's Cash Reserves <span class="req">*</span></label>
+                  <input type="text" id="a-cash-reserves" name="cash_reserves" placeholder="$50,000" required data-currency inputmode="numeric" />
+                  <span class="form-note-inline">Liquid funds available for down payment, reserves &amp; closing.</span>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="a-experience">Borrower's Experience Level <span class="req">*</span></label>
+                  <select id="a-experience" name="experience_level" required>
                     <option value="">Select…</option>
-                    <option value="760+">760+ (Excellent)</option>
-                    <option value="720-759">720–759 (Very Good)</option>
-                    <option value="680-719">680–719 (Good)</option>
-                    <option value="640-679">640–679 (Fair)</option>
-                    <option value="600-639">600–639 (Needs Work)</option>
-                    <option value="Below 600">Below 600</option>
+                    <option value="0 — First Deal">0 — This is my first deal</option>
+                    <option value="1-2 deals">1–2 deals</option>
+                    <option value="3-5 deals">3–5 deals</option>
+                    <option value="6-10 deals">6–10 deals</option>
+                    <option value="11-20 deals">11–20 deals</option>
+                    <option value="20+ deals">20+ deals</option>
+                  </select>
+                  <span class="form-note-inline">How many similar rehab / investment projects have you completed?</span>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label for="a-citizenship">Borrower's Citizenship Status <span class="req">*</span></label>
+                  <select id="a-citizenship" name="citizenship_status" required>
+                    <option value="">Select…</option>
+                    <option value="US Citizen">US Citizen</option>
+                    <option value="Permanent Resident (Green Card)">US Permanent Resident (Green Card)</option>
+                    <option value="Foreign National">Foreign National (Non-US Citizen)</option>
+                  </select>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="a-licenses">Do you have any professional licenses? <span class="req">*</span></label>
+                  <select id="a-licenses" name="professional_licenses" required>
+                    <option value="">Select…</option>
+                    <option value="None">None</option>
+                    <option value="Real Estate Agent / Broker">Real Estate Agent / Broker</option>
+                    <option value="General Contractor">General Contractor</option>
+                    <option value="Appraiser">Appraiser</option>
+                    <option value="Attorney">Attorney</option>
+                    <option value="Other">Other</option>
                   </select>
                   <span class="form-error" aria-live="polite"></span>
                 </div>
                 <div class="form-group">
-                  <label for="a-cash-reserves">Cash Reserves Available <span class="req">*</span></label>
-                  <select id="a-cash-reserves" name="cash_reserves" required>
+                  <label for="a-hiring-gc">Are you hiring a General Contractor? <span class="req">*</span></label>
+                  <select id="a-hiring-gc" name="hiring_gc" required>
                     <option value="">Select…</option>
-                    <option value="Under $10,000">Under $10,000</option>
-                    <option value="$10,000 – $25,000">$10,000 – $25,000</option>
-                    <option value="$25,000 – $50,000">$25,000 – $50,000</option>
-                    <option value="$50,000 – $100,000">$50,000 – $100,000</option>
-                    <option value="Over $100,000">Over $100,000</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No — self-managing</option>
+                    <option value="N/A">Not applicable (no rehab)</option>
                   </select>
                   <span class="form-error" aria-live="polite"></span>
                 </div>
-              </div>
-
-              <div class="form-group">
-                <label for="a-experience">Prior Investment Deals Completed <span class="req">*</span></label>
-                <select id="a-experience" name="experience_level" required>
-                  <option value="">Select…</option>
-                  <option value="0 — First Deal">0 — This is my first deal</option>
-                  <option value="1-2 deals">1–2 deals</option>
-                  <option value="3-5 deals">3–5 deals</option>
-                  <option value="6-10 deals">6–10 deals</option>
-                  <option value="11-20 deals">11–20 deals</option>
-                  <option value="20+ deals">20+ deals</option>
-                </select>
-                <span class="form-error" aria-live="polite"></span>
-              </div>
-
-              <div class="form-group">
-                <label for="a-citizenship">Citizenship Status <span class="req">*</span></label>
-                <select id="a-citizenship" name="citizenship_status" required>
-                  <option value="">Select…</option>
-                  <option value="US Citizen">US Citizen</option>
-                  <option value="Permanent Resident (Green Card)">US Permanent Resident (Green Card)</option>
-                  <option value="Foreign National">Foreign National (Non-US Citizen)</option>
-                </select>
-                <span class="form-error" aria-live="polite"></span>
               </div>
 
               <div class="form-row">
