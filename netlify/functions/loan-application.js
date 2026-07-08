@@ -30,7 +30,7 @@ exports.handler = async function (event) {
     as_is_value, after_repair_value, is_renovation, rehab_budget,
     transaction_type, loan_purpose, purchase_price, purchase_date,
     work_completed, reno_spent_to_date, property_liens,
-    exit_strategy, rental_strategy, is_rural, needs_gap_funding,
+    exit_strategy, rental_strategy, is_rural,
     credit_score, cash_reserves, experience_level, citizenship_status,
     professional_licenses, hiring_gc,
     bankruptcy_foreclosure, judgments_felonies, co_borrower,
@@ -84,7 +84,6 @@ exports.handler = async function (event) {
             'Exit Strategy':         exit_strategy     || '',
             'Rental Strategy':       rental_strategy   || '',
             'Rural Area':            is_rural          || '',
-            'Gap Funding Needed':    needs_gap_funding || '',
             'Credit Score (FICO)':   credit_score ? Number(String(credit_score).replace(/[^0-9]/g, '')) : null,
             'Cash Reserves':         parseMoney(cash_reserves),
             'Experience Level':      experience_level  || '',
@@ -212,7 +211,7 @@ function buildNotificationEmail(d, fullName, dateSubmitted) {
       <p style="color:#556B5C;margin:0 0 20px;font-size:14px">${d.role || ''} · ${d.loan_program || ''}</p>
 
       ${section('Contact', row('Email', d.email) + row('Phone', d.phone) + row('Role', d.role) + row('Referred By', d.referred_by || 'Direct (no affiliate)'))}
-      ${section('Deal', row('Loan Program', d.loan_program) + row('Transaction Type', d.transaction_type) + row('Loan Purpose', d.loan_purpose) + row('Target Close Date', d.target_close_date) + row('Purchase Price', d.purchase_price) + row('Purchase Date', d.purchase_date) + row('Work Completed?', d.work_completed) + row('Reno Spent to Date', d.reno_spent_to_date) + row('Liens', d.property_liens) + row('Exit Strategy', d.exit_strategy) + row('Rental Strategy', d.rental_strategy) + row('Rural Area?', d.is_rural) + row('Gap Funding', d.needs_gap_funding))}
+      ${section('Deal', row('Loan Program', d.loan_program) + row('Transaction Type', d.transaction_type) + row('Loan Purpose', d.loan_purpose) + row('Target Close Date', d.target_close_date) + row('Purchase Price', d.purchase_price) + row('Purchase Date', d.purchase_date) + row('Work Completed?', d.work_completed) + row('Reno Spent to Date', d.reno_spent_to_date) + row('Liens', d.property_liens) + row('Exit Strategy', d.exit_strategy) + row('Rental Strategy', d.rental_strategy) + row('Rural Area?', d.is_rural))}
       ${section('Property', row('Address', d.property_address) + row('City / State / Zip', [d.property_city, d.property_state, d.property_zip].filter(Boolean).join(', ')) + row('Property Type', d.property_type) + row('As-Is Value', d.as_is_value) + row('After Repair Value', d.after_repair_value) + row('Renovation?', d.is_renovation) + row('Rehab Budget', d.rehab_budget))}
       ${section('Borrower Profile', row('Credit Score (FICO)', d.credit_score) + row('Cash Reserves', d.cash_reserves) + row('Experience', d.experience_level) + row('Citizenship', d.citizenship_status) + row('Professional Licenses', d.professional_licenses) + row('Hiring GC?', d.hiring_gc) + row('Bankruptcy/Foreclosure', d.bankruptcy_foreclosure) + row('Judgments/Felonies', d.judgments_felonies) + row('Co-Borrower', d.co_borrower))}
       ${section('Entity', row('Entity Name', d.entity_name) + row('Entity Type', d.entity_type))}
