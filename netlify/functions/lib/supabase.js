@@ -52,6 +52,17 @@ async function findAffiliateByRef(ref) {
   return (rows[0] && rows[0].id) || null;
 }
 
+// Look up the full affiliate record by ref_code (case-insensitive). null if none.
+// Used to notify the referring affiliate (name + email) when their link converts.
+async function getAffiliateByRef(ref) {
+  if (!ref) return null;
+  const rows = await sbSelect(
+    'affiliates',
+    `ref_code=eq.${encodeURIComponent(String(ref).toLowerCase())}&select=id,name,email,ref_code,affiliate_link&limit=1`
+  );
+  return rows[0] || null;
+}
+
 // One-way hash of an IP so we can dedupe/count without storing PII.
 function hashIp(ip) {
   if (!ip) return null;
@@ -86,6 +97,6 @@ function isAdmin(email) {
 }
 
 module.exports = {
-  configured, headers, sbInsert, sbSelect, findAffiliateByRef, hashIp,
+  configured, headers, sbInsert, sbSelect, findAffiliateByRef, getAffiliateByRef, hashIp,
   verifySession, isAdmin, SB_URL, SB_KEY,
 };
