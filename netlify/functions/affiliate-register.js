@@ -1,4 +1,5 @@
 const { configured, sbInsert } = require('./lib/supabase');
+const { buildFlyer } = require('./lib/flyer-pdf');
 
 exports.handler = async function (event) {
   if (event.httpMethod === 'OPTIONS') {
@@ -90,6 +91,19 @@ exports.handler = async function (event) {
     }
   }
 
+  // Personalised deal flyer — their name, their link, their QR code. If the
+  // render ever fails, the welcome email still goes out, just without it.
+  let attachments;
+  try {
+    const pdf = buildFlyer({ name, url: affiliateLink });
+    attachments = [{
+      filename: `SGC-Investor-Funding-Flyer-${slug}.pdf`,
+      content: pdf.toString('base64'),
+    }];
+  } catch (err) {
+    console.error('Flyer render error:', err);
+  }
+
   // Send welcome email via Resend
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
   if (RESEND_API_KEY) {
@@ -105,7 +119,8 @@ exports.handler = async function (event) {
           to:  [email],
           bcc: ['edgar@sgcapital.io'],
           subject: 'Welcome to the Southern Ground Capital Affiliate Program!',
-          html: buildWelcomeEmail(name, email, phone, role, affiliateLink),
+          html: buildWelcomeEmail(name, email, phone, role, affiliateLink, !!attachments),
+          ...(attachments ? { attachments } : {}),
         }),
       });
     } catch (err) {
@@ -125,10 +140,12 @@ exports.handler = async function (event) {
 
 exports.buildWelcomeEmail = buildWelcomeEmail;
 
-function buildWelcomeEmail(name, email, phone, role, affiliateLink) {
+function buildWelcomeEmail(name, email, phone, role, affiliateLink, hasFlyer = true) {
   const firstName = name.split(' ')[0];
   const year = new Date().getFullYear();
   const portalUrl  = 'https://sgcapital.io/portal';
+  const refCode  = (affiliateLink.split('ref=')[1] || '').trim();
+  const flyerUrl = `https://sgcapital.io/flyer?ref=${refCode}`;
   const loginEmail = email || 'the email you registered with';
   const roleLine = role ? `<p style="margin:4px 0 0;color:#888;font-size:13px">${role}</p>` : '';
   const phoneLine = phone
@@ -160,6 +177,27 @@ function buildWelcomeEmail(name, email, phone, role, affiliateLink) {
         <p style="margin:0;font-family:monospace;font-size:16px;color:#c8923a;word-break:break-all">${affiliateLink}</p>
       </div>
 
+      <div style="background:#fbf8f1;border:1px solid #e3d7bd;border-radius:8px;padding:24px 28px;margin:28px 0">
+        <p style="margin:0 0 6px;font-size:12px;font-weight:bold;text-transform:uppercase;letter-spacing:.5px;color:#9B6820">Your Deal Flyer${hasFlyer ? ' &mdash; Attached' : ''}</p>
+        <h3 style="color:#101e14;font-size:19px;margin:0 0 10px">A one-page funding sheet with your link on it</h3>
+        <p style="margin:0 0 12px;color:#1C3D26;font-size:14.5px;line-height:1.7">
+          ${hasFlyer ? "We've attached a" : "You have a"} personalized <strong>Real Estate Investor Funding</strong> flyer
+          made just for you. Your name, your referral link and a <strong>QR code that points to your link</strong>
+          are printed right on it &mdash; so anyone who scans it is tracked to you automatically.
+        </p>
+        <p style="margin:0 0 12px;color:#1C3D26;font-size:14.5px;line-height:1.7">
+          <strong>These are current terms from one of our preferred capital partners</strong> &mdash; loan products
+          and pricing, what a deal needs to qualify, and the automatic disqualifiers. Text it, email it, or print it
+          for meetings: it does the screening conversation for you, so the deals that reach you are the ones that
+          can actually fund.
+        </p>
+        <p style="margin:0 0 14px;color:#6b7d70;font-size:13px;line-height:1.6">
+          Program benchmarks are "as low as" figures and can change &mdash; the flyer is dated, and you can always
+          pull the current version at the link below. All loans are subject to underwriting and final approval.
+        </p>
+        <a href="${flyerUrl}" style="background:#9B6820;color:#fff;text-decoration:none;padding:11px 26px;border-radius:6px;font-size:14px;font-weight:bold;display:inline-block">Download Your Flyer &rarr;</a>
+      </div>
+
       <div style="background:#f0f6f2;border:1px solid #c3d9c8;border-radius:8px;padding:24px 28px;margin:28px 0">
         <p style="margin:0 0 6px;font-size:12px;font-weight:bold;text-transform:uppercase;letter-spacing:.5px;color:#2a6645">Your Affiliate Portal</p>
         <h3 style="color:#101e14;font-size:19px;margin:0 0 10px">Track your submissions in real time</h3>
@@ -182,6 +220,7 @@ function buildWelcomeEmail(name, email, phone, role, affiliateLink) {
 
       <h3 style="color:#101e14;font-size:18px;margin:28px 0 12px">Tips to Get Your First Deal</h3>
       <ul style="color:#555;font-size:15px;line-height:1.9;padding-left:20px;margin:0 0 24px">
+        <li>Send the attached flyer to any investor asking about financing &mdash; it answers the terms question and carries your QR code</li>
         <li>Add your link to your email signature so every email you send is an opportunity</li>
         <li>Post on LinkedIn, Facebook, or Instagram — let investors know you can connect them with fast private capital</li>
         <li>Tell your real estate agent and wholesaler contacts you have a reliable hard money lender source</li>

@@ -52,6 +52,12 @@
   to = "/portal.html"
   status = 200
 
+# Personalised affiliate flyer — /flyer?ref=slug renders that affiliate's PDF.
+[[redirects]]
+  from = "/flyer"
+  to = "/.netlify/functions/flyer"
+  status = 200
+
 [[redirects]]
   from = "/admin"
   to = "/admin.html"

@@ -140,6 +140,14 @@ async function loadDashboard(token) {
   $('greeting-sub').textContent = 'Here’s how your referrals are performing.';
   $('aff-link').textContent = a.affiliate_link;
 
+  // Personalised flyer download — /flyer renders it on the fly from the ref code.
+  const refCode = (a.ref_code || (a.affiliate_link || '').split('ref=')[1] || '').trim();
+  if (refCode) {
+    $('flyer-btn').href = '/flyer?ref=' + encodeURIComponent(refCode);
+  } else {
+    $('flyer-btn').parentElement.style.display = 'none';
+  }
+
   $('stat-cards').innerHTML = [
     card(s.clicksTotal, 'Total Clicks', s.clicks30 + ' in last 30 days'),
     card(s.leadsTotal, 'Applications', s.leads30 + ' in last 30 days'),

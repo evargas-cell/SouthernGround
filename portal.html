@@ -49,6 +49,10 @@
     .linkrow code{flex:1;min-width:220px;font-family:ui-monospace,Menlo,monospace;font-size:14px;color:var(--amber-dark);background:var(--off-white);padding:10px 12px;border-radius:6px;word-break:break-all}
     .copybtn{background:var(--forest);color:#fff;border:none;padding:10px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap}
     .copybtn:hover{background:var(--forest-mid)}
+    .flyerrow{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+    .flyerrow span{font-size:13px;color:var(--muted);max-width:520px}
+    .flyerbtn{background:var(--amber);color:#fff;text-decoration:none;padding:10px 16px;border-radius:6px;font-size:13px;font-weight:600;white-space:nowrap}
+    .flyerbtn:hover{background:var(--amber-dark)}
     .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-bottom:28px}
     .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px}
     .card .num{font-family:var(--font-head);font-size:34px;font-weight:700;color:var(--forest);line-height:1}
@@ -104,6 +108,10 @@
       <div class="linkrow">
         <code id="aff-link">—</code>
         <button class="copybtn" id="copy-btn">Copy link</button>
+      </div>
+      <div class="flyerrow">
+        <span>Your personalized funding flyer &mdash; your link and QR code, plus current terms from our preferred capital partner.</span>
+        <a class="flyerbtn" id="flyer-btn" href="#" target="_blank" rel="noopener">Download flyer (PDF)</a>
       </div>
     </div>
 

@@ -5,3 +5,12 @@ flip-highlight.mp4
 # Internal docs — not needed for production
 CHANGES.md
 MARKETING-AUDIT.md
+
+# Local email/flyer previews — the publish directory is ".", so anything
+# committed here would be served publicly. Root only, so scripts/preview-*.js
+# (the generators) are still tracked.
+/preview-*
+
+# Local secrets — MUST never be committed; publish directory is "."
+.env
+.env.local
