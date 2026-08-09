@@ -37,6 +37,10 @@ exports.handler = async function (event) {
   const params = event.queryStringParameters || {};
   const dryRun = params.dryRun === '1' || params.dryRun === 'true';
   const testTo = params.test || '';
+  // Sends run in batches so a run always finishes inside the function timeout.
+  // The caller walks `offset` forward until `remaining` hits 0.
+  const offset = Math.max(0, parseInt(params.offset || '0', 10) || 0);
+  const limit = Math.max(1, Math.min(50, parseInt(params.limit || '8', 10) || 8));
 
   const AIRTABLE_TOKEN   = process.env.AIRTABLE_TOKEN;
   const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
@@ -120,6 +124,10 @@ exports.handler = async function (event) {
     return true;
   });
 
+  // Stable order, so `offset` means the same thing across batched calls even
+  // if Airtable hands the records back in a different order next time.
+  affiliates.sort((a, b) => norm(a.email).localeCompare(norm(b.email)));
+
   // --- DRY RUN ---
   if (dryRun) {
     return {
@@ -134,8 +142,9 @@ exports.handler = async function (event) {
     return { statusCode: 500, body: JSON.stringify({ error: 'RESEND_API_KEY missing' }) };
   }
 
+  const batch = affiliates.slice(offset, offset + limit);
   const results = [];
-  for (const a of affiliates) {
+  for (const a of batch) {
     const r = await sendFlyerEmail(RESEND_API_KEY, a);
     results.push({ name: a.name, email: a.email, sent: r.ok, detail: r.ok ? undefined : r.detail });
     await new Promise((res) => setTimeout(res, 600)); // stay under Resend rate limits
@@ -145,7 +154,16 @@ exports.handler = async function (event) {
   return {
     statusCode: 200,
     headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-    body: JSON.stringify({ total: results.length, sent, failed: results.length - sent, skipped, results }),
+    body: JSON.stringify({
+      total: affiliates.length,
+      offset,
+      processed: batch.length,
+      remaining: Math.max(0, affiliates.length - (offset + batch.length)),
+      sent,
+      failed: batch.length - sent,
+      skipped,
+      results,
+    }),
   };
 };
 

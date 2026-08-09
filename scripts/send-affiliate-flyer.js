@@ -65,24 +65,54 @@ async function main() {
     process.exit(0);
   }
 
-  const res = await fetch(url, { method: 'POST', headers, body: '{}' });
-  const data = await res.json().catch(() => ({}));
-  console.log(`HTTP ${res.status}`);
+  // --- Dry run / test: one call ---
+  if (!has('--send')) {
+    const res = await fetch(url, { method: 'POST', headers, body: '{}' });
+    const data = await res.json().catch(() => ({}));
+    console.log(`HTTP ${res.status}`);
+    if (Array.isArray(data.recipients)) {
+      console.log(`\nWould send to ${data.count}:`);
+      data.recipients.forEach((r, i) => console.log(`  ${i + 1}. ${r.name} <${r.email}>  ->  ?ref=${r.ref}`));
+    }
+    if (Array.isArray(data.skipped) && data.skipped.length) {
+      console.log(`\nSkipped ${data.skipped.length}:`);
+      data.skipped.forEach((r) => console.log(`  - ${r.name} <${r.email}> (${r.reason})`));
+    }
+    if (!data.recipients) console.log(JSON.stringify(data, null, 2));
+    return;
+  }
 
-  // Summarise rather than dumping every record.
-  if (Array.isArray(data.recipients)) {
-    console.log(`\nWould send to ${data.count}:`);
-    data.recipients.forEach((r, i) => console.log(`  ${i + 1}. ${r.name} <${r.email}>  ->  ?ref=${r.ref}`));
+  // --- Real send: walk batches so no single call hits the function timeout ---
+  const BATCH = Number(val('--batch')) || 8;
+  let offset = Number(val('--offset')) || 0;
+  const all = [];
+  let total = null;
+
+  for (;;) {
+    url.searchParams.set('offset', String(offset));
+    url.searchParams.set('limit', String(BATCH));
+    const res = await fetch(url, { method: 'POST', headers, body: '{}' });
+    const data = await res.json().catch(() => ({}));
+
+    if (res.status !== 200) {
+      console.error(`\nHTTP ${res.status} at offset ${offset}: ${JSON.stringify(data)}`);
+      console.error(`Nothing further sent. Resume with: --send --offset ${offset}`);
+      break;
+    }
+
+    total = data.total;
+    (data.results || []).forEach((r) => all.push(r));
+    const done = offset + (data.processed || 0);
+    console.log(`batch ${offset}-${done - 1}: sent ${data.sent}, failed ${data.failed} (${done}/${total})`);
+    (data.results || []).filter((r) => !r.sent)
+      .forEach((r) => console.log(`    FAILED ${r.email}: ${r.detail}`));
+
+    if (!data.processed || !data.remaining) break;
+    offset = done;
   }
-  if (Array.isArray(data.skipped) && data.skipped.length) {
-    console.log(`\nSkipped ${data.skipped.length}:`);
-    data.skipped.forEach((r) => console.log(`  - ${r.name} <${r.email}> (${r.reason})`));
-  }
-  if (data.results) {
-    console.log(`\nSent ${data.sent}/${data.total}, failed ${data.failed}`);
-    data.results.filter((r) => !r.sent).forEach((r) => console.log(`  FAILED ${r.email}: ${r.detail}`));
-  }
-  if (!data.recipients && !data.results) console.log(JSON.stringify(data, null, 2));
+
+  const sent = all.filter((r) => r.sent).length;
+  console.log(`\nDone. Sent ${sent}/${all.length}${total !== null ? ` of ${total} recipients` : ''}, failed ${all.length - sent}.`);
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });
