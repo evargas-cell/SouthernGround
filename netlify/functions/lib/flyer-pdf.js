@@ -85,6 +85,19 @@ const DISCLAIMER =
 
 // ---------- Helpers ----------
 
+// Names come from Airtable exactly as the affiliate typed them, and some are
+// all lower case. Capitalise those words only — anything the person already
+// capitalised themselves (McDonald, DeLuca, JR) is left alone.
+function tidyName(str) {
+  return String(str)
+    .trim()
+    .split(/\s+/)
+    .map((word) => (word === word.toLowerCase()
+      ? word.replace(/^([a-z])/, (c) => c.toUpperCase())
+      : word))
+    .join(' ');
+}
+
 // Draw a panel: rounded white body with a coloured header bar across the top.
 function panel(page, x, top, w, bodyHeight, headerHeight, headerColor, title) {
   const radius = 10;
@@ -124,8 +137,9 @@ function markerList(page, items, x, top, textWidth, opts) {
  * @param {string} [opts.title] Line shown next to their name.
  * @returns {Buffer} PDF bytes
  */
-function buildFlyer({ name, url, title = 'Capital Referral Partner' }) {
-  if (!name || !url) throw new Error('buildFlyer needs a name and url');
+function buildFlyer({ name: rawName, url, title = 'Capital Referral Partner' }) {
+  if (!rawName || !url) throw new Error('buildFlyer needs a name and url');
+  const name = tidyName(rawName);
 
   const doc = new Document(612, 792);
   const page = doc.page;
