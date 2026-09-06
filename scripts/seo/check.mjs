@@ -21,7 +21,7 @@ const ORIGIN = 'https://sgcapital.io';
 const REWRITES = new Map(
   Object.entries({
     '/': 'index.html',
-    '/loans': 'loans/index.html',
+    '/loans/': 'loans/index.html',
     '/blog/': 'blog/index.html',
     '/es': 'es.html',
     '/apply': 'apply.html',

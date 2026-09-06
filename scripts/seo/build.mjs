@@ -99,7 +99,7 @@ function renderProgram(p) {
   const path = `/loans/${p.slug}`;
   const trail = [
     ['Home', '/'],
-    ['Loan Programs', '/loans'],
+    ['Loan Programs', '/loans/'],
     [stripTags(p.nav), null],
   ];
 
@@ -199,7 +199,7 @@ for (const p of PROGRAMS) write(`loans/${p.slug}.html`, renderProgram(p));
 // ============================================================
 
 function renderLoansIndex() {
-  const path = '/loans';
+  const path = '/loans/';
   const trail = [
     ['Home', '/'],
     ['Loan Programs', null],
@@ -467,7 +467,7 @@ const today = new Date().toISOString().slice(0, 10);
 
 const staticUrls = [
   ['/', 'weekly', '1.0'],
-  ['/loans', 'monthly', '0.9'],
+  ['/loans/', 'monthly', '0.9'],
   ['/apply.html', 'monthly', '0.8'],
   ['/escrow-funding', 'monthly', '0.8'],
   ['/brrrr-analyzer.html', 'monthly', '0.7'],

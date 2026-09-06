@@ -198,11 +198,11 @@ export function header() {
 
       <ul class="nav-links" role="list">
         <li class="nav-has-drop">
-          <a href="/loans" aria-haspopup="true" aria-expanded="false">Loan Programs <span class="nav-caret" aria-hidden="true">▾</span></a>
+          <a href="/loans/" aria-haspopup="true" aria-expanded="false">Loan Programs <span class="nav-caret" aria-hidden="true">▾</span></a>
           <ul class="nav-drop" role="list">
 ${dropdown}
             <li><a href="/#rates">Rates &amp; Terms</a></li>
-            <li><a href="/loans">All Programs &amp; Rates</a></li>
+            <li><a href="/loans/">All Programs &amp; Rates</a></li>
           </ul>
         </li>
         <li><a href="/#how-it-works">How It Works</a></li>
@@ -226,7 +226,7 @@ ${dropdown}
 
     <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
       <ul role="list">
-        <li><a href="/loans">Loan Programs</a></li>
+        <li><a href="/loans/">Loan Programs</a></li>
 ${mobilePrograms}
         <li><a href="/#how-it-works">How It Works</a></li>
         <li><a href="/#rates">Rates &amp; Terms</a></li>
@@ -300,7 +300,7 @@ ${programs}
         <strong>Where We Lend</strong>
         <ul role="list">
 ${geos}
-          <li><a href="/loans">All Programs &amp; Rates</a></li>
+          <li><a href="/loans/">All Programs &amp; Rates</a></li>
         </ul>
       </nav>
 

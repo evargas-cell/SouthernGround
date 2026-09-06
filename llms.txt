@@ -44,7 +44,7 @@ Real estate investors including fix & flip operators, BRRRR investors, landlords
 ## Key Pages
 
 - Homepage: https://sgcapital.io/
-- All loan programs: https://sgcapital.io/loans
+- All loan programs: https://sgcapital.io/loans/
 - Fix & Flip loans: https://sgcapital.io/loans/fix-and-flip
 - DSCR loans: https://sgcapital.io/loans/dscr
 - Bridge loans: https://sgcapital.io/loans/bridge
