@@ -36,6 +36,50 @@
     });
   }
 
+  // === DESKTOP NAV DROPDOWN ===
+  // CSS handles hover and :focus-within. This adds click/tap toggling
+  // (touch devices never fire hover) and Escape-to-close, and keeps
+  // aria-expanded in sync with what is actually on screen.
+  document.querySelectorAll('.nav-has-drop').forEach(function (item) {
+    var trigger = item.querySelector(':scope > a');
+    if (!trigger) return;
+
+    function setOpen(open) {
+      item.classList.toggle('open', open);
+      trigger.setAttribute('aria-expanded', String(open));
+    }
+
+    trigger.addEventListener('click', function (e) {
+      // Only intercept where the dropdown is the useful interaction. On a
+      // fine pointer the link still navigates to the /loans index.
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      e.preventDefault();
+      setOpen(!item.classList.contains('open'));
+    });
+
+    item.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && item.classList.contains('open')) {
+        setOpen(false);
+        trigger.focus();
+      }
+    });
+
+    item.addEventListener('focusin', function () { setOpen(true); });
+    item.addEventListener('focusout', function () {
+      if (!item.contains(document.activeElement)) setOpen(false);
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    document.querySelectorAll('.nav-has-drop.open').forEach(function (item) {
+      if (!item.contains(e.target)) {
+        item.classList.remove('open');
+        var t = item.querySelector(':scope > a');
+        if (t) t.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+
   // === SCROLL FADE-IN (IntersectionObserver) ===
   const fadeEls = document.querySelectorAll('.fade-in');
   if ('IntersectionObserver' in window) {
@@ -72,8 +116,14 @@
     requestAnimationFrame(step);
   }
 
+  // The real figures are rendered in the HTML, so the count-up is pure
+  // decoration — skip it entirely when the visitor prefers reduced motion and
+  // leave the rendered values in place.
+  var wantsMotion = !window.matchMedia ||
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   var countEls = document.querySelectorAll('.stat-num[data-count]');
-  if ('IntersectionObserver' in window && countEls.length) {
+  if (wantsMotion && 'IntersectionObserver' in window && countEls.length) {
     var countObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {

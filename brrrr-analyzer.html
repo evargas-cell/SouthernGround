@@ -7,7 +7,7 @@
   <link rel="apple-touch-icon" href="logo.png" />
 
   <title>BRRRR Deal Analyzer | Southern Ground Capital</title>
-  <meta name="description" content="Free BRRRR deal analyzer for real estate investors. Calculate acquisition, rehab, cash flow, refinance, and equity metrics in real time. Powered by Southern Ground Capital." />
+  <meta name="description" content="Free BRRRR calculator: model buy, rehab, rent, refinance and repeat. See whether the refinance actually returns your capital before you offer." />
   <link rel="canonical" href="https://sgcapital.io/brrrr-analyzer.html" />
 
   <meta property="og:title" content="BRRRR Deal Analyzer — Southern Ground Capital" />
@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" /></noscript>
 
-  <link rel="stylesheet" href="style.css?v=5" />
+  <link rel="stylesheet" href="style.css?v=6" />
 
   <style>
     /* ===== BRRRR ANALYZER ===== */
@@ -373,11 +373,11 @@
   <header class="site-header" id="site-header">
     <nav class="nav-container" aria-label="Main navigation">
       <a href="index.html" class="nav-logo" aria-label="Southern Ground Capital — Home">
-        <img src="logo.png" alt="" class="nav-logo-img" role="presentation" />
+        <img src="logo.png" alt="" class="nav-logo-img" role="presentation" width="44" height="44" decoding="async" />
         <span class="nav-logo-name">Southern Ground<br>Capital</span>
       </a>
       <ul class="nav-links" role="list">
-        <li><a href="index.html#loan-programs">Loan Programs</a></li>
+        <li><a href="/loans">Loan Programs</a></li>
         <li><a href="index.html#how-it-works">How It Works</a></li>
         <li><a href="index.html#rates">Rates &amp; Terms</a></li>
         <li><a href="index.html#about">About</a></li>
@@ -393,7 +393,7 @@
     </nav>
     <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
       <ul role="list">
-        <li><a href="index.html#loan-programs">Loan Programs</a></li>
+        <li><a href="/loans">Loan Programs</a></li>
         <li><a href="index.html#how-it-works">How It Works</a></li>
         <li><a href="index.html#rates">Rates &amp; Terms</a></li>
         <li><a href="index.html#about">About</a></li>
@@ -797,10 +797,11 @@
     <div class="container footer-grid">
       <div class="footer-brand">
         <div class="footer-logo">
-          <img src="logo.png" alt="Southern Ground Capital" class="footer-logo-img" />
+          <img src="logo.png" alt="Southern Ground Capital" class="footer-logo-img" width="80" height="80" loading="lazy" decoding="async" />
         </div>
         <p class="footer-tagline">Direct private lending for real estate investors. 43 states. No banks. No brokers.</p>
         <address class="footer-nap" aria-label="Contact information">
+          <span class="footer-addr">Atlanta, GA &middot; United States</span>
           <a href="tel:+16788428084">(678) 842-8084</a>
           <a href="mailto:loans@sgcapital.io">loans@sgcapital.io</a>
         </address>
@@ -808,12 +809,23 @@
       <nav class="footer-nav" aria-label="Loan programs">
         <strong>Loan Programs</strong>
         <ul role="list">
-          <li><a href="index.html#loan-programs">Fix &amp; Flip</a></li>
-          <li><a href="index.html#loan-programs">DSCR Loans</a></li>
-          <li><a href="index.html#loan-programs">Bridge Loans</a></li>
-          <li><a href="index.html#loan-programs">New Construction</a></li>
-          <li><a href="index.html#loan-programs">Multi-Family</a></li>
-          <li><a href="index.html#loan-programs">Cash-Out Refinance</a></li>
+          <li><a href="/loans/fix-and-flip">Fix &amp; Flip</a></li>
+          <li><a href="/loans/dscr">DSCR Loans</a></li>
+          <li><a href="/loans/bridge">Bridge Loans</a></li>
+          <li><a href="/loans/new-construction">New Construction</a></li>
+          <li><a href="/loans/multi-family">Multi-Family</a></li>
+          <li><a href="/loans/cash-out-refinance">Cash-Out Refinance</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-nav" aria-label="Where we lend">
+        <strong>Where We Lend</strong>
+        <ul role="list">
+          <li><a href="/hard-money-loans/georgia">Hard Money Loans in Georgia</a></li>
+          <li><a href="/hard-money-loans/atlanta">Hard Money Loans in Atlanta</a></li>
+          <li><a href="/hard-money-loans/north-carolina">Hard Money Loans in North Carolina</a></li>
+          <li><a href="/hard-money-loans/tennessee">Hard Money Loans in Tennessee</a></li>
+          <li><a href="/loans">All Programs &amp; Rates</a></li>
         </ul>
       </nav>
       <nav class="footer-nav" aria-label="Investor tools">
@@ -829,21 +841,22 @@
       <div class="footer-legal">
         <strong>Legal</strong>
         <ul role="list">
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
+          <li><a href="/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/terms-of-service">Terms of Service</a></li>
+          <li><a href="/accessibility">Accessibility</a></li>
         </ul>
         <p class="footer-states">Lending available in 43 states. Excludes AZ, NV, ND, OR, SD, UT, VT. All loans for investment purposes only. Not owner-occupied.</p>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="container footer-bottom-inner">
-        <p>&copy; <span id="footer-year"></span> Southern Ground Capital, LLC &middot; All rights reserved</p>
+        <p>&copy; <span id="footer-year">2026</span> Southern Ground Capital, LLC &middot; All rights reserved</p>
         <p>Investment property loans only &middot; Not FDIC insured &middot; Subject to underwriting and property evaluation</p>
       </div>
     </div>
   </footer>
 
-  <script src="script.js?v=4" defer></script>
+  <script src="script.js?v=5" defer></script>
 
   <script>
   (function () {

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+  <title>Escrow Funding Request — EMD &amp; Double Close | SGC</title>
+  <meta name="description" content="Submit an escrow funding request — Earnest Money Deposit (EMD) or Double Close transactional funding. Fast turnaround, wholesale pricing." />
+  <link rel="canonical" href="https://sgcapital.io/escrow" />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Link-preview tags: this form gets shared directly, so previews matter
+       even though the page is intentionally not search-indexed. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Escrow Funding Request — EMD &amp; Double Close" />
+  <meta property="og:description" content="Submit your EMD or Double Close funding request. Wholesale pricing — add your own fee on top." />
+  <meta property="og:image" content="https://sgcapital.io/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="https://sgcapital.io/escrow" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Escrow Funding Request — EMD &amp; Double Close" />
+  <meta name="twitter:description" content="Submit your EMD or Double Close funding request. Wholesale pricing — add your own fee on top." />
+  <meta name="twitter:image" content="https://sgcapital.io/og-image.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" /></noscript>
+  <link rel="stylesheet" href="style.css?v=6" />
+</head>
+<body>
+
+  <a href="#main" class="skip-nav">Skip to content</a>
+
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main navigation">
+      <a href="/" class="nav-logo" aria-label="Southern Ground Capital — Home">
+        <img src="logo.png" alt="" class="nav-logo-img" role="presentation" width="44" height="44" decoding="async" />
+        <span class="nav-logo-name">Southern Ground<br>Capital</span>
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="/loans">Loan Programs</a></li>
+        <li><a href="/#how-it-works">How It Works</a></li>
+        <li><a href="/#rates">Rates &amp; Terms</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#affiliates">Affiliates</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="tel:+16788428084" class="nav-phone">(678) 842-8084</a>
+        <a href="apply.html" class="btn btn-gold nav-cta">Get a Free Quote</a>
+      </div>
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <ul role="list">
+        <li><a href="/loans">Loan Programs</a></li>
+        <li><a href="/#how-it-works">How It Works</a></li>
+        <li><a href="/#rates">Rates &amp; Terms</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="apply.html">Apply</a></li>
+      </ul>
+      <a href="tel:+16788428084" class="mobile-phone-link">(678) 842-8084</a>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="apply-hero">
+      <div class="container">
+        <p class="section-eyebrow">Escrow Funding</p>
+        <h1>Fund My Deal</h1>
+        <p>Earnest Money Deposits and Double Close transactional funding.<br/>
+        Our pricing is wholesale to you — charge your client more and keep the spread.</p>
+        <p class="apply-hero-back">New to this? <a href="escrow-funding.html">See how escrow funding works</a> first.</p>
+      </div>
+    </section>
+
+    <section class="apply-section">
+      <div class="apply-container">
+
+        <div class="apply-progress" id="escrow-progress" aria-label="Request progress">
+          <div class="apply-progress-track">
+            <div class="apply-progress-fill" id="escrow-progress-fill" style="width:25%"></div>
+          </div>
+          <div class="apply-step-dots">
+            <div class="step-dot active" data-step="1"><span>1</span><small>Funding Type</small></div>
+            <div class="step-dot" data-step="2"><span>2</span><small>Your Info</small></div>
+            <div class="step-dot" data-step="3"><span>3</span><small>The Deal</small></div>
+            <div class="step-dot" data-step="4"><span>4</span><small>Documents</small></div>
+          </div>
+        </div>
+
+        <div class="apply-form-card" id="escrow-form-card">
+
+          <form id="escrow-form" novalidate>
+            <input type="hidden" id="e-referred-by" name="referred_by" value="" />
+
+            <!-- ================= STEP 1: Funding Type & Fee ================= -->
+            <div class="apply-step-panel" data-step="1">
+              <div class="step-header">
+                <h2>Step 1 of 4 — What Kind of Funding Do You Need?</h2>
+                <p>Pick your transaction type. The rest of the form adjusts to match it.</p>
+              </div>
+
+              <fieldset class="deal-type-fieldset">
+                <legend class="deal-type-legend">Transaction Type <span class="req">*</span></legend>
+                <div class="deal-type-grid" role="radiogroup" aria-label="Transaction type">
+
+                  <label class="deal-type-card">
+                    <input type="radio" name="deal_type" value="EMD - 30 Days" required />
+                    <span class="deal-type-body">
+                      <span class="deal-type-tag">EMD</span>
+                      <span class="deal-type-name">EMD — 30 Days</span>
+                      <span class="deal-type-desc">Earnest money deposit funded into escrow for a standard 30-day contract.</span>
+                    </span>
+                  </label>
+
+                  <label class="deal-type-card">
+                    <input type="radio" name="deal_type" value="EMD - 60 Days" />
+                    <span class="deal-type-body">
+                      <span class="deal-type-tag">EMD</span>
+                      <span class="deal-type-name">EMD — 60 Days</span>
+                      <span class="deal-type-desc">Longer contract window. Priced above the 30-day base schedule.</span>
+                    </span>
+                  </label>
+
+                  <label class="deal-type-card">
+                    <input type="radio" name="deal_type" value="Double Close" />
+                    <span class="deal-type-body">
+                      <span class="deal-type-tag">Transactional</span>
+                      <span class="deal-type-name">Double Close</span>
+                      <span class="deal-type-desc">Same-day A→B / B→C transactional funding. Priced as a percentage of the wire.</span>
+                    </span>
+                  </label>
+
+                </div>
+                <span class="form-error" id="deal-type-error" aria-live="polite"></span>
+              </fieldset>
+
+              <!-- EMD-ONLY: soft-EMD eligibility gate -->
+              <div class="form-group branch branch-emd" hidden>
+                <label for="e-emd-soft">Is the EMD soft and still within the due diligence period? <span class="req">*</span></label>
+                <select id="e-emd-soft" name="emd_soft" data-branch-required>
+                  <option value="">Select…</option>
+                  <option value="Yes">Yes — soft and within due diligence</option>
+                  <option value="No">No — the EMD is hard / DD has expired</option>
+                  <option value="Not Sure">Not sure</option>
+                </select>
+                <span class="form-note-inline">We can only fund EMDs that are soft and inside the due diligence window.</span>
+                <span class="escrow-alert escrow-alert--warn" id="e-emd-soft-warning" hidden>
+                  Heads up — we generally cannot fund hard EMDs or deals past due diligence. You can still submit and we'll review, but approval is unlikely.
+                </span>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="e-amount">Amount of Funding Needed <span class="req">*</span></label>
+                  <input type="text" id="e-amount" name="amount_needed" placeholder="$25,000" required data-currency inputmode="numeric" />
+                  <span class="form-note-inline" id="e-amount-note">The total dollar amount you need us to wire.</span>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+
+                <!-- DOUBLE-CLOSE-ONLY: number of days the funds are out -->
+                <div class="form-group branch branch-dc" hidden>
+                  <label for="e-dc-days">How Many Days Do You Need the Funds? <span class="req">*</span></label>
+                  <input type="number" id="e-dc-days" name="dc_days" value="1" min="1" max="30" step="1" inputmode="numeric" data-branch-required />
+                  <span class="form-note-inline">Base pricing covers 24 hours. Each additional day adds 0.5%.</span>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <!-- LIVE FEE ESTIMATE -->
+              <div class="fee-box" id="e-fee-box" hidden aria-live="polite">
+                <p class="fee-box-title" id="e-fee-title">Your Fee</p>
+                <div class="fee-box-rows" id="e-fee-rows"></div>
+                <div class="fee-box-total" id="e-fee-total-wrap">
+                  <span>Total Fee</span>
+                  <strong id="e-fee-total">—</strong>
+                </div>
+                <div class="fee-box-deposit" id="e-fee-deposit" hidden>
+                  <span>Due Upfront to Lock It In <em>(5%, $250 minimum)</em></span>
+                  <strong id="e-fee-deposit-amt">—</strong>
+                </div>
+                <p class="fee-box-note" id="e-fee-note"></p>
+              </div>
+
+              <!-- DOUBLE-CLOSE-ONLY: two title companies -->
+              <div class="form-group branch branch-dc" hidden>
+                <label for="e-two-title">Are two title companies involved? <span class="req">*</span></label>
+                <select id="e-two-title" name="two_title_companies" data-branch-required>
+                  <option value="">Select…</option>
+                  <option value="No">No — one title company / attorney handles both legs</option>
+                  <option value="Yes">Yes — separate title companies on A-B and B-C</option>
+                </select>
+                <span class="form-note-inline">Two-title-company closings carry additional coordination and may reprice. We'll confirm on your term sheet.</span>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <!-- FEE SCHEDULE REFERENCE -->
+              <details class="terms-panel" id="e-terms-panel">
+                <summary>Full fee schedule &amp; funding terms</summary>
+                <div class="terms-body">
+
+                  <h3>EMD Funding</h3>
+                  <p class="terms-sub">Base fees for a 30-day EMD. 60-day and longer terms price higher. Add your own fee on top before you present numbers to your borrower.</p>
+                  <table class="terms-table">
+                    <tbody>
+                      <tr><td>$0 – $5,000</td><td>$1,500</td></tr>
+                      <tr><td>$5,001 – $15,000</td><td>$2,500</td></tr>
+                      <tr><td>$15,001 – $25,000</td><td>$5,000</td></tr>
+                      <tr><td>$25,001 – $50,000</td><td>$12,000</td></tr>
+                      <tr><td>$50,001 – $75,000</td><td>$19,000</td></tr>
+                      <tr><td>$75,001 – $100,000</td><td>$30,000</td></tr>
+                    </tbody>
+                  </table>
+                  <p class="terms-sub">EMDs above $100,000 require additional approval — submit the same way and we'll review.</p>
+
+                  <h3>Double Close — Transactional Funding</h3>
+                  <table class="terms-table">
+                    <tbody>
+                      <tr><td>Up to $500,000</td><td>1.25%</td></tr>
+                      <tr><td>$500,001 – $1,000,000</td><td>1.5%</td></tr>
+                      <tr><td>$1,000,001 – $1,500,000</td><td>1.75%</td></tr>
+                      <tr><td>Each additional day beyond 24 hours</td><td>+0.5%</td></tr>
+                    </tbody>
+                  </table>
+                  <p class="terms-sub">Minimum fee of $1,000. Funding above $1.5M is reviewed case by case and must close with our attorney.</p>
+
+                  <h3>Deposit</h3>
+                  <p class="terms-sub">
+                    EMD funding requires a <strong>5% upfront deposit</strong> of the total loan amount, with a
+                    <strong>$250 minimum</strong>. This deposit is <strong>non-refundable</strong> and is
+                    <strong>credited toward your total fee</strong> if the deal goes through. It is paid by Zelle or
+                    wire, with the remaining balance reflected in your paperwork. Because time is of the essence we
+                    typically use Zelle, but wire is always welcome.
+                  </p>
+
+                  <h3>What This Form Is For</h3>
+                  <p class="terms-sub">
+                    Escrow funding only — EMD and Double Close. For fix &amp; flip, DSCR, bridge, ground-up
+                    construction, or long-term financing, use our
+                    <a href="apply.html">standard loan application</a> instead.
+                  </p>
+
+                </div>
+              </details>
+            </div>
+
+            <!-- ================= STEP 2: Your Info ================= -->
+            <div class="apply-step-panel" data-step="2" hidden>
+              <div class="step-header">
+                <h2>Step 2 of 4 — Your Information</h2>
+                <p>Who's submitting this deal and how we reach you.</p>
+              </div>
+
+              <div class="form-group">
+                <label for="e-role">Are you the borrower or a connector? <span class="req">*</span></label>
+                <select id="e-role" name="submitter_role" required>
+                  <option value="">Select…</option>
+                  <option value="Borrower">Borrower — this is my deal</option>
+                  <option value="Connector">Connector — I'm bringing someone else's deal</option>
+                </select>
+                <span class="form-note-inline">Most requests come straight from the borrower. Choose Connector if you're placing a deal on someone else's behalf.</span>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="e-your-name">Your Name <span class="req">*</span></label>
+                <input type="text" id="e-your-name" name="submitter_name" placeholder="Full name" required autocomplete="name" />
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="e-your-email">Your Email <span class="req">*</span></label>
+                  <input type="email" id="e-your-email" name="submitter_email" placeholder="you@email.com" required autocomplete="email" />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label for="e-your-phone">Your Phone <span class="req">*</span></label>
+                  <input type="tel" id="e-your-phone" name="submitter_phone" placeholder="(678) 000-0000" required autocomplete="tel" />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <!-- CONNECTOR-ONLY: their fee on top of ours -->
+              <div class="form-group" id="e-connector-fee-group" hidden>
+                <label for="e-connector-fee">Your Fee <span class="req">*</span></label>
+                <input type="text" id="e-connector-fee" name="connector_fee" placeholder="$2,000" data-currency inputmode="numeric" />
+                <span class="form-note-inline">What you're charging on top of our fee. Our pricing is wholesale to you — this is your spread.</span>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <!-- CONNECTOR-ONLY: our fee + their fee = what the borrower sees -->
+              <div class="fee-box fee-box--recap" id="e-total-box" hidden aria-live="polite">
+                <p class="fee-box-title">What Your Borrower Pays</p>
+                <div class="fee-box-rows" id="e-total-rows"></div>
+                <div class="fee-box-total">
+                  <span>Total to Borrower</span>
+                  <strong id="e-total-amt">—</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- ================= STEP 3: The Deal ================= -->
+            <div class="apply-step-panel" data-step="3" hidden>
+              <div class="step-header">
+                <h2>Step 3 of 4 — The Deal</h2>
+                <p>Property, borrower, dates, and how this transaction gets paid off.</p>
+              </div>
+
+              <div class="form-group">
+                <label for="e-property-address">Full Property Address <span class="req">*</span></label>
+                <input type="text" id="e-property-address" name="property_address" placeholder="123 Main St, Atlanta, GA 30301" required autocomplete="street-address" />
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <p class="form-note-inline borrower-self-note" id="e-borrower-self-note" hidden>
+                Pre-filled from your details in step 2 — edit these if the borrower of record
+                is different (an LLC or a co-borrower, for example).
+              </p>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="e-borrower-name" id="e-borrower-name-label">Borrower Name <span class="req">*</span></label>
+                  <input type="text" id="e-borrower-name" name="borrower_name" placeholder="Full name or entity" required />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label for="e-borrower-email" id="e-borrower-email-label">Borrower Email <span class="req">*</span></label>
+                  <input type="email" id="e-borrower-email" name="borrower_email" placeholder="borrower@email.com" required />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="e-borrower-address" id="e-borrower-address-label">Borrower Mailing Address <span class="req">*</span></label>
+                <input type="text" id="e-borrower-address" name="borrower_address" placeholder="456 Oak Ave, Marietta, GA 30060" required />
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="e-borrower-experience" id="e-borrower-experience-label">Borrower's Experience Level</label>
+                  <select id="e-borrower-experience" name="borrower_experience">
+                    <option value="">Select…</option>
+                    <option value="Newbie">Newbie — no closed deals</option>
+                    <option value="1-5 Deals">1–5 deals</option>
+                    <option value="6-10 Deals">6–10 deals</option>
+                    <option value="11+ Deals">11+ deals — experienced</option>
+                  </select>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label for="e-exit-strategy">Exit Strategy <span class="req">*</span></label>
+                  <select id="e-exit-strategy" name="exit_strategy" required>
+                    <option value="">Select…</option>
+                    <option value="Assign">Assign the contract</option>
+                    <option value="Wholesale">Wholesale</option>
+                    <option value="Secured on Asset">Secured on asset</option>
+                    <option value="Personal Guarantee">Personal guarantee</option>
+                    <option value="Permanent Lending">Permanent lending / refinance</option>
+                    <option value="LTR">Long-term rental (LTR)</option>
+                    <option value="MTR">Mid-term rental (MTR)</option>
+                    <option value="STR">Short-term rental (STR)</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <span class="form-note-inline">How does this deal make money?</span>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <!-- EMD-ONLY: due diligence deadline -->
+              <div class="form-group branch branch-emd" hidden>
+                <label for="e-dd-end">When Does Due Diligence End? <span class="req">*</span></label>
+                <input type="date" id="e-dd-end" name="dd_end_date" data-branch-required />
+                <span class="form-note-inline">The date your EMD goes hard. This drives our funding deadline.</span>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="e-coe">Close of Escrow (COE) <span class="req">*</span></label>
+                  <input type="date" id="e-coe" name="coe_date" required />
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label for="e-funding-date">When Does It Need to Be Funded? <span class="req">*</span></label>
+                  <input type="date" id="e-funding-date" name="funding_date" required />
+                  <span class="form-note-inline">The date the wire needs to hit escrow.</span>
+                  <span class="form-error" aria-live="polite"></span>
+                </div>
+              </div>
+
+              <!-- EMD-ONLY: mutual release state -->
+              <div class="form-group branch branch-emd" hidden>
+                <label for="e-mutual-release">Is this a mutual release state? <span class="req">*</span></label>
+                <select id="e-mutual-release" name="mutual_release_state" data-branch-required>
+                  <option value="">Select…</option>
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                  <option value="Not Sure">Not sure</option>
+                </select>
+                <span class="form-note-inline">In a mutual release state, both parties must sign to release escrow funds — so we require a signed seller addendum.</span>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="e-title-company">Title Company / Closing Attorney Info <span class="req">*</span></label>
+                <textarea id="e-title-company" name="title_company_info" rows="3" required
+                  placeholder="Company name, escrow officer, phone, and email"></textarea>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="e-deal-link">Link to Listing or Deal Docs <span class="optional">(optional)</span></label>
+                <input type="url" id="e-deal-link" name="deal_link" placeholder="https://…" />
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+            </div>
+
+            <!-- ================= STEP 4: Documents & Final ================= -->
+            <div class="apply-step-panel" data-step="4" hidden>
+              <div class="step-header">
+                <h2>Step 4 of 4 — Documents &amp; Final Details</h2>
+                <p>Upload your contracts and tell us how this deal pays out.</p>
+              </div>
+
+              <div class="form-group">
+                <label for="e-psa-ab">Purchase Contract (A–B) <span class="req">*</span></label>
+                <input type="file" id="e-psa-ab" name="psa_ab" required accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+                <span class="form-note-inline">The seller-to-buyer contract. PDF, Word, or image.</span>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <!-- DOUBLE-CLOSE-ONLY: B-C contract -->
+              <div class="form-group branch branch-dc" hidden>
+                <label for="e-psa-bc">Purchase Contract (B–C) <span class="req">*</span></label>
+                <input type="file" id="e-psa-bc" name="psa_bc" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" data-branch-required />
+                <span class="form-note-inline">The second leg — your contract with the end buyer.</span>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <!-- EMD + MUTUAL RELEASE STATE ONLY -->
+              <div class="form-group" id="e-mutual-release-file-group" hidden>
+                <label for="e-mutual-release-file">Signed Mutual Release Seller Addendum <span class="req">*</span></label>
+                <input type="file" id="e-mutual-release-file" name="mutual_release_file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+                <span class="form-note-inline">Required because you indicated this is a mutual release state.</span>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <p class="upload-limit-note">Total uploads must stay under 4 MB. If your files are larger, submit the form and email them to <a href="mailto:funding@sgcapital.io">funding@sgcapital.io</a>.</p>
+
+              <div class="form-group">
+                <label for="e-profit-source">Where are the profits coming from? How do we get paid? <span class="req">*</span></label>
+                <textarea id="e-profit-source" name="profit_source" rows="4" required
+                  placeholder="e.g. Assignment fee paid at closing from the B-C side, wired directly from title…"></textarea>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="e-summary">Final Notes / Summary of the Deal <span class="req">*</span></label>
+                <textarea id="e-summary" name="deal_summary" rows="4" required
+                  placeholder="Walk us through the transaction — timeline, parties involved, and anything unusual we should know."></textarea>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <!-- EMD-ONLY: deposit acknowledgment -->
+              <div class="form-group branch branch-emd" hidden>
+                <div class="deposit-callout" id="e-deposit-callout">
+                  <p class="deposit-callout-title">Upfront Deposit</p>
+                  <p>
+                    EMD funding requires a <strong>5% deposit</strong> of the total loan amount
+                    (<strong>$250 minimum</strong>) to lock in funding. It is
+                    <strong>non-refundable</strong> and is <strong>credited toward your total fee</strong>
+                    if the deal goes through. Paid by Zelle or wire.
+                  </p>
+                  <p class="deposit-callout-amt" id="e-deposit-callout-amt" hidden>
+                    Your deposit: <strong id="e-deposit-callout-value">—</strong>
+                  </p>
+                </div>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="e-deposit-ack" name="deposit_acknowledged" data-branch-required />
+                  <span>I understand the 5% deposit ($250 minimum) is non-refundable and will be credited toward my total fee. <span class="req">*</span></span>
+                </label>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <div class="form-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="e-consent" name="consent" required />
+                  <span>By submitting this request, I agree to receive calls, texts, and emails from Southern Ground Capital regarding this transaction. My information will remain private and will not be sold or shared. <span class="req">*</span></span>
+                </label>
+                <span class="form-error" aria-live="polite"></span>
+              </div>
+
+              <!-- FINAL RECAP -->
+              <div class="fee-box fee-box--recap" id="e-recap" hidden aria-live="polite">
+                <p class="fee-box-title">Request Summary</p>
+                <div class="fee-box-rows" id="e-recap-rows"></div>
+              </div>
+
+              <p class="form-disclaimer">Submitting this request does not guarantee funding &middot; All deals are subject to review and underwriting</p>
+            </div>
+
+            <!-- NAV BUTTONS -->
+            <div class="apply-nav-btns" id="escrow-nav-btns">
+              <button type="button" class="btn btn-outline" id="escrow-back-btn" hidden>&#8592; Back</button>
+              <button type="button" class="btn btn-gold" id="escrow-next-btn">Next Step &#8594;</button>
+              <button type="submit" class="btn btn-gold" id="escrow-submit-btn" hidden>Submit Funding Request &#8594;</button>
+            </div>
+
+          </form>
+
+          <!-- SUCCESS STATE -->
+          <div id="escrow-success" hidden>
+            <div class="apply-success-inner">
+              <div class="apply-success-icon">&#10003;</div>
+              <h2>Funding Request Received!</h2>
+              <p>Your escrow funding request has been submitted. Our funding desk reviews these fast — expect to hear back within <strong>a few business hours</strong>.</p>
+              <p id="escrow-success-deposit" hidden>
+                <strong>Next step:</strong> your deposit of <strong id="escrow-success-deposit-amt"></strong>
+                locks in funding. We'll send Zelle and wire instructions with your confirmation.
+              </p>
+              <p>Questions in the meantime:</p>
+              <ul>
+                <li>Call or text: <a href="tel:+16788428084">(678) 842-8084</a></li>
+                <li>Email: <a href="mailto:funding@sgcapital.io">funding@sgcapital.io</a></li>
+              </ul>
+              <a href="/" class="btn btn-gold" style="margin-top:2rem; display:inline-block">&#8592; Back to Homepage</a>
+            </div>
+          </div>
+
+        </div><!-- /.apply-form-card -->
+      </div><!-- /.apply-container -->
+    </section>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="logo.png" alt="Southern Ground Capital" class="footer-logo-img" width="80" height="80" loading="lazy" decoding="async" />
+        </div>
+        <p class="footer-tagline">Direct private lending for real estate investors. 43 states. No banks. No brokers.</p>
+        <address class="footer-nap" aria-label="Contact information">
+          <span class="footer-addr">Atlanta, GA &middot; United States</span>
+          <a href="tel:+16788428084">(678) 842-8084</a>
+          <a href="mailto:loans@sgcapital.io">loans@sgcapital.io</a>
+        </address>
+      </div>
+      <nav class="footer-nav" aria-label="Loan programs">
+        <strong>Loan Programs</strong>
+        <ul role="list">
+          <li><a href="/loans/fix-and-flip">Fix &amp; Flip</a></li>
+          <li><a href="/loans/dscr">DSCR Loans</a></li>
+          <li><a href="/loans/bridge">Bridge Loans</a></li>
+          <li><a href="/loans/new-construction">New Construction</a></li>
+          <li><a href="/loans/multi-family">Multi-Family</a></li>
+          <li><a href="escrow-funding.html">Escrow Funding</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-nav" aria-label="Where we lend">
+        <strong>Where We Lend</strong>
+        <ul role="list">
+          <li><a href="/hard-money-loans/georgia">Hard Money Loans in Georgia</a></li>
+          <li><a href="/hard-money-loans/atlanta">Hard Money Loans in Atlanta</a></li>
+          <li><a href="/hard-money-loans/north-carolina">Hard Money Loans in North Carolina</a></li>
+          <li><a href="/hard-money-loans/tennessee">Hard Money Loans in Tennessee</a></li>
+          <li><a href="/loans">All Programs &amp; Rates</a></li>
+        </ul>
+      </nav>
+      <nav class="footer-nav" aria-label="Company links">
+        <strong>Company</strong>
+        <ul role="list">
+          <li><a href="/#how-it-works">How It Works</a></li>
+          <li><a href="/#rates">Rates &amp; Terms</a></li>
+          <li><a href="/#about">About Us</a></li>
+          <li><a href="apply.html">Apply</a></li>
+        </ul>
+      </nav>
+      <div class="footer-legal">
+        <strong>Legal</strong>
+        <ul role="list">
+          <li><a href="/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/terms-of-service">Terms of Service</a></li>
+          <li><a href="/accessibility">Accessibility</a></li>
+        </ul>
+        <p class="footer-states">Lending available in 43 states. Excludes AZ, NV, ND, OR, SD, UT, VT. All loans for investment purposes only. Not owner-occupied.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; <span id="footer-year">2026</span> Southern Ground Capital, LLC &middot; All rights reserved</p>
+        <p>Investment property loans only &middot; Not FDIC insured &middot; Subject to underwriting and property evaluation</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js?v=5" defer></script>
+  <script src="escrow.js?v=1" defer></script>
+</body>
+</html>

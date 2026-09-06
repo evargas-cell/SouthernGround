@@ -14,3 +14,7 @@ MARKETING-AUDIT.md
 # Local secrets — MUST never be committed; publish directory is "."
 .env
 .env.local
+
+# Internal docs — the publish directory is ".", so anything committed here
+# would be served publicly at /docs/.
+/docs/

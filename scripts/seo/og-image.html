@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>SGC social share card</title>
+<!--
+  Source for /og-image.png (1200x630). Render with:
+    node scripts/seo/render-og.mjs
+  Uses the brand palette from style.css. The logo is loaded from the
+  repo root at render time, so it stays in sync with logo.png.
+-->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    background: #16261C;
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Warm amber wash from the lower right, matching the site's hero treatment. */
+  .glow {
+    position: absolute;
+    right: -180px;
+    bottom: -260px;
+    width: 760px;
+    height: 760px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(155,104,32,0.42) 0%, rgba(155,104,32,0) 68%);
+  }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .rule {
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(90deg, #9B6820 0%, #C88A2C 45%, #9B6820 100%);
+  }
+  .wrap {
+    position: relative;
+    height: 100%;
+    padding: 74px 80px 68px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .brand { display: flex; align-items: center; gap: 20px; }
+  .brand img {
+    width: 92px; height: 92px;
+    filter: brightness(0) invert(1) sepia(0.12) brightness(0.96);
+  }
+  .brand-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 1.22;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.94);
+  }
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 800;
+    font-size: 74px;
+    line-height: 1.06;
+    letter-spacing: -0.012em;
+    max-width: 940px;
+  }
+  h1 .amber { color: #C88A2C; }
+  .sub {
+    margin-top: 22px;
+    font-size: 25px;
+    line-height: 1.5;
+    font-weight: 500;
+    color: rgba(255,255,255,0.66);
+    max-width: 860px;
+  }
+  .stats {
+    display: flex;
+    align-items: center;
+    gap: 44px;
+    padding-top: 26px;
+    border-top: 1px solid rgba(255,255,255,0.13);
+  }
+  .stat-v {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 34px;
+    color: #C88A2C;
+    line-height: 1;
+  }
+  .stat-l {
+    display: block;
+    margin-top: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.52);
+  }
+  .url {
+    margin-left: auto;
+    text-align: right;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: #fff;
+  }
+  .url span {
+    display: block;
+    margin-top: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.52);
+  }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="glow"></div>
+  <div class="rule"></div>
+
+  <div class="wrap">
+    <div class="brand">
+      <img src="../../logo.png" alt="" />
+      <div class="brand-name">Southern Ground<br />Capital</div>
+    </div>
+
+    <div>
+      <h1>Fund Your Next Deal —<br />Without the <span class="amber">Banks</span> Slowing You Down</h1>
+      <p class="sub">Direct private hard money lending for real estate investors.<br />Fix &amp; Flip &middot; DSCR &middot; Bridge &middot; New Construction</p>
+    </div>
+
+    <div class="stats">
+      <div><div class="stat-v">$500M+</div><span class="stat-l">Funded</span></div>
+      <div><div class="stat-v">24–48hr</div><span class="stat-l">Approvals</span></div>
+      <div><div class="stat-v">43</div><span class="stat-l">States</span></div>
+      <div class="url">sgcapital.io<span>Atlanta, GA</span></div>
+    </div>
+  </div>
+</body>
+</html>

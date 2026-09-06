@@ -26,4 +26,7 @@ Allow: /
 User-agent: YouBot
 Allow: /
 
+# Structured summary of the site for language models
+# https://sgcapital.io/llms.txt
+
 Sitemap: https://sgcapital.io/sitemap.xml

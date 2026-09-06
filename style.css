@@ -388,6 +388,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   margin-left: auto;
 }
 .nav-links a {
+  white-space: nowrap;
   font-size: 0.825rem;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -486,14 +487,27 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
 /* Mobile menu */
 .mobile-menu {
   background: var(--navy-mid);
-  border-top: 1px solid var(--border-dark);
-  padding: 1.5rem var(--container-pad) 2rem;
+  border-top: 0 solid var(--border-dark);
+  padding-inline: var(--container-pad);
+  padding-block: 0;
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height var(--t-slow), opacity var(--t-base);
+  /* Collapsed the menu must contribute zero height — padding is outside
+     max-height, so leaving it here made the fixed header 137px tall and it
+     painted over whatever sat directly below it. visibility also keeps the
+     hidden links out of the tab order. */
+  visibility: hidden;
+  transition: max-height var(--t-slow), opacity var(--t-base),
+              padding var(--t-base), visibility var(--t-base);
 }
-.mobile-menu.open { max-height: 520px; opacity: 1; }
+.mobile-menu.open {
+  max-height: 520px;
+  opacity: 1;
+  visibility: visible;
+  border-top-width: 1px;
+  padding-block: 1.5rem 2rem;
+}
 .mobile-menu ul {
   display: flex;
   flex-direction: column;
@@ -1334,6 +1348,14 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   color: var(--text-muted);
 }
 .team-location { color: var(--gold) !important; font-weight: 600 !important; font-size: 0.775rem !important; }
+.team-bio {
+  padding: 0 1.5rem 1.35rem;
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+.team-bio a { color: var(--amber-dark); font-weight: 600; text-decoration: underline; }
 
 .about-stats-stack {
   display: grid;
@@ -2094,6 +2116,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   .nav-links { display: flex; }
   .nav-actions { display: flex; }
   .hamburger { display: none; }
+  .mobile-menu { display: none; }
 
   .hero-inner {
     grid-template-columns: 1fr 420px;
@@ -2115,7 +2138,7 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
     align-items: start;
   }
 
-  .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+  .footer-grid { grid-template-columns: 1.7fr 1fr 1.15fr 1fr 1.05fr; gap: 2rem; }
   .footer-bottom-inner {
     flex-direction: row;
     justify-content: space-between;
@@ -2139,6 +2162,9 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
   html { scroll-behavior: auto; }
   .badge-dot { animation: none; }
   .scroll-line { animation: none; }
+  /* The looping hero video is decorative — the poster and the dark ground
+     carry the same design without the motion. */
+  .hero-video-wrap { display: none; }
 }
 
 /* ============================================================
@@ -2428,3 +2454,1150 @@ body.bar-visible .hero { padding-top: calc(80px + 42px); }
 .apply-success-inner ul { text-align: left; display: inline-block; color: var(--text-muted); font-size: 14px; line-height: 2; }
 .apply-success-inner a:not(.btn) { color: var(--amber); }
 .apply-success-inner a.btn { color: #fff; }
+
+/* ============================================================
+   ESCROW FUNDING FORM (escrow.html)
+   Deal-type branching, live fee quoting, document upload.
+   Builds on the .apply-* form system above.
+   ============================================================ */
+
+/* --- Transaction type selector --- */
+.deal-type-fieldset { border: 0; padding: 0; margin: 0 0 1.75rem; }
+.deal-type-legend {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 12px;
+  padding: 0;
+}
+.deal-type-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+@media (max-width: 720px) { .deal-type-grid { grid-template-columns: 1fr; } }
+
+.deal-type-card {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+.deal-type-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.deal-type-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 18px 18px 20px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+.deal-type-card:hover .deal-type-body { border-color: var(--forest-accent); }
+.deal-type-card input:focus-visible + .deal-type-body {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+.deal-type-card input:checked + .deal-type-body {
+  border-color: var(--amber);
+  background: var(--amber-xlight);
+  box-shadow: 0 2px 12px rgba(155, 104, 32, .12);
+}
+.deal-type-tag {
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--off-white);
+  border-radius: 3px;
+  padding: 3px 7px;
+}
+.deal-type-card input:checked + .deal-type-body .deal-type-tag {
+  color: #fff;
+  background: var(--amber);
+}
+.deal-type-name {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+}
+.deal-type-desc { font-size: 13px; line-height: 1.55; color: var(--text-muted); }
+
+/* --- Inline alerts --- */
+.escrow-alert {
+  display: block;
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.escrow-alert--warn {
+  background: var(--bad-bg);
+  color: var(--bad-text);
+  border-left: 3px solid var(--bad-text);
+}
+
+/* --- Live fee quote --- */
+.fee-box {
+  background: var(--forest-deep);
+  border-radius: var(--radius-md);
+  padding: 24px 26px;
+  margin: 0 0 1.75rem;
+  color: var(--text-light);
+}
+.fee-box-title {
+  margin: 0 0 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.fee-box-rows { display: flex; flex-direction: column; gap: 8px; }
+.fee-box-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 14px;
+  color: var(--text-muted-dark);
+}
+.fee-box-row span:last-child { color: var(--text-light); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.fee-box-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-dark);
+}
+.fee-box-total > span {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  color: var(--text-muted-dark);
+}
+.fee-box-total > strong {
+  font-family: var(--font-heading);
+  font-size: 32px;
+  line-height: 1;
+  color: var(--amber);
+  font-variant-numeric: tabular-nums;
+}
+.fee-box-total--review > strong { font-size: 20px; color: var(--text-light); }
+
+.fee-box-deposit {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, .06);
+  font-size: 13px;
+  color: var(--text-muted-dark);
+}
+.fee-box-deposit em { font-style: normal; opacity: .75; }
+.fee-box-deposit strong { color: var(--text-light); font-size: 16px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.fee-box-note {
+  margin: 14px 0 0;
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--text-muted-dark);
+}
+
+/* Light variant — used for the connector's stacked total and the final recap,
+   so neither competes with the dark fee banner on step 1. */
+.fee-box--recap { background: var(--off-white); color: var(--text); border: 1px solid var(--border); }
+.fee-box--recap .fee-box-title { color: var(--amber-dark); }
+.fee-box--recap .fee-box-row { color: var(--text-muted); }
+.fee-box--recap .fee-box-row span:last-child { color: var(--text); font-weight: 600; }
+.fee-box--recap .fee-box-total { border-top-color: var(--border); }
+.fee-box--recap .fee-box-total > span { color: var(--text-muted); }
+.fee-box--recap .fee-box-total > strong { color: var(--amber-dark); font-size: 28px; }
+
+/* The borrower's all-in number is the point of this card — give it room. */
+#e-total-box { margin-top: 1.5rem; }
+
+/* --- Fee schedule reference --- */
+.terms-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--off-white);
+  margin-top: 1.5rem;
+}
+.terms-panel > summary {
+  cursor: pointer;
+  padding: 16px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.terms-panel > summary::-webkit-details-marker { display: none; }
+.terms-panel > summary::before {
+  content: '+';
+  font-size: 18px;
+  line-height: 1;
+  color: var(--amber);
+  font-weight: 700;
+}
+.terms-panel[open] > summary::before { content: '\2212'; }
+.terms-panel > summary:hover { color: var(--amber-dark); }
+.terms-body { padding: 0 20px 20px; }
+.terms-body h4 {
+  margin: 20px 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  color: var(--amber-dark);
+}
+.terms-body h4:first-child { margin-top: 0; }
+.terms-sub { margin: 0 0 10px; font-size: 13px; line-height: 1.65; color: var(--text-muted); }
+.terms-sub a { color: var(--amber-dark); }
+.terms-table { width: 100%; border-collapse: collapse; margin: 0 0 6px; }
+.terms-table td {
+  padding: 8px 0;
+  font-size: 13px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+.terms-table td:last-child { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.terms-table tr:last-child td { border-bottom: 0; }
+
+/* --- Deposit acknowledgment --- */
+.deposit-callout {
+  padding: 18px 20px;
+  border-radius: var(--radius-md);
+  background: var(--amber-xlight);
+  border-left: 4px solid var(--amber);
+  margin-bottom: 14px;
+}
+.deposit-callout-title {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--amber-dark);
+}
+.deposit-callout p { margin: 0; font-size: 13px; line-height: 1.7; color: var(--text); }
+.deposit-callout-amt { margin-top: 10px !important; font-size: 15px !important; }
+.deposit-callout-amt strong { color: var(--amber-dark); font-variant-numeric: tabular-nums; }
+
+/* --- File inputs --- */
+.form-group input[type="file"] {
+  padding: 12px 14px;
+  font-size: 14px;
+  background: var(--off-white);
+  border: 1px dashed var(--border);
+  cursor: pointer;
+}
+.form-group input[type="file"]:hover { border-color: var(--amber); }
+.form-group input[type="file"]::file-selector-button {
+  margin-right: 12px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--forest-deep);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.form-group input[type="file"]::file-selector-button:hover { background: var(--forest-accent); }
+
+.upload-limit-note {
+  margin: -0.5rem 0 1.5rem;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+.upload-limit-note a { color: var(--amber-dark); }
+
+/* ============================================================
+   ESCROW FUNDING LANDING PAGE (escrow-funding.html)
+   Explainer + pricing page whose CTA is the escrow intake form.
+   ============================================================ */
+
+/* --- Hero --- */
+.ef-hero {
+  background: var(--forest-deep);
+  padding: calc(var(--section-py) + 60px) 0 var(--section-py);
+  text-align: center;
+}
+.ef-hero-inner { max-width: 900px; }
+.ef-hero .section-eyebrow { color: var(--amber); }
+.ef-hero h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 1.08;
+  color: var(--white);
+  margin: 0 0 20px;
+}
+.ef-hero-sub {
+  max-width: 680px;
+  margin: 0 auto 32px;
+  font-size: clamp(1rem, 1.6vw, 1.125rem);
+  line-height: 1.75;
+  color: var(--text-muted-dark);
+}
+.ef-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+.ef-hero-note {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted-dark);
+  opacity: .85;
+}
+
+/* --- "What is escrow funding" --- */
+.ef-explain-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  margin-top: 48px;
+}
+@media (max-width: 860px) { .ef-explain-grid { grid-template-columns: 1fr; } }
+
+.ef-explain {
+  padding: 32px 30px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--off-white);
+}
+.ef-explain-num {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--amber);
+  margin-bottom: 12px;
+}
+.ef-explain h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  line-height: 1.3;
+  color: var(--text);
+  margin: 0 0 12px;
+}
+.ef-explain p { margin: 0; font-size: 15px; line-height: 1.75; color: var(--text-muted); }
+
+/* --- Program cards --- */
+.ef-program-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  margin-top: 48px;
+}
+@media (max-width: 860px) { .ef-program-grid { grid-template-columns: 1fr; } }
+
+.ef-req {
+  margin: 22px 0 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.ef-req-title {
+  margin: 0 0 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--amber-dark);
+}
+
+/* --- A -> B -> C flow --- */
+.ef-flow {
+  margin-top: 56px;
+  padding: 36px 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+}
+.ef-flow-h {
+  margin: 0 0 28px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--amber-dark);
+}
+.ef-flow-steps {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+@media (max-width: 860px) { .ef-flow-steps { flex-direction: column; } }
+
+.ef-flow-node {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  padding: 22px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--off-white);
+}
+.ef-flow-node--you {
+  border-color: var(--amber);
+  background: var(--amber-xlight);
+}
+.ef-flow-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--forest-deep);
+  color: var(--white);
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+}
+.ef-flow-node--you .ef-flow-tag { background: var(--amber); }
+.ef-flow-node strong { font-size: 15px; color: var(--text); }
+.ef-flow-node span:last-child { font-size: 13px; line-height: 1.5; color: var(--text-muted); }
+
+.ef-flow-arrow {
+  flex: 0 1 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0 8px;
+}
+.ef-flow-arrow::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 50%;
+  height: 2px;
+  background: var(--border);
+}
+.ef-flow-arrow::after {
+  content: '';
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid var(--border);
+  border-right: 2px solid var(--border);
+  transform: translateY(-50%) rotate(45deg);
+}
+.ef-flow-arrow-label {
+  position: relative;
+  z-index: 1;
+  background: var(--white);
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--amber-dark);
+}
+@media (max-width: 860px) {
+  .ef-flow-arrow { flex: 0 0 64px; padding: 8px 0; }
+  .ef-flow-arrow::before { left: 50%; right: auto; top: 8px; bottom: 8px; width: 2px; height: auto; transform: translateX(-50%); }
+  .ef-flow-arrow::after { right: auto; left: 50%; top: auto; bottom: 8px; transform: translateX(-50%) rotate(135deg); }
+}
+
+.ef-flow-note {
+  margin: 26px auto 0;
+  max-width: 720px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+
+/* --- Pricing --- */
+.ef-price-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  margin-top: 48px;
+}
+@media (max-width: 860px) { .ef-price-grid { grid-template-columns: 1fr; } }
+
+.ef-price-card {
+  padding: 32px 30px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+}
+.ef-price-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--text);
+  margin: 0 0 6px;
+}
+.ef-price-sub { margin: 0 0 18px; font-size: 13px; line-height: 1.6; color: var(--text-muted); }
+.ef-price-card .terms-table td { padding: 11px 0; font-size: 14px; }
+.ef-price-card .terms-table td:last-child { color: var(--amber-dark); }
+.ef-price-foot {
+  margin: 16px 0 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+.ef-price-foot strong { color: var(--text); }
+
+.ef-scope {
+  margin-top: 40px;
+  padding: 26px 30px;
+  border-left: 4px solid var(--amber);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--amber-xlight);
+}
+.ef-scope-title {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--amber-dark);
+}
+.ef-scope p { margin: 0; font-size: 15px; line-height: 1.75; color: var(--text); }
+.ef-scope a { color: var(--amber-dark); font-weight: 600; }
+
+/* --- FAQ --- */
+.ef-faq {
+  max-width: 820px;
+  margin: 48px auto 0;
+  border-top: 1px solid var(--border);
+}
+.ef-faq-item { border-bottom: 1px solid var(--border); }
+.ef-faq-item > summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 22px 0;
+  font-size: clamp(1rem, 1.6vw, 1.0625rem);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--text);
+}
+.ef-faq-item > summary::-webkit-details-marker { display: none; }
+.ef-faq-item > summary::after {
+  content: '+';
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 400;
+  color: var(--amber);
+  transition: transform .2s ease;
+}
+.ef-faq-item[open] > summary::after { content: '\2212'; }
+.ef-faq-item > summary:hover { color: var(--amber-dark); }
+.ef-faq-item > summary:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+.ef-faq-body { padding: 0 40px 24px 0; }
+.ef-faq-body p { margin: 0 0 12px; font-size: 15px; line-height: 1.8; color: var(--text-muted); }
+.ef-faq-body p:last-child { margin-bottom: 0; }
+
+/* ============================================================
+   SEO PAGE SYSTEM — breadcrumbs, nav dropdown, program /
+   geographic / legal page furniture, and the shared FAQ block.
+   Added for the dedicated /loans/*, /hard-money-loans/* and
+   legal pages generated by scripts/seo/build.mjs.
+   ============================================================ */
+
+/* === NAV DROPDOWN === */
+.nav-has-drop { position: relative; }
+.nav-caret {
+  font-size: 0.6em;
+  margin-left: 0.3em;
+  opacity: 0.7;
+  transition: transform var(--t-fast);
+}
+.nav-drop {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 250px;
+  background: var(--forest-mid);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-md);
+  box-shadow: 0 18px 44px rgba(0,0,0,0.5);
+  padding: 0.5rem;
+  margin: 0;
+  list-style: none;
+  display: none;
+  z-index: 1100;
+}
+.nav-has-drop:hover > .nav-drop,
+.nav-has-drop:focus-within > .nav-drop,
+.nav-has-drop.open > .nav-drop { display: block; }
+.nav-has-drop:hover > a .nav-caret,
+.nav-has-drop.open > a .nav-caret { transform: rotate(180deg); }
+.nav-drop a {
+  display: block;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  min-height: 44px;
+  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  color: rgba(255,255,255,0.78);
+}
+.nav-drop li:last-child a {
+  margin-top: 0.35rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0;
+  color: var(--amber);
+  font-weight: 700;
+}
+.mobile-menu ul a.mobile-menu__sub {
+  padding-left: 1.5rem;
+  font-size: 0.9rem;
+  opacity: 0.82;
+}
+
+/* === BREADCRUMBS === */
+.breadcrumbs {
+  background: var(--forest-deep);
+  padding-top: 80px;   /* clears the fixed header */
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+body.bar-visible .breadcrumbs { padding-top: calc(80px + 42px); }
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding-block: 0.9rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+.breadcrumbs li { color: rgba(255,255,255,0.55); }
+.breadcrumbs li + li::before {
+  content: "/";
+  margin-right: 0.5rem;
+  color: rgba(255,255,255,0.28);
+}
+.breadcrumbs a { color: rgba(255,255,255,0.72); }
+.breadcrumbs a:hover { color: var(--amber); text-decoration: underline; }
+.breadcrumbs [aria-current="page"] { color: #fff; font-weight: 600; }
+
+/* === PAGE HERO (program + geographic pages) === */
+.page-hero {
+  background: var(--forest-deep);
+  padding-block: 52px 64px;
+  color: var(--text-light);
+}
+.page-hero-inner { max-width: 820px; }
+.page-hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.15rem);
+  line-height: 1.1;
+  color: #fff;
+  margin: 0.5rem 0 1.25rem;
+}
+.page-hero-lede {
+  font-size: clamp(1.02rem, 2vw, 1.18rem);
+  line-height: 1.65;
+  color: rgba(255,255,255,0.76);
+  max-width: 68ch;
+  margin-bottom: 2rem;
+}
+.page-hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+.page-hero-note {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+.program-metrics--hero {
+  margin-bottom: 2rem;
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.25rem;
+  max-width: 620px;
+}
+.program-metrics--hero .metric-l { color: rgba(255,255,255,0.5); }
+.program-metrics--hero .metric-v { color: #fff; }
+
+/* === LONG-FORM PROSE (program + geographic body copy) === */
+.prose-wrap { padding-block: var(--section-py-sm) var(--section-py); }
+.prose-container { max-width: 780px; }
+.prose-section + .prose-section { margin-top: 3rem; }
+.prose-section h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.2;
+  color: var(--text);
+  margin: 0 0 1.1rem;
+}
+.prose-section p {
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  margin-bottom: 1.15rem;
+}
+.prose-section ul, .prose-section ol {
+  margin: 0 0 1.35rem 1.35rem;
+  padding: 0;
+}
+.prose-section ul { list-style: disc; }
+.prose-section ol { list-style: decimal; }
+.prose-section li::marker { color: var(--amber); }
+.legal-container ul { list-style: disc; }
+.legal-container li::marker { color: var(--amber); }
+.prose-section li {
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+.prose-section strong { color: var(--text); font-weight: 700; }
+.prose-section a { color: var(--amber-dark); font-weight: 600; text-decoration: underline; }
+.prose-section a:hover { color: var(--amber); }
+
+/* Terms tables on the program pages. Named .spec-table so it does not
+   collide with .terms-table, which the escrow pages already use. */
+.spec-table-wrap { margin-bottom: 1.5rem; }
+.spec-table-caption {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin: 0 0 0.65rem;
+}
+.spec-table-scroll { overflow-x: auto; }
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.spec-table caption {
+  caption-side: top;
+  text-align: left;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--text-muted);
+  padding-bottom: 0.65rem;
+}
+.spec-table th,
+.spec-table td {
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.94rem;
+  text-align: left;
+  vertical-align: top;
+}
+.spec-table th {
+  font-weight: 600;
+  color: var(--text-muted);
+  width: 42%;
+}
+.spec-table td {
+  font-weight: 700;
+  color: var(--text);
+}
+.spec-table tr:last-child th,
+.spec-table tr:last-child td { border-bottom: 0; }
+.spec-table tr:nth-child(even) th,
+.spec-table tr:nth-child(even) td { background: var(--off-white); }
+
+/* Inline case study on the geographic pages */
+
+.pull-quote {
+  margin: 0 0 1.5rem;
+  padding: 1.5rem 1.75rem;
+  background: var(--off-white);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+.pull-quote p::before { content: 'C'; }
+.pull-quote p::after  { content: 'D'; }
+.pull-quote p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 0.85rem;
+}
+.pull-quote cite {
+  font-style: normal;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+/* === FAQ BLOCK === */
+.faq-section { padding-block: var(--section-py); }
+.faq-list {
+  max-width: 820px;
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--border);
+}
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 1.15rem 2.5rem 1.15rem 0;
+  position: relative;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary h3 {
+  display: inline;
+  font-family: var(--font-body);
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.5;
+}
+.faq-item summary::after {
+  content: "+";
+  position: absolute;
+  right: 0.35rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--amber);
+}
+.faq-item[open] summary::after { content: "\2013"; }
+.faq-item summary:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+.faq-answer {
+  padding: 0 2.5rem 1.4rem 0;
+  font-size: 0.98rem;
+  line-height: 1.72;
+  color: var(--text-muted);
+}
+.faq-answer p { margin-bottom: 0.9rem; }
+.faq-answer p:last-child { margin-bottom: 0; }
+.faq-answer strong { color: var(--text); }
+.faq-answer a { color: var(--amber-dark); font-weight: 600; text-decoration: underline; }
+
+/* === PROGRAM TESTIMONIAL (single card, centred) === */
+.program-testimonial { padding-block: var(--section-py-sm); }
+.program-testimonial .testimonial-card {
+  max-width: 780px;
+  margin-inline: auto;
+}
+
+/* === RELATED / CROSS-SELL LINK LISTS === */
+.related-links { padding-block: var(--section-py-sm) var(--section-py); }
+.related-links-list {
+  list-style: none;
+  margin: 2.25rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+.related-links-list li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.4rem;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+}
+.related-links-list li:hover {
+  border-color: var(--amber);
+  box-shadow: var(--shadow-sm);
+}
+.related-links-list a {
+  display: block;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+.related-links-list a:hover { color: var(--amber-dark); }
+.related-links-list span {
+  display: block;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* === LEGAL / POLICY PAGES === */
+.legal-page { padding-block: var(--section-py-sm) var(--section-py); }
+.legal-container { max-width: 760px; }
+.legal-container h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  line-height: 1.15;
+  color: var(--text);
+  margin: 0 0 0.6rem;
+}
+.legal-updated {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 1.75rem;
+}
+.legal-intro {
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: var(--text);
+  padding-bottom: 1.75rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.legal-container h2 {
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 2.4rem 0 0.9rem;
+}
+.legal-container p,
+.legal-container li {
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+}
+.legal-container p { margin-bottom: 1rem; }
+.legal-container ul { margin: 0 0 1.25rem 1.2rem; padding: 0; }
+.legal-container li { margin-bottom: 0.6rem; }
+.legal-container strong { color: var(--text); font-weight: 700; }
+.legal-container a { color: var(--amber-dark); font-weight: 600; text-decoration: underline; }
+.legal-container a:hover { color: var(--amber); }
+
+/* === FOOTER ADDITIONS === */
+.footer-addr {
+  display: block;
+  font-style: normal;
+  color: var(--text-muted-dark);
+  margin-bottom: 0.35rem;
+}
+.program-name a { color: inherit; }
+.program-name a:hover { color: var(--amber-dark); }
+
+/* === HOMEPAGE FAQ (light section already has its own padding) === */
+.faq-section .section-heading { margin-bottom: 0; }
+
+/* === RESPONSIVE === */
+@media (min-width: 768px) {
+  .related-links-list { grid-template-columns: repeat(2, 1fr); }
+  .breadcrumbs ol { font-size: 0.8rem; }
+}
+@media (min-width: 1024px) {
+  .related-links-list { grid-template-columns: repeat(3, 1fr); }
+  .page-hero { padding-block: 64px 80px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-caret { transition: none; }
+}
+
+/* === BLOG ADDITIONS (author block, updated date, program links) === */
+.article-updated { color: var(--amber-dark) !important; font-weight: 600; }
+
+.article-author {
+  display: flex;
+  gap: 1.15rem;
+  align-items: flex-start;
+  margin: 2.5rem 0 2rem;
+  padding: 1.5rem;
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.article-author img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  flex-shrink: 0;
+}
+.article-author strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+.article-author p {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  margin: 0;
+}
+.article-author span { font-weight: 700; color: var(--text); }
+
+.article-programs {
+  background: var(--forest-deep);
+  border-radius: var(--radius-md);
+  padding: 1.4rem 1.5rem;
+}
+.article-programs strong {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted-dark);
+  margin-bottom: 0.9rem;
+}
+.article-programs ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.article-programs a {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--amber);
+}
+.article-programs a:hover { color: #fff; }
+
+/* The blog article hero sits below the fixed header; when a breadcrumb bar
+   is present it already provides that clearance, so drop the duplicate. */
+.breadcrumbs + main .article-hero { padding-top: 3rem; }
+
+@media (max-width: 560px) {
+  .article-author { flex-direction: column; gap: 1rem; }
+}
+
+/* === NAV FIT ===
+   The header nav gained a Loan Programs dropdown and a Blog link. The full
+   lockup (logo + 5 items + language pill + phone + CTA) needs about 1220px of
+   viewport to sit on one line; below that it overflowed the container. Hand
+   off to the hamburger earlier rather than letting it wrap or clip. */
+@media (max-width: 1219px) {
+  .nav-links { display: none; }
+  .nav-actions { display: none; }
+  .hamburger { display: flex; }
+  .mobile-menu { display: block; }
+}
+@media (min-width: 1220px) {
+  .nav-links a { padding-inline: 0.6rem; font-size: 0.8rem; }
+  .nav-actions { gap: 0.85rem; margin-left: 0.85rem; }
+  .nav-phone { font-size: 0.85rem; }
+}
+
+/* === DEAL CARD ON A LIGHT SECTION ===
+   .deal-card was written for the dark case-study band, so its ledger text is
+   white. The geographic pages reuse the same markup inside light prose, where
+   that renders invisible — this variant restores the contrast. */
+.deal-card--inline {
+  margin: 0 0 1.5rem;
+  max-width: none;
+  background: var(--off-white);
+  border-color: var(--border);
+}
+.deal-card--inline .deal-card-header {
+  background: var(--amber-xlight);
+  border-bottom-color: rgba(155,104,32,0.22);
+}
+.deal-card--inline .deal-badge { color: var(--amber-dark); }
+.deal-card--inline .deal-result { color: var(--text-muted); }
+.deal-card--inline .deal-result strong { color: var(--amber-dark); }
+.deal-card--inline .deal-ledger { border-bottom: none; }
+.deal-card--inline .ledger-row { border-bottom-color: var(--border); }
+.deal-card--inline .ledger-label { color: var(--text-muted); }
+.deal-card--inline .ledger-value { color: var(--text); }
+.deal-card--inline .ledger-row--highlight .ledger-label { color: var(--text); }
+.deal-card--inline .ledger-row--profit .ledger-label { color: var(--amber-dark); }
+.deal-card--inline .text-gold { color: var(--amber-dark); }
+.deal-card--inline .ledger-divider { background: rgba(155,104,32,0.25); }
+
+/* === HORIZONTAL OVERFLOW GUARDS ===
+   Grid and flex children default to min-width:auto, so one wide descendant —
+   a comparison table, a long metric value, an unbreakable URL — pushes the
+   whole track past the viewport. body has overflow-x:hidden, which hid the
+   symptom rather than the cause. These caps let the tracks shrink and give
+   the genuinely wide content its own scroll container. */
+.programs-grid > *,
+.article-layout > *,
+.footer-grid > *,
+.hero-inner > *,
+.related-links-list > *,
+.about-grid > * { min-width: 0; }
+
+.program-metrics { min-width: 0; }
+.program-metrics .metric { min-width: 0; }
+.program-metrics .metric-v { overflow-wrap: anywhere; }
+
+.article-content,
+.article-content p,
+.article-content li,
+.prose-section p,
+.prose-section li,
+.legal-container p,
+.legal-container li { overflow-wrap: break-word; }
+
+/* Wide data tables scroll inside their own box instead of the page.
+   .comparison-scroll already does this; article tables had no wrapper. */
+.article-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1.5rem 0 2rem;
+}
+.article-table-wrap .article-table { margin: 0; min-width: 520px; }
+
+@media (max-width: 560px) {
+  .lang-bar__text { flex-wrap: wrap; }
+  .article-table-wrap .article-table { min-width: 460px; font-size: 0.82rem; }
+}
+
+/* A full-width button must be allowed to wrap — .btn's white-space:nowrap was
+   pushing the Spanish lead-magnet CTA past the viewport on small screens. */
+.btn-full {
+  white-space: normal;
+  text-align: center;
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- SEO -->
+  <title>Accessibility Statement | Southern Ground Capital</title>
+  <meta name="description" content="Southern Ground Capital works to keep sgcapital.io usable for everyone, targeting WCAG 2.1 Level AA. Tell us if something is not working for you." />
+  <link rel="canonical" href="https://sgcapital.io/accessibility" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Accessibility Statement | Southern Ground Capital" />
+  <meta property="og:description" content="Southern Ground Capital works to keep sgcapital.io usable for everyone, targeting WCAG 2.1 Level AA. Tell us if something is not working for you." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sgcapital.io/accessibility" />
+  <meta property="og:image" content="https://sgcapital.io/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="Southern Ground Capital" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Accessibility Statement | Southern Ground Capital" />
+  <meta name="twitter:description" content="Southern Ground Capital works to keep sgcapital.io usable for everyone, targeting WCAG 2.1 Level AA. Tell us if something is not working for you." />
+  <meta name="twitter:image" content="https://sgcapital.io/og-image.png" />
+
+  <!-- Fonts: non-blocking load for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" /></noscript>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://sgcapital.io/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Accessibility Statement"
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="/style.css?v=6" />
+</head>
+<body>
+
+  <a href="#main" class="skip-nav">Skip to content</a>
+  <header class="site-header" id="site-header">
+    <nav class="nav-container" aria-label="Main navigation">
+      <a href="/" class="nav-logo" aria-label="Southern Ground Capital — Home">
+        <img src="/logo.png" alt="Southern Ground Capital" class="nav-logo-img" width="44" height="44" decoding="async" />
+        <span class="nav-logo-name">Southern Ground<br>Capital</span>
+      </a>
+
+      <ul class="nav-links" role="list">
+        <li class="nav-has-drop">
+          <a href="/loans" aria-haspopup="true" aria-expanded="false">Loan Programs <span class="nav-caret" aria-hidden="true">▾</span></a>
+          <ul class="nav-drop" role="list">
+            <li><a href="/loans/fix-and-flip">Fix &amp; Flip</a></li>
+            <li><a href="/loans/dscr">DSCR Loans</a></li>
+            <li><a href="/loans/bridge">Bridge Loans</a></li>
+            <li><a href="/loans/new-construction">New Construction</a></li>
+            <li><a href="/loans/multi-family">Multi-Family</a></li>
+            <li><a href="/loans/cash-out-refinance">Cash-Out Refinance</a></li>
+            <li><a href="/#rates">Rates &amp; Terms</a></li>
+            <li><a href="/loans">All Programs &amp; Rates</a></li>
+          </ul>
+        </li>
+        <li><a href="/#how-it-works">How It Works</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/brrrr-analyzer.html">BRRRR Analyzer</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="lang-pill" role="group" aria-label="Language">
+          <a href="/" class="lang-pill__opt lang-pill__opt--active" aria-current="true">EN</a><span class="lang-pill__div" aria-hidden="true">|</span><a href="/es.html" class="lang-pill__opt">ES</a>
+        </div>
+        <a href="tel:+16788428084" class="nav-phone">(678) 842-8084</a>
+        <a href="/apply.html" class="btn btn-gold nav-cta">Get a Free Quote</a>
+      </div>
+
+      <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <ul role="list">
+        <li><a href="/loans">Loan Programs</a></li>
+        <li><a href="/loans/fix-and-flip" class="mobile-menu__sub">Fix &amp; Flip</a></li>
+        <li><a href="/loans/dscr" class="mobile-menu__sub">DSCR Loans</a></li>
+        <li><a href="/loans/bridge" class="mobile-menu__sub">Bridge Loans</a></li>
+        <li><a href="/loans/new-construction" class="mobile-menu__sub">New Construction</a></li>
+        <li><a href="/loans/multi-family" class="mobile-menu__sub">Multi-Family</a></li>
+        <li><a href="/loans/cash-out-refinance" class="mobile-menu__sub">Cash-Out Refinance</a></li>
+        <li><a href="/#how-it-works">How It Works</a></li>
+        <li><a href="/#rates">Rates &amp; Terms</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/brrrr-analyzer.html">BRRRR Analyzer</a></li>
+        <li><a href="/apply.html">Contact</a></li>
+        <li><a href="/es.html">Ver en Español →</a></li>
+      </ul>
+      <a href="/apply.html" class="btn btn-gold btn-full">Get a Free Quote</a>
+      <a href="tel:+16788428084" class="mobile-phone-link">(678) 842-8084</a>
+    </div>
+  </header>
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <ol class="container" role="list">
+      <li><a href="/">Home</a></li>
+      <li aria-current="page">Accessibility Statement</li>
+    </ol>
+  </nav>
+
+  <main id="main">
+
+    <section class="legal-page section--white">
+      <div class="container legal-container">
+        <h1>Accessibility Statement</h1>
+        <p class="legal-updated">Last updated: February 1, 2026</p>
+        <p class="legal-intro">Southern Ground Capital wants every real estate investor to be able to use this site, evaluate our loan programmes, and submit a deal — regardless of how they browse the web.</p>
+
+      <h2>Our commitment</h2>
+      <p>We aim to meet <strong>WCAG 2.1 Level AA</strong> across sgcapital.io. That standard is the benchmark most widely referenced for web accessibility in the United States, and it is the target we build and review against.</p>
+
+      <h2>What we have done</h2>
+      <ul>
+        <li><strong>Keyboard access.</strong> Every interactive element — navigation, menus, forms, calculators, and expandable sections — can be reached and operated with a keyboard alone, and a visible focus indicator shows where you are.</li>
+        <li><strong>Skip link.</strong> A "Skip to content" link is the first focusable element on every page, so keyboard and screen reader users can bypass the navigation.</li>
+        <li><strong>Semantic structure.</strong> Pages use real headings in a logical order, one main heading per page, landmark regions, and list markup, so assistive technology can convey the structure of a page rather than a wall of text.</li>
+        <li><strong>Text alternatives.</strong> Meaningful images carry descriptive alternative text; decorative graphics and icons are hidden from assistive technology so they do not add noise.</li>
+        <li><strong>Colour and contrast.</strong> Text and interface colours are chosen to meet the AA contrast ratios, and colour is never the only way information is conveyed.</li>
+        <li><strong>Forms.</strong> Every field has a visible, programmatically associated label, and validation errors are presented in text next to the field rather than by colour alone.</li>
+        <li><strong>Motion.</strong> Animation is limited and decorative. The site respects the operating system's reduced-motion preference, and the hero background video is muted, non-essential, and hidden on small screens.</li>
+        <li><strong>Zoom and responsive layout.</strong> Content reflows and remains usable at 200% zoom and on small screens without horizontal scrolling.</li>
+        <li><strong>Language.</strong> Pages declare their language, and a full Spanish version of the homepage is available at <a href="/es.html">sgcapital.io/es</a>.</li>
+      </ul>
+
+      <h2>Known limitations</h2>
+      <p>We test with keyboard navigation, automated tooling, and screen readers, but no site is ever finished. Areas we are actively working on:</p>
+      <ul>
+        <li>Third-party PDF resources, such as downloadable checklists, are not yet fully tagged for screen readers. If you need one of these in an accessible format, email us and we will provide it.</li>
+        <li>The Spanish version of the site currently covers the homepage. Programme, geographic, and article pages are English-only while translation is in progress.</li>
+        <li>Some data-dense tables in our articles require horizontal scrolling on very small screens.</li>
+      </ul>
+
+      <h2>Tell us if something does not work</h2>
+      <p>If you encounter a barrier on this site — a page you cannot navigate, a form you cannot complete, content a screen reader will not read — please tell us. We treat accessibility reports as bugs, not feedback, and we will get back to you.</p>
+      <p>Email <a href="mailto:loans@sgcapital.io">loans@sgcapital.io</a> or call <a href="tel:+16788428084">(678) 842-8084</a>. If you can, include the page address, what you were trying to do, and the browser and assistive technology you were using. We aim to respond within two business days.</p>
+
+      <h2>Another way to reach us</h2>
+      <p>You never have to use this website to do business with us. If any part of it is not working for you, call <a href="tel:+16788428084">(678) 842-8084</a> or email <a href="mailto:loans@sgcapital.io">loans@sgcapital.io</a> and a loan specialist will take your deal details directly and walk you through the process by phone.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-grid">
+
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="/logo.png" alt="Southern Ground Capital" class="footer-logo-img" width="80" height="80" loading="lazy" decoding="async" />
+        </div>
+        <p class="footer-tagline">Direct private lending for real estate investors. 43 states. No banks. No brokers.</p>
+        <address class="footer-nap" aria-label="Contact information">
+          <span class="footer-addr">Atlanta, GA &middot; United States</span>
+          <a href="tel:+16788428084">(678) 842-8084</a>
+          <a href="mailto:loans@sgcapital.io">loans@sgcapital.io</a>
+        </address>
+      </div>
+
+      <nav class="footer-nav" aria-label="Loan programs">
+        <strong>Loan Programs</strong>
+        <ul role="list">
+          <li><a href="/loans/fix-and-flip">Fix &amp; Flip</a></li>
+          <li><a href="/loans/dscr">DSCR Loans</a></li>
+          <li><a href="/loans/bridge">Bridge Loans</a></li>
+          <li><a href="/loans/new-construction">New Construction</a></li>
+          <li><a href="/loans/multi-family">Multi-Family</a></li>
+          <li><a href="/loans/cash-out-refinance">Cash-Out Refinance</a></li>
+          <li><a href="/escrow-funding">Escrow Funding (EMD &amp; Double Close)</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-nav" aria-label="Where we lend">
+        <strong>Where We Lend</strong>
+        <ul role="list">
+          <li><a href="/hard-money-loans/georgia">Hard Money Loans in Georgia</a></li>
+          <li><a href="/hard-money-loans/atlanta">Hard Money Loans in Atlanta</a></li>
+          <li><a href="/hard-money-loans/north-carolina">Hard Money Loans in North Carolina</a></li>
+          <li><a href="/hard-money-loans/tennessee">Hard Money Loans in Tennessee</a></li>
+          <li><a href="/loans">All Programs &amp; Rates</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-nav" aria-label="Company links">
+        <strong>Company</strong>
+        <ul role="list">
+          <li><a href="/#how-it-works">How It Works</a></li>
+          <li><a href="/#rates">Rates &amp; Terms</a></li>
+          <li><a href="/#about">About Us</a></li>
+          <li><a href="/blog/">Investor Blog</a></li>
+          <li><a href="/#affiliates">Affiliates</a></li>
+          <li><a href="/apply.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-legal">
+        <strong>Legal</strong>
+        <ul role="list">
+          <li><a href="/privacy-policy">Privacy Policy</a></li>
+          <li><a href="/terms-of-service">Terms of Service</a></li>
+          <li><a href="/accessibility">Accessibility</a></li>
+        </ul>
+        <p class="footer-states">Lending available in 43 states. Excludes AZ, NV, ND, OR, SD, UT, VT. All loans for investment purposes only. Not owner-occupied.</p>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; <span id="footer-year">2026</span> Southern Ground Capital, LLC &middot; All rights reserved</p>
+        <p>Investment property loans only &middot; Not FDIC insured &middot; Subject to underwriting and property evaluation</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/script.js?v=5" defer></script>
+</body>
+</html>
