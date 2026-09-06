@@ -280,7 +280,7 @@ export function footer() {
         <div class="footer-logo">
           <img src="/logo.png" alt="Southern Ground Capital" class="footer-logo-img" width="80" height="80" loading="lazy" decoding="async" />
         </div>
-        <p class="footer-tagline">Direct private lending for real estate investors. 43 states. No banks. No brokers.</p>
+        <p class="footer-tagline">Direct private lending for real estate investors. 43 states. No bank committees. No broker chain.</p>
         <address class="footer-nap" aria-label="Contact information">
           <span class="footer-addr">${SITE.city}, ${SITE.region} &middot; United States</span>
           <a href="${SITE.phoneHref}">${SITE.phone}</a>
