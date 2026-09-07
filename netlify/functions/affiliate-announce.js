@@ -7,7 +7,10 @@
 //   ?test=you@email.com  -> sends ONE email to that address only (uses sample data)
 //   (no params)          -> sends to every affiliate in Airtable
 //
-// Protect real sends with a shared secret: send header `x-admin-key: <ADMIN_SEND_KEY>`.
+// EVERY request needs the shared secret, dry runs and tests included:
+// header `x-admin-key: <ADMIN_SEND_KEY>`.
+
+const { requireAdminKey, testRecipientAllowed } = require('./lib/admin-auth');
 
 exports.handler = async function (event) {
   if (event.httpMethod === 'OPTIONS') {
@@ -33,15 +36,20 @@ exports.handler = async function (event) {
   const AIRTABLE_TOKEN   = process.env.AIRTABLE_TOKEN;
   const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
   const RESEND_API_KEY   = process.env.RESEND_API_KEY;
-  const ADMIN_SEND_KEY   = process.env.ADMIN_SEND_KEY;
 
-  // Require a shared secret for any real send (dryRun and test are exempt so you
-  // can preview/verify without the key).
-  if (!dryRun && !testTo) {
-    const provided = event.headers['x-admin-key'] || event.headers['X-Admin-Key'];
-    if (!ADMIN_SEND_KEY || provided !== ADMIN_SEND_KEY) {
-      return { statusCode: 401, body: JSON.stringify({ error: 'Unauthorized' }) };
-    }
+  // Every mode here is privileged: a real send mails every affiliate, `test`
+  // sends from our own domain, and `dryRun` returns the full affiliate roster
+  // (names + emails). All three require the key.
+  const unauthorized = requireAdminKey(event);
+  if (unauthorized) return unauthorized;
+
+  // Even holding the key, a test email may only go to an address we control.
+  if (testTo && !testRecipientAllowed(testTo)) {
+    return {
+      statusCode: 403,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Test sends are limited to ADMIN_EMAILS addresses.' }),
+    };
   }
 
   // --- TEST MODE: send a single email to the provided address with sample data ---

@@ -7,8 +7,11 @@
 //   node scripts/send-affiliate-announce.js --test you@email.com  # send one test email to yourself
 //   node scripts/send-affiliate-announce.js --send                # REAL send to all affiliates
 //
-// The real send requires the admin key (PowerShell):
-//   $env:ADMIN_SEND_KEY = "xxxxx"; node scripts/send-affiliate-announce.js --send
+// Every mode requires the admin key (a dry run returns the whole affiliate
+// roster, a test sends from our domain). Put ADMIN_SEND_KEY in .env.local, or:
+//   $env:ADMIN_SEND_KEY = "xxxxx"   # PowerShell, not cmd
+
+const { requireAdminKey } = require('./lib/admin-key');
 
 const BASE = 'https://sgcapital.io/.netlify/functions/affiliate-announce';
 
@@ -20,21 +23,20 @@ async function main() {
   let url = BASE;
   const headers = { 'Content-Type': 'application/json' };
 
+  if (!has('--dry') && !has('--test') && !has('--send')) {
+    console.log('Specify one of: --dry | --test <email> | --send');
+    process.exit(0);
+  }
+
+  // The endpoint now requires the key for every mode, dry runs and tests too.
+  headers['x-admin-key'] = requireAdminKey();
+
   if (has('--dry')) {
     url += '?dryRun=1';
   } else if (has('--test')) {
     const to = val('--test');
     if (!to) { console.error('Provide an address: --test you@email.com'); process.exit(1); }
     url += `?test=${encodeURIComponent(to)}`;
-  } else if (has('--send')) {
-    if (!process.env.ADMIN_SEND_KEY) {
-      console.error('Real send requires ADMIN_SEND_KEY env var.');
-      process.exit(1);
-    }
-    headers['x-admin-key'] = process.env.ADMIN_SEND_KEY;
-  } else {
-    console.log('Specify one of: --dry | --test <email> | --send');
-    process.exit(0);
   }
 
   const res = await fetch(url, { method: 'POST', headers, body: '{}' });
