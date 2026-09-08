@@ -10,6 +10,20 @@
 [functions]
   directory = "netlify/functions"
 
+# The sitemap must be served as real XML so Search Console can parse it.
+# Netlify infers this from the .xml extension, but declare it explicitly so a
+# future host or header change can't silently turn it into text/plain.
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=UTF-8"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=UTF-8"
+
 [[headers]]
   for = "/*.mp4"
   [headers.values]
@@ -172,6 +186,37 @@
 [[redirects]]
   from = "/accessibility"
   to = "/accessibility.html"
+  status = 200
+
+# Blog posts, extensionless to match each post's canonical.
+[[redirects]]
+  from = "/blog/arv-explained"
+  to = "/blog/arv-explained.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/close-in-5-days"
+  to = "/blog/close-in-5-days.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/construction-draw-schedule"
+  to = "/blog/construction-draw-schedule.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/dscr-loans-explained"
+  to = "/blog/dscr-loans-explained.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/llc-docs-checklist"
+  to = "/blog/llc-docs-checklist.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/rehab-budget-guide"
+  to = "/blog/rehab-budget-guide.html"
   status = 200
 
 # Shorthands people type or get sent in a text.

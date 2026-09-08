@@ -12,7 +12,7 @@
 // others through a capital partner, acting as an unlicensed
 // intermediary on business-purpose, real-property-secured loans.
 // Counsel should confirm two things against that description:
-//   (a) whether any state SGC lends in requires a licence to ARRANGE
+//   (a) whether any state SGC lends in requires a license to ARRANGE
 //       such a loan (California is the notable one not on the
 //       excluded list), and
 //   (b) whether any commercial financing disclosure statute reaches
@@ -39,7 +39,7 @@ export const LEGAL_PAGES = [
     h1: 'Privacy Policy',
     updated: EFFECTIVE,
     intro:
-      'This policy explains what information Southern Ground Capital, LLC collects through sgcapital.io, why we collect it, who we share it with, and the choices you have. It applies to this website and to the loan enquiry, affiliate, and newsletter forms on it.',
+      'This policy explains what information Southern Ground Capital, LLC collects through sgcapital.io, why we collect it, who we share it with, and the choices you have. It applies to this website and to the loan inquiry, affiliate, and newsletter forms on it.',
     body: `
       <!-- REVIEW: have attorney review before launch -->
 
@@ -51,24 +51,24 @@ export const LEGAL_PAGES = [
            site's trust signals, and Google Business Profile requires one. -->
 
       <h2>2. Information we collect</h2>
-      <p><strong>Information you give us.</strong> When you submit a loan enquiry, apply, request a resource such as the Fix &amp; Flip checklist, register as an affiliate, or contact us, we collect what you provide. Depending on the form, that may include:</p>
+      <p><strong>Information you give us.</strong> When you submit a loan inquiry, apply, request a resource such as the Fix &amp; Flip checklist, register as an affiliate, or contact us, we collect what you provide. Depending on the form, that may include:</p>
       <ul>
         <li>Your name, email address, phone number, and business or entity name</li>
         <li>Property information — address, purchase price, renovation budget, estimated after-repair value, current loan balance, rent, and occupancy</li>
-        <li>Deal information — loan amount sought, programme of interest, timeline, and your investing experience</li>
-        <li>Entity documentation you choose to send us, such as articles of organisation or an operating agreement</li>
+        <li>Deal information — loan amount sought, program of interest, timeline, and your investing experience</li>
+        <li>Entity documentation you choose to send us, such as articles of organization or an operating agreement</li>
         <li>Any other information you include in a message to us</li>
       </ul>
       <p><strong>Information collected automatically.</strong> Like most websites, we and our service providers collect limited technical information when you visit: IP address, browser type and version, device type, operating system, referring page, the pages you view, and the dates and times of those visits. This is used for security, aggregate analytics, and to keep the site working.</p>
       <p><strong>Information we do not collect here.</strong> We do not collect Social Security numbers, dates of birth, bank account or card numbers, or credit report data through this website. Where information of that kind becomes necessary for a loan that is proceeding, it is collected through a secure channel outside this website and handled under the disclosures provided at that time.</p>
 
       <h2>3. Credit</h2>
-      <p>Submitting an enquiry through this website does <strong>not</strong> authorise a credit pull, and we do not obtain a consumer credit report as part of quoting a deal. If a loan proceeds to underwriting and a credit report becomes necessary, we will tell you and obtain your authorisation first.</p>
+      <p>Submitting an inquiry through this website does <strong>not</strong> authorize a credit pull, and we do not obtain a consumer credit report as part of quoting a deal. If a loan proceeds to underwriting and a credit report becomes necessary, we will tell you and obtain your authorization first.</p>
 
       <h2>4. How we use information</h2>
       <p>We use the information described above to:</p>
       <ul>
-        <li>Evaluate your deal, prepare a quote or term sheet, and respond to your enquiry</li>
+        <li>Evaluate your deal, prepare a quote or term sheet, and respond to your inquiry</li>
         <li>Underwrite, document, close, and service a loan if one proceeds</li>
         <li>Send you the resource, checklist, or affiliate materials you requested</li>
         <li>Send you follow-up communications and, where you have opted in, occasional marketing emails</li>
@@ -78,7 +78,7 @@ export const LEGAL_PAGES = [
       </ul>
 
       <h2>5. We do not sell your personal information</h2>
-      <p>Southern Ground Capital does not sell personal information, and does not share personal information with third parties for their own independent marketing purposes. We have not sold or shared personal information for cross-context behavioural advertising in the preceding twelve months.</p>
+      <p>Southern Ground Capital does not sell personal information, and does not share personal information with third parties for their own independent marketing purposes. We have not sold or shared personal information for cross-context behavioral advertising in the preceding twelve months.</p>
 
       <h2>6. Who we share information with</h2>
       <p>We share information only as needed to do the work you have asked us to do, or where the law requires it:</p>
@@ -96,19 +96,19 @@ export const LEGAL_PAGES = [
       <!-- REVIEW: if a Meta Pixel, Google Ads tag, or other advertising pixel is ever added to this site, this section and section 5 must be revisited — advertising pixels can constitute "sharing" under several state privacy statutes. -->
 
       <h2>8. Marketing emails</h2>
-      <p>If you request a resource or submit an enquiry, we may send you related follow-up communications. Every marketing email includes an unsubscribe link, and you can opt out at any time by using it or by emailing <a href="mailto:loans@sgcapital.io">loans@sgcapital.io</a>. Opting out of marketing does not stop transactional messages about a loan you have in progress.</p>
+      <p>If you request a resource or submit an inquiry, we may send you related follow-up communications. Every marketing email includes an unsubscribe link, and you can opt out at any time by using it or by emailing <a href="mailto:loans@sgcapital.io">loans@sgcapital.io</a>. Opting out of marketing does not stop transactional messages about a loan you have in progress.</p>
 
       <h2>9. Text messages</h2>
-      <p>Where you provide a mobile number and consent to be contacted by text, we may send you messages about your enquiry or loan. Message and data rates may apply. Reply STOP to any message to opt out of further texts. Consent to receive texts is not a condition of any loan.</p>
+      <p>Where you provide a mobile number and consent to be contacted by text, we may send you messages about your inquiry or loan. Message and data rates may apply. Reply STOP to any message to opt out of further texts. Consent to receive texts is not a condition of any loan.</p>
 
       <h2>10. How long we keep information</h2>
-      <p>We keep enquiry information for as long as needed to respond to it and for a reasonable period afterwards in case you return. Where a loan is originated, we keep the loan file for the period required by applicable lending, tax, and recordkeeping law. You may ask us to delete information we are not required to retain.</p>
+      <p>We keep inquiry information for as long as needed to respond to it and for a reasonable period afterwards in case you return. Where a loan is originated, we keep the loan file for the period required by applicable lending, tax, and recordkeeping law. You may ask us to delete information we are not required to retain.</p>
 
       <h2>11. Security</h2>
       <p>We use commercially reasonable administrative and technical safeguards to protect the information we hold, including encryption in transit across this website. No method of transmission or storage is completely secure, and we cannot guarantee absolute security. Please do not send sensitive documents by unencrypted email; ask us for a secure upload link instead.</p>
 
       <h2>12. Your choices and rights</h2>
-      <p>You may ask us to access, correct, or delete the personal information we hold about you, or to stop sending you marketing, by emailing <a href="mailto:loans@sgcapital.io">loans@sgcapital.io</a>. Residents of states with comprehensive privacy statutes — including California, Colorado, Connecticut, Virginia, Texas, and others — may have additional statutory rights, including the right to know what information is collected and the right to appeal a refused request. We honour these requests regardless of where you live, and we will not discriminate against you for exercising them. We will verify your identity before acting on a request.</p>
+      <p>You may ask us to access, correct, or delete the personal information we hold about you, or to stop sending you marketing, by emailing <a href="mailto:loans@sgcapital.io">loans@sgcapital.io</a>. Residents of states with comprehensive privacy statutes — including California, Colorado, Connecticut, Virginia, Texas, and others — may have additional statutory rights, including the right to know what information is collected and the right to appeal a refused request. We honor these requests regardless of where you live, and we will not discriminate against you for exercising them. We will verify your identity before acting on a request.</p>
 
       <h2>13. Children</h2>
       <p>This site is directed to real estate investors and is not intended for anyone under 18. We do not knowingly collect information from children. If you believe a child has provided us information, contact us and we will delete it.</p>
@@ -117,7 +117,7 @@ export const LEGAL_PAGES = [
       <p>This site links to third-party websites and tools. We are not responsible for their privacy practices, and this policy does not apply to them. Read their policies before providing information.</p>
 
       <h2>15. Changes to this policy</h2>
-      <p>We may update this policy from time to time. The effective date at the top of this page reflects the most recent version. Material changes will be signalled by updating that date and, where appropriate, by direct notice.</p>
+      <p>We may update this policy from time to time. The effective date at the top of this page reflects the most recent version. Material changes will be signaled by updating that date and, where appropriate, by direct notice.</p>
 
       <h2>16. Contact</h2>
       <p>Questions, requests, or complaints about this policy:<br />
@@ -144,13 +144,13 @@ export const LEGAL_PAGES = [
       <p>This website is operated by Southern Ground Capital, LLC ("SGC", "we", "us"), a private lending firm based in Atlanta, Georgia. "You" means anyone who accesses this site or submits information through it.</p>
 
       <h2>2. Nothing here is a commitment to lend</h2>
-      <p>This is the most important term on this page. Rates, terms, leverage limits, loan amounts, timelines, and programme descriptions published on this website are <strong>illustrative and subject to change without notice</strong>. They are not an offer, a commitment, or a guarantee of credit.</p>
-      <p>No loan exists until SGC or its funding partner issues a written commitment and the loan closes. Submitting an enquiry, receiving a quote, or receiving a term sheet does not create a binding obligation on either party. Every loan remains subject to full underwriting, third-party reports including appraisal and title, satisfactory property condition, verification of the information you provided, and final credit approval.</p>
+      <p>This is the most important term on this page. Rates, terms, leverage limits, loan amounts, timelines, and program descriptions published on this website are <strong>illustrative and subject to change without notice</strong>. They are not an offer, a commitment, or a guarantee of credit.</p>
+      <p>No loan exists until SGC or its funding partner issues a written commitment and the loan closes. Submitting an inquiry, receiving a quote, or receiving a term sheet does not create a binding obligation on either party. Every loan remains subject to full underwriting, third-party reports including appraisal and title, satisfactory property condition, verification of the information you provided, and final credit approval.</p>
 
       <h2>3. How your loan is funded</h2>
-      <p>Southern Ground Capital funds some loans with its own capital and arranges others through one of its institutional capital partners. Which route a given deal takes depends on the property, the programme, the loan size, and the state — and it is determined during underwriting, not at enquiry.</p>
+      <p>Southern Ground Capital funds some loans with its own capital and arranges others through one of its institutional capital partners. Which route a given deal takes depends on the property, the program, the loan size, and the state — and it is determined during underwriting, not at inquiry.</p>
       <p>Where a loan is funded by a capital partner, SGC arranges and facilitates the transaction between you and that partner and is compensated for that work. <strong>On any given transaction SGC is compensated by one side only</strong> — either through origination points charged to the borrower, or by the funding partner — never by both on the same loan.</p>
-      <p>Origination points vary by deal, programme, leverage, credit profile, and funding source. <strong>All points and fees payable by you are set out in the written term sheet and commitment you receive before you incur any third-party cost, and are itemised again on the closing statement.</strong> SGC charges no application fee, no underwriting deposit, and no fee of any kind payable before closing, and adds nothing to the terms you were quoted. The identity of the funding source and the final terms are disclosed to you in the written commitment and the loan documents before closing.</p>
+      <p>Origination points vary by deal, program, leverage, credit profile, and funding source. <strong>All points and fees payable by you are set out in the written term sheet and commitment you receive before you incur any third-party cost, and are itemized again on the closing statement.</strong> SGC charges no application fee, no underwriting deposit, and no fee of any kind payable before closing, and adds nothing to the terms you were quoted. The identity of the funding source and the final terms are disclosed to you in the written commitment and the loan documents before closing.</p>
       <p>SGC is not a retail mortgage broker and does not originate consumer mortgage loans. See section 4 below.</p>
 
       <h2>4. Business-purpose loans on investment property only</h2>
@@ -159,8 +159,8 @@ export const LEGAL_PAGES = [
       <p>Loans close in a business entity. You represent that any loan you seek is for a genuine business or investment purpose and that the collateral will not be owner-occupied.</p>
 
       <h2>5. Where we lend</h2>
-      <p>SGC lends in 43 U.S. states. We do not currently lend in Arizona, Nevada, North Dakota, Oregon, South Dakota, Utah, or Vermont. Programme availability, terms, and requirements vary by state and by property, and nothing on this site should be read as an offer to lend where we are not authorised to do so.</p>
-      <!-- REVIEW: state licensing disclosures. Confirm with counsel whether any state in which SGC lends requires a licence disclosure, an NMLS identifier, or specific advertising language for business-purpose lending, and insert the required text here. -->
+      <p>SGC lends in 43 U.S. states. We do not currently lend in Arizona, Nevada, North Dakota, Oregon, South Dakota, Utah, or Vermont. Program availability, terms, and requirements vary by state and by property, and nothing on this site should be read as an offer to lend where we are not authorized to do so.</p>
+      <!-- REVIEW: state licensing disclosures. Confirm with counsel whether any state in which SGC lends requires a license disclosure, an NMLS identifier, or specific advertising language for business-purpose lending, and insert the required text here. -->
 
       <h2>6. Accuracy of information you provide</h2>
       <p>You agree that the information you submit is true, accurate, and complete, and that you have the authority to submit it. Deal decisions are made in reliance on what you tell us. Material misstatements — an inflated after-repair value, an understated renovation scope, an undisclosed lien, a misrepresented occupancy — are grounds for withdrawing a quote or commitment, and may have legal consequences.</p>
@@ -177,8 +177,8 @@ export const LEGAL_PAGES = [
       <h2>10. Testimonials and case studies</h2>
       <p>Borrower testimonials and deal case studies on this site reflect the experience of specific borrowers on specific transactions. They are not typical results, not a guarantee, and not a prediction of what your deal will do. Outcomes depend on the property, the market, the execution, and factors outside anyone's control.</p>
 
-      <h2>11. Affiliate programme</h2>
-      <p>Participation in the SGC affiliate or referral programme is governed by the separate terms presented at registration. Referral compensation is payable only on loans that actually close and fund, is calculated as described in those terms, and may be modified or discontinued prospectively. Affiliates are independent, are not agents or employees of SGC, and may not quote rates or terms, make commitments, or represent themselves as speaking for SGC.</p>
+      <h2>11. Affiliate program</h2>
+      <p>Participation in the SGC affiliate or referral program is governed by the separate terms presented at registration. Referral compensation is payable only on loans that actually close and fund, is calculated as described in those terms, and may be modified or discontinued prospectively. Affiliates are independent, are not agents or employees of SGC, and may not quote rates or terms, make commitments, or represent themselves as speaking for SGC.</p>
 
       <h2>12. Intellectual property</h2>
       <p>The content, design, text, graphics, logos, and marks on this site are owned by Southern Ground Capital, LLC or its licensors and are protected by copyright and trademark law. You may view and print pages for your own reference. You may not republish, redistribute, or use them commercially without our written permission.</p>
@@ -224,7 +224,7 @@ export const LEGAL_PAGES = [
     h1: 'Accessibility Statement',
     updated: EFFECTIVE,
     intro:
-      'Southern Ground Capital wants every real estate investor to be able to use this site, evaluate our loan programmes, and submit a deal — regardless of how they browse the web.',
+      'Southern Ground Capital wants every real estate investor to be able to use this site, evaluate our loan programs, and submit a deal — regardless of how they browse the web.',
     body: `
       <h2>Our commitment</h2>
       <p>We aim to meet <strong>WCAG 2.1 Level AA</strong> across sgcapital.io. That standard is the benchmark most widely referenced for web accessibility in the United States, and it is the target we build and review against.</p>
@@ -235,18 +235,18 @@ export const LEGAL_PAGES = [
         <li><strong>Skip link.</strong> A "Skip to content" link is the first focusable element on every page, so keyboard and screen reader users can bypass the navigation.</li>
         <li><strong>Semantic structure.</strong> Pages use real headings in a logical order, one main heading per page, landmark regions, and list markup, so assistive technology can convey the structure of a page rather than a wall of text.</li>
         <li><strong>Text alternatives.</strong> Meaningful images carry descriptive alternative text; decorative graphics and icons are hidden from assistive technology so they do not add noise.</li>
-        <li><strong>Colour and contrast.</strong> Text and interface colours are chosen to meet the AA contrast ratios, and colour is never the only way information is conveyed.</li>
-        <li><strong>Forms.</strong> Every field has a visible, programmatically associated label, and validation errors are presented in text next to the field rather than by colour alone.</li>
+        <li><strong>Color and contrast.</strong> Text and interface colors are chosen to meet the AA contrast ratios, and color is never the only way information is conveyed.</li>
+        <li><strong>Forms.</strong> Every field has a visible, programmatically associated label, and validation errors are presented in text next to the field rather than by color alone.</li>
         <li><strong>Motion.</strong> Animation is limited and decorative. The site respects the operating system's reduced-motion preference, and the hero background video is muted, non-essential, and hidden on small screens.</li>
         <li><strong>Zoom and responsive layout.</strong> Content reflows and remains usable at 200% zoom and on small screens without horizontal scrolling.</li>
-        <li><strong>Language.</strong> Pages declare their language, and a full Spanish version of the homepage is available at <a href="/es.html">sgcapital.io/es</a>.</li>
+        <li><strong>Language.</strong> Pages declare their language, and a full Spanish version of the homepage is available at <a href="/es">sgcapital.io/es</a>.</li>
       </ul>
 
       <h2>Known limitations</h2>
       <p>We test with keyboard navigation, automated tooling, and screen readers, but no site is ever finished. Areas we are actively working on:</p>
       <ul>
         <li>Third-party PDF resources, such as downloadable checklists, are not yet fully tagged for screen readers. If you need one of these in an accessible format, email us and we will provide it.</li>
-        <li>The Spanish version of the site currently covers the homepage. Programme, geographic, and article pages are English-only while translation is in progress.</li>
+        <li>The Spanish version of the site currently covers the homepage. Program, geographic, and article pages are English-only while translation is in progress.</li>
         <li>Some data-dense tables in our articles require horizontal scrolling on very small screens.</li>
       </ul>
 

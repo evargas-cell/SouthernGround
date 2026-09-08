@@ -43,6 +43,10 @@ for (const slug of ['fix-and-flip', 'dscr', 'bridge', 'new-construction', 'multi
   REWRITES.set(`/loans/${slug}`, `loans/${slug}.html`);
 for (const slug of ['georgia', 'atlanta', 'north-carolina', 'tennessee'])
   REWRITES.set(`/hard-money-loans/${slug}`, `hard-money-loans/${slug}.html`);
+// Blog posts are served extensionless too; discover them from disk.
+for (const f of readdirSync(resolve(ROOT, 'blog')))
+  if (f.endsWith('.html') && f !== 'index.html')
+    REWRITES.set(`/blog/${f.replace(/[.]html$/, '')}`, `blog/${f}`);
 
 function walk(dir, out = []) {
   for (const e of readdirSync(resolve(ROOT, dir), { withFileTypes: true })) {

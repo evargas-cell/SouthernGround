@@ -76,8 +76,8 @@ export const GEOS = [
     testimonialKey: 'marcus',
     programs: ['fix-and-flip', 'dscr', 'bridge', 'new-construction', 'multi-family'],
     related: [
-      ['/blog/arv-explained.html', 'ARV 101: After-Repair Value', 'Why submarket-specific comps matter so much in metro Atlanta.'],
-      ['/blog/close-in-5-days.html', 'How to Close a Hard Money Loan Fast', 'What to have ready before a first-Tuesday auction.'],
+      ['/blog/arv-explained', 'ARV 101: After-Repair Value', 'Why submarket-specific comps matter so much in metro Atlanta.'],
+      ['/blog/close-in-5-days', 'How to Close a Hard Money Loan Fast', 'What to have ready before a first-Tuesday auction.'],
       ['/hard-money-loans/atlanta', 'Hard Money Lender in Atlanta', 'Neighborhood-level detail on our home city.'],
     ],
   },
@@ -152,8 +152,8 @@ export const GEOS = [
     programs: ['fix-and-flip', 'dscr', 'bridge', 'new-construction'],
     related: [
       ['/hard-money-loans/georgia', 'Hard Money Loans in Georgia', 'Statewide coverage beyond the metro.'],
-      ['/blog/arv-explained.html', 'ARV 101: After-Repair Value', 'How to build comps that survive an Atlanta appraisal.'],
-      ['/blog/rehab-budget-guide.html', 'Scoping Your Rehab Budget', 'The line-item detail that gets an intown renovation approved.'],
+      ['/blog/arv-explained', 'ARV 101: After-Repair Value', 'How to build comps that survive an Atlanta appraisal.'],
+      ['/blog/rehab-budget-guide', 'Scoping Your Rehab Budget', 'The line-item detail that gets an intown renovation approved.'],
     ],
   },
 
@@ -222,8 +222,8 @@ export const GEOS = [
     testimonialKey: 'jennifer',
     programs: ['dscr', 'fix-and-flip', 'cash-out-refinance', 'bridge'],
     related: [
-      ['/blog/dscr-loans-explained.html', 'DSCR Loans Explained', 'The product doing most of the work in the Carolinas.'],
-      ['/brrrr-analyzer.html', 'BRRRR Analyzer', 'Model a Triad buy-rehab-rent-refinance before you offer.'],
+      ['/blog/dscr-loans-explained', 'DSCR Loans Explained', 'The product doing most of the work in the Carolinas.'],
+      ['/brrrr-analyzer', 'BRRRR Analyzer', 'Model a Triad buy-rehab-rent-refinance before you offer.'],
       ['/hard-money-loans/tennessee', 'Hard Money Loans in Tennessee', 'The neighboring market with a similar profile.'],
     ],
   },
@@ -296,8 +296,8 @@ export const GEOS = [
     testimonialKey: 'david',
     programs: ['new-construction', 'fix-and-flip', 'dscr', 'bridge'],
     related: [
-      ['/blog/construction-draw-schedule.html', 'Construction Draw Schedules', 'How draws are structured and how to keep a build on track.'],
-      ['/blog/dscr-loans-explained.html', 'DSCR Loans Explained', 'The math behind Memphis buy-and-hold.'],
+      ['/blog/construction-draw-schedule', 'Construction Draw Schedules', 'How draws are structured and how to keep a build on track.'],
+      ['/blog/dscr-loans-explained', 'DSCR Loans Explained', 'The math behind Memphis buy-and-hold.'],
       ['/hard-money-loans/north-carolina', 'Hard Money Loans in North Carolina', 'The neighboring market with a similar profile.'],
     ],
   },

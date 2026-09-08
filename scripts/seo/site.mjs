@@ -201,6 +201,7 @@ export function header() {
           <a href="/loans/" aria-haspopup="true" aria-expanded="false">Loan Programs <span class="nav-caret" aria-hidden="true">▾</span></a>
           <ul class="nav-drop" role="list">
 ${dropdown}
+            <li><a href="/escrow-funding">Escrow Funding</a></li>
             <li><a href="/#rates">Rates &amp; Terms</a></li>
             <li><a href="/loans/">All Programs &amp; Rates</a></li>
           </ul>
@@ -208,15 +209,15 @@ ${dropdown}
         <li><a href="/#how-it-works">How It Works</a></li>
         <li><a href="/#about">About</a></li>
         <li><a href="/blog/">Blog</a></li>
-        <li><a href="/brrrr-analyzer.html">BRRRR Analyzer</a></li>
+        <li><a href="/brrrr-analyzer">BRRRR Analyzer</a></li>
       </ul>
 
       <div class="nav-actions">
         <div class="lang-pill" role="group" aria-label="Language">
-          <a href="/" class="lang-pill__opt lang-pill__opt--active" aria-current="true">EN</a><span class="lang-pill__div" aria-hidden="true">|</span><a href="/es.html" class="lang-pill__opt">ES</a>
+          <a href="/" class="lang-pill__opt lang-pill__opt--active" aria-current="true">EN</a><span class="lang-pill__div" aria-hidden="true">|</span><a href="/es" class="lang-pill__opt">ES</a>
         </div>
         <a href="${SITE.phoneHref}" class="nav-phone">${SITE.phone}</a>
-        <a href="/apply.html" class="btn btn-gold nav-cta">Get a Free Quote</a>
+        <a href="/apply" class="btn btn-gold nav-cta">Get a Free Quote</a>
       </div>
 
       <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
@@ -228,15 +229,16 @@ ${dropdown}
       <ul role="list">
         <li><a href="/loans/">Loan Programs</a></li>
 ${mobilePrograms}
+        <li><a href="/escrow-funding" class="mobile-menu__sub">Escrow Funding</a></li>
         <li><a href="/#how-it-works">How It Works</a></li>
         <li><a href="/#rates">Rates &amp; Terms</a></li>
         <li><a href="/#about">About</a></li>
         <li><a href="/blog/">Blog</a></li>
-        <li><a href="/brrrr-analyzer.html">BRRRR Analyzer</a></li>
-        <li><a href="/apply.html">Contact</a></li>
-        <li><a href="/es.html">Ver en Español →</a></li>
+        <li><a href="/brrrr-analyzer">BRRRR Analyzer</a></li>
+        <li><a href="/apply">Contact</a></li>
+        <li><a href="/es">Ver en Español →</a></li>
       </ul>
-      <a href="/apply.html" class="btn btn-gold btn-full">Get a Free Quote</a>
+      <a href="/apply" class="btn btn-gold btn-full">Get a Free Quote</a>
       <a href="${SITE.phoneHref}" class="mobile-phone-link">${SITE.phone}</a>
     </div>
   </header>
@@ -312,7 +314,7 @@ ${geos}
           <li><a href="/#about">About Us</a></li>
           <li><a href="/blog/">Investor Blog</a></li>
           <li><a href="/#affiliates">Affiliates</a></li>
-          <li><a href="/apply.html">Contact</a></li>
+          <li><a href="/apply">Contact</a></li>
         </ul>
       </nav>
 
@@ -350,7 +352,7 @@ export function ctaBand(heading, sub) {
         <h2 id="cta-band-heading" class="cta-band-heading">${heading}</h2>
         <p class="cta-band-sub">${sub}</p>
         <div class="cta-band-actions">
-          <a href="/apply.html" class="btn btn-gold btn-lg">Get My Free Quote</a>
+          <a href="/apply" class="btn btn-gold btn-lg">Get My Free Quote</a>
           <a href="${SITE.phoneHref}" class="btn btn-ghost-white btn-lg">Call ${SITE.phone}</a>
         </div>
       </div>

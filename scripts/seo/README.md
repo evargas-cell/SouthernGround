@@ -39,12 +39,12 @@ actually served, which programs get used there, and state-specific FAQs.
 
 ## Published terms and where they come from
 
-Three programmes are aligned to **Crebrid**'s published terms (a capital
+Three programs are aligned to **Crebrid**'s published terms (a capital
 partner). Three are not, because Crebrid has no equivalent product — their
 "Refinance" is a 6/12/18-month short-term loan, not a 30-year cash-out, so
 mapping it would introduce an error rather than fix one.
 
-| Programme | Source | Rate | Leverage | Min |
+| Program | Source | Rate | Leverage | Min |
 |---|---|---|---|---|
 | Fix & Flip | Crebrid | 7.73% | 90% LTC / 70% ARV | $75K |
 | DSCR | Crebrid | 5.75% | 80% LTV | $75K |
@@ -56,7 +56,7 @@ mapping it would introduce an error rather than fix one.
 Sitewide underwriting rules, all from the Crebrid Broker Deal Qualification
 Guide (v. 3/4/2026) — keep these in sync if a newer version arrives:
 
-- **Minimum FICO 660** on every programme. 700+ or a returning borrower reaches
+- **Minimum FICO 660** on every program. 700+ or a returning borrower reaches
   90% LTC with 10% down; below 700 requires documented value-add experience in
   the last 24 months, else 80% LTC with 20% down.
 - **Total project cost ≤ $125K requires 20% down** regardless of profile.
@@ -110,7 +110,7 @@ list of eight questions.
 Search the generated HTML for `REVIEW:` — each marks something only the owner
 or their attorney can fill in:
 
-- **state licence disclosures** in the terms of service — see the header
+- **state license disclosures** in the terms of service — see the header
   comment in `legal.mjs` for the two specific questions to put to counsel
 - the **`sameAs` array** in the Organization schema (`site.mjs`), once the
   Google Business Profile and LinkedIn company page exist
@@ -124,10 +124,10 @@ or their attorney can fill in:
 Resolved 2026-09-05 by owner decision:
 
 - The NMLS placeholder was **removed sitewide**. SGC holds no state lending or
-  broker licence with a displayable ID; business-purpose loans on
+  broker license with a displayable ID; business-purpose loans on
   non-owner-occupied property fall outside the SAFE Act, so there is no NMLS
-  number to show. Do not reintroduce a placeholder — an unfilled licence
-  number reads as a licence claim.
+  number to show. Do not reintroduce a placeholder — an unfilled license
+  number reads as a license claim.
 - The mailing address stays at **city/state level** ("Atlanta, Georgia, United
   States"). Add a street address if one is ever published; Google Business
   Profile will require one.
@@ -136,7 +136,7 @@ Resolved 2026-09-05 by owner decision:
   points from the borrower, or the funding partner, never both.
 - **Origination points are 2–4%, and that is the borrower's total** — not
   SGC's share stacked on a lender's. Corrected from the 1–3% the site
-  previously advertised across nine pages plus `llms.txt`, and labelled
+  previously advertised across nine pages plus `llms.txt`, and labeled
   "Total points" everywhere so it cannot be misread. This number is
   load-bearing: a borrower can rely on it, so it must match what you quote.
 - **Fix & Flip leverage is 90% LTC on the senior loan.** 100% of cost is real

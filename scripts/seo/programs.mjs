@@ -59,14 +59,14 @@ export const PROGRAMS = [
         h2: 'How the loan is structured',
         html: `<p>A fix and flip loan from SGC has two parts. The first is the acquisition advance, funded at closing, which covers a percentage of the purchase price. The second is the rehab holdback — the renovation budget, held by the lender and released to you in draws as the work is completed and inspected.</p>
         <p>Leverage is quoted against <strong>loan-to-cost (LTC)</strong>, which is purchase price plus rehab budget. Our senior loan goes up to 90% of cost for an experienced borrower on a strong deal; most first-time borrowers land between 80% and 85% and bring the balance to closing. Leverage is also capped against <strong>after-repair value (ARV)</strong> at 70%, so a deal has to clear both tests. Covering the last 10% of cost through a gap lender is possible on select deals — see <a href="#sec-3">Getting to 100% of cost</a> below.</p>
-        <p>On rehab budgets over $100,000, interest is charged on the drawn balance rather than the full commitment, so you are not paying interest on rehab dollars still sitting in the holdback. <strong>Below that threshold interest accrues on the full loan amount from closing</strong>, which is worth modelling before you size a smaller rehab. Terms run 6, 12, or 18 months with extension options, and there is no prepayment penalty on most fix and flip loans — if you sell in month five, you stop paying in month five.</p>`,
+        <p>On rehab budgets over $100,000, interest is charged on the drawn balance rather than the full commitment, so you are not paying interest on rehab dollars still sitting in the holdback. <strong>Below that threshold interest accrues on the full loan amount from closing</strong>, which is worth modeling before you size a smaller rehab. Terms run 6, 12, or 18 months with extension options, and there is no prepayment penalty on most fix and flip loans — if you sell in month five, you stop paying in month five.</p>`,
       },
       {
         h2: 'Getting to 100% of cost',
         html: `<p>You can close a deal with none of your own capital in it, but it is worth being precise about how: <strong>it is two loans, not one.</strong> SGC's senior loan covers up to 90% of cost. On selected deals we arrange the remaining basis through a separate gap lender who sits behind us in the capital stack.</p>
         <p>This is genuinely selective rather than a headline with fine print attached. The deal has to carry both positions, which in practice means a documented track record of completed flips, a purchase price well below market, and an after-repair value with enough room that the combined debt still sits comfortably beneath it. Most deals do not qualify. We will tell you inside the first conversation if yours does not, rather than after you have paid for an appraisal.</p>
         <p><strong>Gap capital is priced separately, and it costs materially more than the senior loan.</strong> It is in second position and takes more risk, so it is priced for that — with its own rate, its own points, or in some structures a share of the profit. The rates and the 2–4% total points quoted elsewhere on this page describe the senior loan on a standard single-lender structure. They do not include gap pricing.</p>
-        <p>If closing with nothing down is your goal, say so at the start. We will model the blended cost against a conventional 90% structure before you go under contract. Often the arithmetic favours bringing the 10% and keeping the cheaper capital — but not always, and it depends on how much of your money is already committed elsewhere. Either way, that is a conversation to have before you make the offer.</p>`,
+        <p>If closing with nothing down is your goal, say so at the start. We will model the blended cost against a conventional 90% structure before you go under contract. Often the arithmetic favors bringing the 10% and keeping the cheaper capital — but not always, and it depends on how much of your money is already committed elsewhere. Either way, that is a conversation to have before you make the offer.</p>`,
       },
       {
         h2: 'Terms at a glance',
@@ -134,9 +134,9 @@ export const PROGRAMS = [
     ],
     testimonial: T_MARCUS,
     related: [
-      ['/blog/rehab-budget-guide.html', 'How to Scope Your Rehab Budget So Your Lender Says Yes', 'Build a scope of work that gets approved quickly and funded fully.'],
-      ['/blog/arv-explained.html', 'ARV 101: How Lenders Calculate After-Repair Value', 'The number that drives your leverage — and how underwriters check it.'],
-      ['/blog/llc-docs-checklist.html', 'The LLC Doc Checklist', 'Every entity document your lender needs before you apply.'],
+      ['/blog/rehab-budget-guide', 'How to Scope Your Rehab Budget So Your Lender Says Yes', 'Build a scope of work that gets approved quickly and funded fully.'],
+      ['/blog/arv-explained', 'ARV 101: How Lenders Calculate After-Repair Value', 'The number that drives your leverage — and how underwriters check it.'],
+      ['/blog/llc-docs-checklist', 'The LLC Doc Checklist', 'Every entity document your lender needs before you apply.'],
     ],
     crossSell: ['bridge', 'new-construction', 'cash-out-refinance'],
   },
@@ -229,9 +229,9 @@ export const PROGRAMS = [
     ],
     testimonial: T_JENNIFER,
     related: [
-      ['/blog/dscr-loans-explained.html', 'DSCR Loans Explained: How to Qualify Without W-2s', 'The full walkthrough, with a worked DSCR calculation.'],
-      ['/brrrr-analyzer.html', 'BRRRR Analyzer', 'Model the buy-rehab-rent-refinance sequence before you make an offer.'],
-      ['/blog/llc-docs-checklist.html', 'The LLC Doc Checklist', 'Every entity document your lender needs before you apply.'],
+      ['/blog/dscr-loans-explained', 'DSCR Loans Explained: How to Qualify Without W-2s', 'The full walkthrough, with a worked DSCR calculation.'],
+      ['/brrrr-analyzer', 'BRRRR Analyzer', 'Model the buy-rehab-rent-refinance sequence before you make an offer.'],
+      ['/blog/llc-docs-checklist', 'The LLC Doc Checklist', 'Every entity document your lender needs before you apply.'],
     ],
     crossSell: ['cash-out-refinance', 'fix-and-flip', 'multi-family'],
   },
@@ -328,9 +328,9 @@ export const PROGRAMS = [
     ],
     testimonial: T_MARCUS,
     related: [
-      ['/blog/close-in-5-days.html', 'How to Close a Hard Money Loan Fast', 'What prepared borrowers do differently when the clock is running.'],
-      ['/blog/llc-docs-checklist.html', 'The LLC Doc Checklist', 'Have these ready and a fast close becomes realistic.'],
-      ['/blog/arv-explained.html', 'ARV 101: After-Repair Value', 'How underwriters test the value your exit depends on.'],
+      ['/blog/close-in-5-days', 'How to Close a Hard Money Loan Fast', 'What prepared borrowers do differently when the clock is running.'],
+      ['/blog/llc-docs-checklist', 'The LLC Doc Checklist', 'Have these ready and a fast close becomes realistic.'],
+      ['/blog/arv-explained', 'ARV 101: After-Repair Value', 'How underwriters test the value your exit depends on.'],
     ],
     crossSell: ['fix-and-flip', 'dscr', 'multi-family'],
   },
@@ -423,9 +423,9 @@ export const PROGRAMS = [
     ],
     testimonial: T_DAVID,
     related: [
-      ['/blog/construction-draw-schedule.html', 'Construction Draw Schedules: What to Expect', 'How draws are structured and how to keep your build on track.'],
-      ['/blog/rehab-budget-guide.html', 'Scoping a Budget Your Lender Will Approve', 'Line-item budgeting that survives underwriting.'],
-      ['/blog/llc-docs-checklist.html', 'The LLC Doc Checklist', 'Entity documents to have ready before you apply.'],
+      ['/blog/construction-draw-schedule', 'Construction Draw Schedules: What to Expect', 'How draws are structured and how to keep your build on track.'],
+      ['/blog/rehab-budget-guide', 'Scoping a Budget Your Lender Will Approve', 'Line-item budgeting that survives underwriting.'],
+      ['/blog/llc-docs-checklist', 'The LLC Doc Checklist', 'Entity documents to have ready before you apply.'],
     ],
     crossSell: ['fix-and-flip', 'dscr', 'bridge'],
   },
@@ -516,9 +516,9 @@ export const PROGRAMS = [
     ],
     testimonial: T_JENNIFER,
     related: [
-      ['/blog/dscr-loans-explained.html', 'DSCR Loans Explained', 'The most common permanent takeout for 2–4 unit properties.'],
-      ['/blog/rehab-budget-guide.html', 'Scoping a Renovation Budget', 'Unit-by-unit budgeting that underwriting can verify.'],
-      ['/blog/arv-explained.html', 'ARV 101: After-Repair Value', 'How as-stabilized value is tested on a value-add deal.'],
+      ['/blog/dscr-loans-explained', 'DSCR Loans Explained', 'The most common permanent takeout for 2–4 unit properties.'],
+      ['/blog/rehab-budget-guide', 'Scoping a Renovation Budget', 'Unit-by-unit budgeting that underwriting can verify.'],
+      ['/blog/arv-explained', 'ARV 101: After-Repair Value', 'How as-stabilized value is tested on a value-add deal.'],
     ],
     crossSell: ['bridge', 'dscr', 'fix-and-flip'],
   },
@@ -576,7 +576,7 @@ export const PROGRAMS = [
         h2: 'Seasoning and the BRRRR exit',
         html: `<p>Seasoning is how long you must have owned the property before we will refinance against its current appraised value rather than what you paid for it. Our standard is roughly six months of ownership.</p>
         <p>That number matters most to BRRRR investors. The strategy — buy, rehab, rent, refinance, repeat — depends on refinancing against the post-renovation value, not the distressed purchase price. Buy a house for $150,000, put $50,000 into it, and get it appraised at $280,000: at 80% LTV the refinance is $224,000 against a $200,000 basis, which returns your capital and then some. But that only works once the seasoning requirement is met and the property is leased with a signed lease in hand.</p>
-        <p>Sequence it deliberately: acquire and renovate on a Fix &amp; Flip loan, lease the property, let the seasoning clock run, then refinance here. Our <a href="/brrrr-analyzer.html">BRRRR analyzer</a> models the whole sequence, including whether the refinance actually returns your capital, before you make the offer.</p>`,
+        <p>Sequence it deliberately: acquire and renovate on a Fix &amp; Flip loan, lease the property, let the seasoning clock run, then refinance here. Our <a href="/brrrr-analyzer">BRRRR analyzer</a> models the whole sequence, including whether the refinance actually returns your capital, before you make the offer.</p>`,
       },
       {
         h2: 'What we need',
@@ -612,9 +612,9 @@ export const PROGRAMS = [
     ],
     testimonial: T_JENNIFER,
     related: [
-      ['/blog/dscr-loans-explained.html', 'DSCR Loans Explained', 'How the cash-flow ratio behind this program is calculated.'],
-      ['/brrrr-analyzer.html', 'BRRRR Analyzer', 'Model whether your refinance actually returns your capital.'],
-      ['/blog/arv-explained.html', 'ARV 101: After-Repair Value', 'The valuation your cash-out amount depends on.'],
+      ['/blog/dscr-loans-explained', 'DSCR Loans Explained', 'How the cash-flow ratio behind this program is calculated.'],
+      ['/brrrr-analyzer', 'BRRRR Analyzer', 'Model whether your refinance actually returns your capital.'],
+      ['/blog/arv-explained', 'ARV 101: After-Repair Value', 'The valuation your cash-out amount depends on.'],
     ],
     crossSell: ['dscr', 'fix-and-flip', 'multi-family'],
   },

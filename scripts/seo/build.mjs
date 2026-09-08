@@ -154,7 +154,7 @@ ${inner}      </section>`;
 ${metrics}
         </div>
         <div class="page-hero-ctas">
-          <a href="/apply.html" class="btn btn-gold btn-lg">Get My Free Quote</a>
+          <a href="/apply" class="btn btn-gold btn-lg">Get My Free Quote</a>
           <a href="${SITE.phoneHref}" class="btn btn-ghost-gold btn-lg">Call ${SITE.phone}</a>
         </div>
         <p class="page-hero-note">No credit pull to quote &middot; No upfront fees &middot; Approval in 24–48 hours</p>
@@ -265,7 +265,7 @@ ${metrics}
         <h1 id="page-h1" class="page-hero-title">Loan Programs for Real Estate Investors</h1>
         <p class="page-hero-lede">Every program below is asset-based, business-purpose, and built around how investors actually operate. Pick the one that matches your deal — or call us and we will tell you which structure fits.</p>
         <div class="page-hero-ctas">
-          <a href="/apply.html" class="btn btn-gold btn-lg">Get My Free Quote</a>
+          <a href="/apply" class="btn btn-gold btn-lg">Get My Free Quote</a>
           <a href="${SITE.phoneHref}" class="btn btn-ghost-gold btn-lg">Call ${SITE.phone}</a>
         </div>
         <p class="page-hero-note">No credit pull to quote &middot; No upfront fees &middot; Approval in 24–48 hours</p>
@@ -287,7 +287,7 @@ ${cards}
               <strong>Typical Rates &amp; Fees</strong>
               <p>Fix &amp; Flip from 7.73%* &middot; Bridge from 8.25% &middot; DSCR from 5.75%. Total points: 2–4% of loan amount. No prepayment penalties on most short-term programs. No upfront fees of any kind. *Rates vary by LTV, credit, and deal profile.</p>
             </div>
-            <a href="/apply.html" class="btn btn-gold">Get My Rate Quote</a>
+            <a href="/apply" class="btn btn-gold">Get My Rate Quote</a>
           </div>
         </div>
       </div>
@@ -303,7 +303,7 @@ ${GEOS.map(
   (g) =>
     `          <li><a href="/hard-money-loans/${g.slug}">Hard Money Loans in ${g.location}</a><span>${stripTags(g.lede).slice(0, 120)}…</span></li>`
 ).join('\n')}
-          <li><a href="/apply.html">Lending in 43 states</a><span>Excludes ${SITE.excludedStates}. Ask us about your market.</span></li>
+          <li><a href="/apply">Lending in 43 states</a><span>Excludes ${SITE.excludedStates}. Ask us about your market.</span></li>
         </ul>
       </div>
     </section>
@@ -378,7 +378,7 @@ ${inner}      </section>`;
         <h1 id="page-h1" class="page-hero-title">${g.h1}</h1>
         <p class="page-hero-lede">${g.lede}</p>
         <div class="page-hero-ctas">
-          <a href="/apply.html" class="btn btn-gold btn-lg">Get My Free Quote</a>
+          <a href="/apply" class="btn btn-gold btn-lg">Get My Free Quote</a>
           <a href="${SITE.phoneHref}" class="btn btn-ghost-gold btn-lg">Call ${SITE.phone}</a>
         </div>
         <p class="page-hero-note">No credit pull to quote &middot; No upfront fees &middot; Approval in 24–48 hours</p>
@@ -468,10 +468,10 @@ const today = new Date().toISOString().slice(0, 10);
 const staticUrls = [
   ['/', 'weekly', '1.0'],
   ['/loans/', 'monthly', '0.9'],
-  ['/apply.html', 'monthly', '0.8'],
+  ['/apply', 'monthly', '0.8'],
   ['/escrow-funding', 'monthly', '0.8'],
-  ['/brrrr-analyzer.html', 'monthly', '0.7'],
-  ['/es.html', 'monthly', '0.7'],
+  ['/brrrr-analyzer', 'monthly', '0.7'],
+  ['/es', 'monthly', '0.7'],
   ['/blog/', 'weekly', '0.7'],
   ['/privacy-policy', 'yearly', '0.3'],
   ['/terms-of-service', 'yearly', '0.3'],
@@ -486,7 +486,7 @@ const geoUrls = GEOS.map((g) => [`/hard-money-loans/${g.slug}`, 'monthly', '0.8'
 const blogUrls = readdirSync(resolve(ROOT, 'blog'))
   .filter((f) => f.endsWith('.html') && f !== 'index.html' && !f.startsWith('_draft-'))
   .sort()
-  .map((f) => [`/blog/${f}`, 'yearly', '0.6']);
+  .map((f) => [`/blog/${f.replace(/[.]html$/, '')}`, 'yearly', '0.6']);
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -498,12 +498,12 @@ ${[...staticUrls, ...programUrls, ...geoUrls, ...blogUrls]
       loc === '/'
         ? `
     <xhtml:link rel="alternate" hreflang="en" href="${SITE.origin}/" />
-    <xhtml:link rel="alternate" hreflang="es" href="${SITE.origin}/es.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="${SITE.origin}/es" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${SITE.origin}/" />`
-        : loc === '/es.html'
+        : loc === '/es'
           ? `
     <xhtml:link rel="alternate" hreflang="en" href="${SITE.origin}/" />
-    <xhtml:link rel="alternate" hreflang="es" href="${SITE.origin}/es.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="${SITE.origin}/es" />
     <xhtml:link rel="alternate" hreflang="x-default" href="${SITE.origin}/" />`
           : '';
     return `  <url>
