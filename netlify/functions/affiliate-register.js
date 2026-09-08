@@ -211,9 +211,10 @@ function buildWelcomeEmail(name, email, phone, role, affiliateLink, hasFlyer = t
           <li>Your earnings as deals close</li>
         </ul>
         <p style="margin:0 0 14px;color:#1C3D26;font-size:14.5px;line-height:1.7">
-          <strong>How to log in:</strong> go to the portal, enter
-          <strong>${loginEmail}</strong>, and we'll email you a secure one-time login link
-          &mdash; no password to remember.
+          <strong>How to log in the first time:</strong> go to the portal, enter
+          <strong>${loginEmail}</strong>, and click "First time here, or forgot your
+          password?". We'll email you a 6-digit code &mdash; type it in, choose a
+          password, and from then on you just sign in with your email and that password.
         </p>
         <a href="${portalUrl}" style="background:#101e14;color:#fff;text-decoration:none;padding:11px 26px;border-radius:6px;font-size:14px;font-weight:bold;display:inline-block">Open Your Portal &rarr;</a>
       </div>

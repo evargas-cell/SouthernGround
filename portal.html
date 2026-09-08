@@ -31,9 +31,16 @@
     .login h2{font-family:var(--font-head);font-size:26px;margin:0 0 6px;color:var(--forest)}
     .login p{color:var(--muted);font-size:14px;margin:0 0 24px}
     label{display:block;font-size:13px;font-weight:600;margin:0 0 6px;color:var(--forest)}
-    input[type=email]{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit}
-    input[type=email]:focus{outline:none;border-color:var(--amber)}
+    label.spaced{margin-top:16px}
+    input[type=email],input[type=password],input[type=text]{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit}
+    input[type=email]:focus,input[type=password]:focus,input[type=text]:focus{outline:none;border-color:var(--amber)}
+    /* The code is read off an email and typed back in — make it hard to misread. */
+    .codeinput{text-align:center;font-family:ui-monospace,Menlo,monospace;font-size:26px;font-weight:600;letter-spacing:8px;text-indent:8px}
+    .altrow{margin-top:18px;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+    .linkbtn{background:none;border:none;padding:0;color:var(--amber);font-family:inherit;font-size:13px;text-align:left;cursor:pointer;text-decoration:underline}
+    .linkbtn:hover{color:var(--amber-dark)}
     .btn{display:inline-block;width:100%;background:var(--amber);color:#fff;border:none;padding:13px 20px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:16px}
+    .btn.narrow{max-width:240px}
     .btn:hover{background:var(--amber-dark)}
     .btn:disabled{opacity:.6;cursor:default}
     .note{font-size:13px;margin-top:18px;padding:12px 14px;border-radius:8px;display:none}
@@ -69,6 +76,11 @@
     .pill.closed{background:var(--good-bg);color:var(--good-text)}
     .pill.dead{background:#F1F1F1;color:#777}
     .empty{color:var(--muted);font-size:14px;padding:24px;text-align:center;background:var(--surface);border:1px dashed var(--border);border-radius:10px}
+    .account-title{margin-top:36px}
+    .pwbox{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .pwbox-title{font-weight:600;color:var(--forest)}
+    .pwbox-sub{font-size:13px;color:var(--muted)}
+    .pwform{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;margin-top:12px;max-width:420px}
     .hidden{display:none}
     .loading{text-align:center;color:var(--muted);padding:60px 0}
     footer{color:var(--muted);font-size:12px;text-align:center;padding:24px}
@@ -88,13 +100,54 @@
 
   <!-- LOGIN -->
   <div id="view-login" class="login hidden">
-    <h2>Affiliate Sign In</h2>
-    <p>Enter the email you registered with. We'll send you a secure sign-in link — no password needed.</p>
-    <form id="login-form">
-      <label for="email">Email address</label>
-      <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
-      <button type="submit" class="btn" id="login-btn">Send my sign-in link</button>
-    </form>
+
+    <!-- 1. Everyday sign-in: email + password -->
+    <div id="panel-signin">
+      <h2>Affiliate Sign In</h2>
+      <p>Sign in with the email you registered with and your password.</p>
+      <form id="signin-form">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+        <label for="password" class="spaced">Password</label>
+        <input type="password" id="password" name="password" placeholder="Your password" required autocomplete="current-password">
+        <button type="submit" class="btn" id="signin-btn">Sign in</button>
+      </form>
+      <div class="altrow">
+        <button type="button" class="linkbtn" id="need-code-btn">First time here, or forgot your password?</button>
+      </div>
+    </div>
+
+    <!-- 2. One-time code, for first-time setup and resets -->
+    <div id="panel-code" class="hidden">
+      <h2>Check your email</h2>
+      <p>We sent a 6-digit code to <strong id="code-email">your inbox</strong>. Enter it below to continue — it expires in 1 hour.</p>
+      <form id="code-form">
+        <label for="code">6-digit code</label>
+        <input type="text" id="code" name="code" class="codeinput" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="000000" required autocomplete="one-time-code">
+        <button type="submit" class="btn" id="code-btn">Continue</button>
+      </form>
+      <div class="altrow">
+        <button type="button" class="linkbtn" id="resend-btn">Send me another code</button>
+        <button type="button" class="linkbtn" id="back-signin-btn">Back to sign in</button>
+      </div>
+    </div>
+
+    <!-- 3. Choose a password -->
+    <div id="panel-newpass" class="hidden">
+      <h2>Create your password</h2>
+      <p>Pick a password you'll remember. From now on you can sign in with just your email and this password &mdash; no emails, no links.</p>
+      <form id="newpass-form">
+        <label for="newpass">New password</label>
+        <input type="password" id="newpass" placeholder="At least 8 characters" minlength="8" required autocomplete="new-password">
+        <label for="newpass2" class="spaced">Confirm password</label>
+        <input type="password" id="newpass2" placeholder="Type it again" minlength="8" required autocomplete="new-password">
+        <button type="submit" class="btn" id="newpass-btn">Save my password</button>
+      </form>
+      <div class="altrow">
+        <button type="button" class="linkbtn" id="skip-pass-btn">Skip for now &mdash; take me to my dashboard</button>
+      </div>
+    </div>
+
     <div id="login-note" class="note"></div>
   </div>
 
@@ -119,11 +172,28 @@
 
     <h3 class="section-title">Your Referrals</h3>
     <div id="leads-area"></div>
+
+    <h3 class="section-title account-title">Your Account</h3>
+    <div class="pwbox">
+      <div>
+        <div class="pwbox-title" id="pw-title">Password</div>
+        <div class="pwbox-sub" id="pw-sub">Change the password you use to sign in.</div>
+      </div>
+      <button class="copybtn" id="show-pw-btn">Change password</button>
+    </div>
+    <form id="dash-pass-form" class="pwform hidden">
+      <label for="dashpass">New password</label>
+      <input type="password" id="dashpass" placeholder="At least 8 characters" minlength="8" required autocomplete="new-password">
+      <label for="dashpass2" class="spaced">Confirm password</label>
+      <input type="password" id="dashpass2" placeholder="Type it again" minlength="8" required autocomplete="new-password">
+      <button type="submit" class="btn narrow" id="dashpass-btn">Save password</button>
+      <div id="dash-pass-note" class="note"></div>
+    </form>
   </div>
 
   <footer>&copy; <span id="yr"></span> Southern Ground Capital, LLC · Questions? <a href="mailto:edgar@sgcapital.io">edgar@sgcapital.io</a></footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="portal.js?v=3"></script>
+  <script src="portal.js?v=4"></script>
 </body>
 </html>

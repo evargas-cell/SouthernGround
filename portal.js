@@ -1,6 +1,8 @@
 /* =====================================================================
    Affiliate Portal — front-end logic
-   Auth: Supabase magic link. Data: /.netlify/functions/affiliate-stats
+   Auth: Supabase email + password. First-time setup and resets go through a
+   6-digit code from /.netlify/functions/portal-login.
+   Data: /.netlify/functions/affiliate-stats
    ===================================================================== */
 
 /* ---- CONFIG -------------------------------------------------------- */
@@ -23,8 +25,16 @@ document.addEventListener('DOMContentLoaded', () => {
   bindLogin();
   bindLogout();
   bindCopy();
+  bindAccount();
   route();
 });
+
+// Set when an affiliate dismisses the "create your password" prompt, so we
+// don't nag them again for the rest of the visit.
+let skippedPassword = false;
+
+// "Set password" for someone who has none, "Change password" once they do.
+let pwBtnLabel = 'Change password';
 
 // Re-route whenever auth state changes (e.g. after the magic-link redirect).
 sb.auth.onAuthStateChange(() => route());
@@ -46,13 +56,54 @@ async function route() {
 
   if (session) {
     cleanUrl(); // strip ?code=/#tokens so a refresh can't re-trigger an exchange
+
+    // Signed in but no password yet — either a first-time setup that came in
+    // on a code, or an affiliate who clicked a link. Offer the password now,
+    // while they're already here, so the next visit needs no email at all.
+    if (!hasPassword(session.user) && !skippedPassword) {
+      hide('view-loading'); hide('view-dash');
+      show('view-login'); show('logout-btn');
+      showPanel('panel-newpass');
+      return;
+    }
+
     hide('view-loading'); hide('view-login');
     show('view-dash'); show('logout-btn');
+    reflectPasswordState(session.user);
     loadDashboard(session.access_token);
   } else {
     hide('view-loading'); hide('view-dash'); hide('logout-btn');
     show('view-login');
+    showPanel('panel-signin');
   }
+}
+
+// Supabase doesn't expose "does this user have a password", so we record it
+// ourselves the moment they set one.
+function hasPassword(user) {
+  return !!(user && user.user_metadata && user.user_metadata.password_set);
+}
+
+// Someone who skipped the prompt should still be able to see, at a glance,
+// that setting a password is the thing that ends the emailed codes.
+function reflectPasswordState(user) {
+  const set = hasPassword(user);
+  pwBtnLabel = set ? 'Change password' : 'Set password';
+  $('pw-sub').textContent = set
+    ? 'Change the password you use to sign in.'
+    : "You haven't set a password yet. Set one and you can sign in without waiting for an emailed code.";
+  if ($('dash-pass-form').classList.contains('hidden')) $('show-pw-btn').textContent = pwBtnLabel;
+}
+
+function showPanel(id) {
+  ['panel-signin', 'panel-code', 'panel-newpass'].forEach((p) => (p === id ? show(p) : hide(p)));
+  setNote('', '');
+}
+
+function setNote(message, kind) {
+  const note = $('login-note');
+  note.className = 'note' + (kind ? ' ' + kind : '');
+  note.textContent = message;
 }
 
 // If the sign-in link was expired/already used, tell the user instead of failing silently.
@@ -64,7 +115,7 @@ function surfaceUrlError() {
     const note = $('login-note');
     if (note) {
       note.className = 'note err';
-      note.textContent = decodeURIComponent(err).replace(/\+/g, ' ') + ' — please request a new link.';
+      note.textContent = decodeURIComponent(err).replace(/\+/g, ' ') + ' — please request a new code.';
     }
     cleanUrl();
   }
@@ -76,31 +127,203 @@ function cleanUrl() {
   }
 }
 
-/* ---- LOGIN --------------------------------------------------------- */
+/* ---- LOGIN --------------------------------------------------------- *
+   Three steps, and most affiliates only ever see the first: sign in with
+   email + password. The code panel exists for the two moments they have no
+   password — first visit and a reset — and it hands straight over to the
+   panel where they choose one.
+   -------------------------------------------------------------------- */
+let codeEmail = ''; // address the current code was sent to
+
 function bindLogin() {
-  $('login-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = $('email').value.trim();
-    if (!email) return;
-    const btn = $('login-btn');
-    const note = $('login-note');
-    btn.disabled = true; btn.textContent = 'Sending…';
-    note.className = 'note';
+  $('signin-form').addEventListener('submit', onSignIn);
+  $('code-form').addEventListener('submit', onVerifyCode);
+  $('newpass-form').addEventListener('submit', onCreatePassword);
 
-    const { error } = await sb.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: REDIRECT_TO },
+  $('need-code-btn').addEventListener('click', () => sendCode($('email').value.trim()));
+  $('resend-btn').addEventListener('click', () => sendCode(codeEmail));
+  $('back-signin-btn').addEventListener('click', () => showPanel('panel-signin'));
+  $('skip-pass-btn').addEventListener('click', () => { skippedPassword = true; route(); });
+}
+
+async function onSignIn(e) {
+  e.preventDefault();
+  const email = $('email').value.trim();
+  const password = $('password').value;
+  if (!email || !password) return;
+
+  const btn = $('signin-btn');
+  btn.disabled = true; btn.textContent = 'Signing in…';
+  setNote('', '');
+
+  const { error } = await sb.auth.signInWithPassword({ email, password });
+
+  btn.disabled = false; btn.textContent = 'Sign in';
+  if (error) {
+    // The stock message is "Invalid login credentials", which tells someone
+    // who has never set a password nothing about what to do next.
+    const wrong = /invalid login credentials/i.test(error.message || '');
+    setNote(
+      wrong
+        ? "That email and password don't match. If you haven't set a password yet, use the link below to get a code by email."
+        : error.message || 'Something went wrong. Please try again.',
+      'err'
+    );
+  }
+  // On success onAuthStateChange fires and route() takes over.
+}
+
+async function sendCode(email) {
+  if (!email) {
+    showPanel('panel-signin');
+    setNote('Enter your email address first, then tap that link again.', 'err');
+    $('email').focus();
+    return;
+  }
+
+  setNote('Sending your code…', 'ok');
+  const result = await requestCode(email);
+
+  if (result.error) {
+    setNote(result.error, 'err');
+    return;
+  }
+
+  codeEmail = email;
+  if (result.code) {
+    $('code-email').textContent = email;
+    showPanel('panel-code');
+    $('code').value = '';
+    $('code').focus();
+  } else {
+    // Fallback path — Supabase sent its own email, which has no typed code
+    // in it, so point them at the link instead of asking for digits.
+    showPanel('panel-signin');
+    setNote('We emailed a sign-in link to ' + email + '. Open that email and click the link to continue.', 'ok');
+  }
+}
+
+// Returns { code } on success or { error } with a message for the affiliate.
+async function requestCode(email) {
+  try {
+    const res = await fetch('/.netlify/functions/portal-login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
     });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok) return { code: !!data.code };
+    // Function isn't configured (missing env) — don't leave the affiliate
+    // stranded, let Supabase send its own email as a last resort.
+    if (data.fallback) return await otpFallback(email);
+    return { error: data.error || 'Something went wrong. Please try again.' };
+  } catch {
+    return await otpFallback(email);
+  }
+}
 
+async function otpFallback(email) {
+  const { error } = await sb.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: REDIRECT_TO },
+  });
+  if (error) return { error: error.message || 'Something went wrong. Please try again.' };
+  return { code: false };
+}
+
+async function onVerifyCode(e) {
+  e.preventDefault();
+  const token = $('code').value.replace(/\D/g, '');
+  if (token.length !== 6) {
+    setNote('Please enter all 6 digits of the code from your email.', 'err');
+    return;
+  }
+
+  const btn = $('code-btn');
+  btn.disabled = true; btn.textContent = 'Checking…';
+  setNote('', '');
+
+  // 'email' is the generic type GoTrue accepts for a magic-link OTP; older
+  // projects want the explicit 'magiclink', so try that before giving up.
+  let { error } = await sb.auth.verifyOtp({ email: codeEmail, token, type: 'email' });
+  if (error) {
+    ({ error } = await sb.auth.verifyOtp({ email: codeEmail, token, type: 'magiclink' }));
+  }
+
+  btn.disabled = false; btn.textContent = 'Continue';
+  if (error) {
+    setNote('That code didn\'t work. Codes expire after an hour and can only be used once — tap "Send me another code" for a fresh one.', 'err');
+  }
+  // On success onAuthStateChange fires and route() shows the password panel.
+}
+
+async function onCreatePassword(e) {
+  e.preventDefault();
+  const password = $('newpass').value;
+  const confirm = $('newpass2').value;
+  const problem = passwordProblem(password, confirm);
+  if (problem) { setNote(problem, 'err'); return; }
+
+  const btn = $('newpass-btn');
+  btn.disabled = true; btn.textContent = 'Saving…';
+
+  const { error } = await savePassword(password);
+
+  btn.disabled = false; btn.textContent = 'Save my password';
+  if (error) {
+    setNote(error.message || 'We could not save that password. Please try again.', 'err');
+    return;
+  }
+
+  skippedPassword = false;
+  route();
+}
+
+// Shared by the first-time panel and the dashboard's change-password form.
+function savePassword(password) {
+  return sb.auth.updateUser({ password, data: { password_set: true } });
+}
+
+function passwordProblem(password, confirm) {
+  if (!password || password.length < 8) return 'Please choose a password with at least 8 characters.';
+  if (password !== confirm) return 'The two passwords don\'t match. Please type them again.';
+  return null;
+}
+
+/* ---- CHANGE PASSWORD (dashboard) ----------------------------------- */
+function bindAccount() {
+  $('show-pw-btn').addEventListener('click', () => {
+    const form = $('dash-pass-form');
+    const opening = form.classList.contains('hidden');
+    form.classList.toggle('hidden', !opening);
+    $('show-pw-btn').textContent = opening ? 'Cancel' : pwBtnLabel;
+    if (opening) $('dashpass').focus();
+  });
+
+  $('dash-pass-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const note = $('dash-pass-note');
+    const password = $('dashpass').value;
+    const problem = passwordProblem(password, $('dashpass2').value);
+    if (problem) { note.className = 'note err'; note.textContent = problem; return; }
+
+    const btn = $('dashpass-btn');
+    btn.disabled = true; btn.textContent = 'Saving…';
+
+    const { error } = await savePassword(password);
+
+    btn.disabled = false; btn.textContent = 'Save password';
     if (error) {
       note.className = 'note err';
-      note.textContent = error.message || 'Something went wrong. Please try again.';
-      btn.disabled = false; btn.textContent = 'Send my sign-in link';
-    } else {
-      note.className = 'note ok';
-      note.textContent = 'Check your inbox! We sent a sign-in link to ' + email + '. It expires in 1 hour.';
-      btn.textContent = 'Link sent';
+      note.textContent = error.message || 'We could not save that password. Please try again.';
+      return;
     }
+
+    $('dashpass').value = ''; $('dashpass2').value = '';
+    note.className = 'note ok';
+    note.textContent = 'Password saved. Use it next time you sign in.';
+    pwBtnLabel = 'Change password';
+    $('pw-sub').textContent = 'Change the password you use to sign in.';
   });
 }
 
