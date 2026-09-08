@@ -235,6 +235,29 @@
   to = "/brrrr-analyzer.html"
   status = 200
 
+# ------------------------------------------------------------------
+# Legacy URLs. These were indexed under an older URL scheme and are
+# still reported as 404s in Search Console. Permanent (301) so the old
+# URLs' ranking signals consolidate onto the current pages, and pointed
+# straight at the final destination so each one resolves in a single
+# hop. Not listed in sitemap.xml — only canonical URLs belong there.
+# ------------------------------------------------------------------
+
+[[redirects]]
+  from = "/home"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/fix-and-flip-loans"
+  to = "/loans/fix-and-flip"
+  status = 301
+
+[[redirects]]
+  from = "/multi-family-loans"
+  to = "/loans/multi-family"
+  status = 301
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
