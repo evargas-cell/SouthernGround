@@ -1,4 +1,4 @@
-// Shared authorisation gate for the affiliate blast functions.
+// Shared authorization gate for the affiliate blast functions.
 //
 // Every mode of these endpoints is privileged, so every mode needs the key:
 //   - a real send emails the entire affiliate list
@@ -17,7 +17,7 @@ function secretsMatch(a, b) {
   return crypto.timingSafeEqual(ba, bb);
 }
 
-// Returns a 401 response for the caller to return early, or null when authorised.
+// Returns a 401 response for the caller to return early, or null when authorized.
 function requireAdminKey(event) {
   const headers = event.headers || {};
   const provided = headers['x-admin-key'] || headers['X-Admin-Key'] || '';
@@ -31,7 +31,7 @@ function requireAdminKey(event) {
   return null;
 }
 
-// Defence in depth on top of the key: a test email may only go to an address we
+// Defense in depth on top of the key: a test email may only go to an address we
 // control, so a leaked key still can't send mail from our domain to a stranger.
 // ADMIN_EMAILS is the same comma-separated list the admin console is gated on.
 function testRecipientAllowed(email) {

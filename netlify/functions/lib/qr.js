@@ -68,7 +68,7 @@ const VERSIONS_M = {
   10: [346, 26, 4, 43, 1, 44],
 };
 
-// Row/column centres of the alignment patterns, by version.
+// Row/column centers of the alignment patterns, by version.
 const ALIGN_CENTERS = {
   1: [], 2: [6, 18], 3: [6, 22], 4: [6, 26], 5: [6, 30],
   6: [6, 34], 7: [6, 22, 38], 8: [6, 24, 42], 9: [6, 26, 46], 10: [6, 28, 50],
@@ -331,7 +331,7 @@ function penalty(m) {
   const at = (r, c) => m.modules[r][c];
   let score = 0;
 
-  // Rule 1 — runs of five or more same-coloured modules.
+  // Rule 1 — runs of five or more same-colored modules.
   for (let r = 0; r < n; r++) {
     let runRow = 1, runCol = 1;
     for (let c = 1; c < n; c++) {
@@ -342,7 +342,7 @@ function penalty(m) {
     }
   }
 
-  // Rule 2 — 2x2 blocks of one colour.
+  // Rule 2 — 2x2 blocks of one color.
   for (let r = 0; r < n - 1; r++) {
     for (let c = 0; c < n - 1; c++) {
       const v = at(r, c);

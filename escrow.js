@@ -744,7 +744,7 @@
   });
 
   // ============================================================
-  //  FIELD BEHAVIOUR
+  //  FIELD BEHAVIOR
   // ============================================================
 
   form.querySelectorAll('input, select, textarea').forEach(function (input) {

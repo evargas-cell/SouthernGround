@@ -86,8 +86,8 @@ const DISCLAIMER =
 // ---------- Helpers ----------
 
 // Names come from Airtable exactly as the affiliate typed them, and some are
-// all lower case. Capitalise those words only — anything the person already
-// capitalised themselves (McDonald, DeLuca, JR) is left alone.
+// all lower case. Capitalize those words only — anything the person already
+// capitalized themselves (McDonald, DeLuca, JR) is left alone.
 function tidyName(str) {
   return String(str)
     .trim()
@@ -98,7 +98,7 @@ function tidyName(str) {
     .join(' ');
 }
 
-// Draw a panel: rounded white body with a coloured header bar across the top.
+// Draw a panel: rounded white body with a colored header bar across the top.
 function panel(page, x, top, w, bodyHeight, headerHeight, headerColor, title) {
   const radius = 10;
   page.roundRect(x, top, w, headerHeight + bodyHeight, radius, { fill: WHITE });

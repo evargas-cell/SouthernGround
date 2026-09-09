@@ -89,4 +89,4 @@ Cross-link both ways with the existing explainer, and link the product page.
 
 - Every threshold must match `/loans/dscr` exactly. That page is the source of truth.
 - Do not duplicate the ratio-calculation walkthrough from the existing explainer;
-  summarise it in two paragraphs and link across.
+  summarize it in two paragraphs and link across.

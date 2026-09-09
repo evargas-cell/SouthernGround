@@ -71,7 +71,7 @@ function decodePng(buf) {
   return { width, height, channels, pixels: out };
 }
 
-// Box-filter downscale straight onto the backdrop colour, dropping the alpha.
+// Box-filter downscale straight onto the backdrop color, dropping the alpha.
 function downscaleToRgb(img, size) {
   const { width, height, channels, pixels } = img;
   const out = Buffer.alloc(size * size * 3);
