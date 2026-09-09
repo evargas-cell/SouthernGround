@@ -1,0 +1,55 @@
+<!-- Supabase → Authentication → Email Templates → Magic Link
+     Supabase's dashboard is the source of truth; this file is the version-
+     controlled copy so the branding can't drift or be lost.
+
+     Supabase's stock template is a bare fragment (<h2> + <a>, no <html>/<body>)
+     and Supabase sends no text/plain part, which some basic webmail clients
+     render as an empty message. This is a complete document, and it prints the
+     sign-in URL as visible text as well as a button, so the link is still
+     usable even if a client strips styling or drops the button entirely. -->
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f5f5f0;font-family:Georgia,serif">
+  <div style="max-width:600px;margin:40px auto;background:#fff;border-radius:8px;overflow:hidden">
+
+    <div style="background:#101e14;padding:32px 40px">
+      <h1 style="margin:0;color:#c8923a;font-size:22px;letter-spacing:1px">SOUTHERN GROUND CAPITAL</h1>
+      <p style="margin:8px 0 0;color:rgba(255,255,255,0.7);font-size:13px">Affiliate Portal &middot; Sign In</p>
+    </div>
+
+    <div style="padding:40px">
+      <h2 style="color:#101e14;font-size:26px;margin:0 0 16px">Your sign-in link</h2>
+      <p style="color:#555;font-size:15px;line-height:1.7;margin:0 0 8px">
+        Click the button below to sign in to your affiliate portal and see your
+        clicks, leads and commissions. This link expires in 1 hour and can only
+        be used once.
+      </p>
+
+      <div style="text-align:center;margin:32px 0">
+        <a href="{{ .ConfirmationURL }}" style="background:#101e14;color:#fff;text-decoration:none;padding:13px 30px;border-radius:6px;font-size:15px;font-weight:bold;display:inline-block">Sign In to My Portal &rarr;</a>
+      </div>
+
+      <!-- The URL in plain view: if a client strips the button, this still works. -->
+      <p style="color:#555;font-size:13px;line-height:1.6;margin:0 0 6px">
+        If the button doesn't work, copy and paste this address into your browser:
+      </p>
+      <p style="margin:0 0 24px;font-family:monospace;font-size:12px;color:#9B6820;word-break:break-all">{{ .ConfirmationURL }}</p>
+
+      <p style="color:#8a8a8a;font-size:12px;line-height:1.6;margin:0">
+        Didn't request this? You can safely ignore this email &mdash; nobody can
+        access your portal without the link above.
+      </p>
+
+      <p style="color:#555;font-size:15px;margin:24px 0 0">
+        &mdash; Southern Ground Capital
+      </p>
+    </div>
+
+    <div style="background:#f5f5f0;padding:16px 40px;text-align:center">
+      <p style="margin:0;color:#999;font-size:12px">Southern Ground Capital, LLC &middot; (678) 842-8084</p>
+    </div>
+
+  </div>
+</body>
+</html>
