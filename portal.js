@@ -189,7 +189,9 @@ async function sendCode(email) {
     return;
   }
 
-  codeEmail = email;
+  // GoTrue issues the token against the lower-cased address, so verify with
+  // the same form rather than whatever casing the affiliate typed.
+  codeEmail = email.toLowerCase();
   if (result.code) {
     $('code-email').textContent = email;
     showPanel('panel-code');
@@ -243,15 +245,21 @@ async function onVerifyCode(e) {
   btn.disabled = true; btn.textContent = 'Checking…';
   setNote('', '');
 
-  // 'email' is the generic type GoTrue accepts for a magic-link OTP; older
-  // projects want the explicit 'magiclink', so try that before giving up.
-  let { error } = await sb.auth.verifyOtp({ email: codeEmail, token, type: 'email' });
+  // portal-login generates the token as type 'magiclink', so try that first:
+  // every wrong-type attempt is still a failed verify against the same token.
+  // 'email' is the generic alias newer GoTrue accepts, kept as a fallback.
+  let { error } = await sb.auth.verifyOtp({ email: codeEmail, token, type: 'magiclink' });
   if (error) {
-    ({ error } = await sb.auth.verifyOtp({ email: codeEmail, token, type: 'magiclink' }));
+    ({ error } = await sb.auth.verifyOtp({ email: codeEmail, token, type: 'email' }));
   }
 
   btn.disabled = false; btn.textContent = 'Continue';
   if (error) {
+    // GoTrue says "Token has expired or is invalid" for both a mistyped
+    // code and one that was already spent, so log the real error: that
+    // detail is the only way to tell the two apart when an affiliate
+    // reports this.
+    console.warn('verifyOtp failed:', error.status, error.message);
     setNote('That code didn\'t work. Codes expire after an hour and can only be used once — tap "Send me another code" for a fresh one.', 'err');
   }
   // On success onAuthStateChange fires and route() shows the password panel.

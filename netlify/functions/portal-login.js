@@ -114,7 +114,20 @@ exports.handler = async function (event) {
     if (!link && !code) return json(502, { error: 'We could not generate a sign-in code. Please try again.' });
 
     const firstName = String(affiliate.name || '').trim().split(/\s+/)[0] || '';
-    await sendLinkEmail({ email, firstName, link, code, resendKey: RESEND_API_KEY });
+    // The code and the link are the SAME one-time token: action_link is just
+    // /auth/v1/verify?token=<hash of the code>. Consuming either one burns
+    // both. Business mailboxes pre-fetch every URL in an incoming message
+    // (Defender Safe Links, Barracuda, Mimecast, Google), so shipping the
+    // link alongside the code meant a scanner spent the token on delivery and
+    // the affiliate's correct six digits came back invalid. When we have a
+    // code, the code is the only thing we send.
+    await sendLinkEmail({
+      email,
+      firstName,
+      link: code ? null : link,
+      code,
+      resendKey: RESEND_API_KEY,
+    });
 
     lastSent.set(email, now);
     // `code` tells the portal whether to ask for a typed code or to fall
@@ -178,10 +191,12 @@ async function findAuthUser(email) {
   }
 }
 
-// One generate_link call yields both halves of the email: the 6-digit
-// `email_otp` an affiliate can type in, and the clickable action_link for
-// anyone who'd rather just click. Supabase owns their expiry and one-time
-// use, so there's no code storage of our own to get wrong.
+// One generate_link call yields both representations of a single token: the
+// 6-digit `email_otp` an affiliate can type in, and the action_link that
+// verifies that same token by URL. They are not two independent credentials —
+// whichever is used first invalidates the other — so the caller sends exactly
+// one of them. Supabase owns expiry and one-time use, so there's no code
+// storage of our own to get wrong.
 async function generateSignIn(email) {
   const res = await fetch(`${SB_URL}/auth/v1/admin/generate_link`, {
     method: 'POST',
@@ -282,24 +297,22 @@ ${codeBlock}${linkBlock}
 
 function buildText(firstName, link, code) {
   const hello = firstName ? `Hi ${firstName},` : 'Hi,';
-  const codePart = code
+  const body = code
     ? `Your sign-in code is:
 
     ${code}
 
-Enter it on the portal sign-in page. Once you're in, you can set a
-password and sign in with that from now on.
+Enter it on the portal sign-in page at ${SITE_URL}/portal. Once you're in,
+you can set a password and sign in with that from now on.`
+    : `Here is your sign-in link:
 
-Prefer to just click? Use this link instead:`
-    : `Here is your sign-in link:`;
+${link || ''}`;
 
   return `SOUTHERN GROUND CAPITAL — Affiliate Portal Sign In
 
 ${hello}
 
-${codePart}
-
-${link || ''}
+${body}
 
 It expires in ${LINK_TTL} and can only be used once.
 
