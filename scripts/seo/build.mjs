@@ -489,31 +489,23 @@ const blogUrls = readdirSync(resolve(ROOT, 'blog'))
   .sort()
   .map((f) => [`/blog/${f.replace(/[.]html$/, '')}`, 'yearly', '0.6']);
 
+// No xhtml:link hreflang annotations here on purpose. index.html and es.html
+// already serve the identical <link rel="alternate" hreflang> set in their
+// <head>, which is all Google needs, so repeating them here adds no signal.
+// It does cost something: Chromium skips its built-in XML tree viewer for any
+// document containing XHTML-namespaced elements, so the annotated sitemap
+// rendered as an unreadable wall of plain text in Chrome and Edge.
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${[...staticUrls, ...programUrls, ...geoUrls, ...blogUrls]
-  .map(([loc, freq, pri]) => {
-    // The EN homepage and its Spanish counterpart declare each other.
-    const alt =
-      loc === '/'
-        ? `
-    <xhtml:link rel="alternate" hreflang="en" href="${SITE.origin}/" />
-    <xhtml:link rel="alternate" hreflang="es" href="${SITE.origin}/es" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE.origin}/" />`
-        : loc === '/es'
-          ? `
-    <xhtml:link rel="alternate" hreflang="en" href="${SITE.origin}/" />
-    <xhtml:link rel="alternate" hreflang="es" href="${SITE.origin}/es" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE.origin}/" />`
-          : '';
-    return `  <url>
+  .map(
+    ([loc, freq, pri]) => `  <url>
     <loc>${SITE.origin}${loc}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${freq}</changefreq>
-    <priority>${pri}</priority>${alt}
-  </url>`;
-  })
+    <priority>${pri}</priority>
+  </url>`,
+  )
   .join('\n')}
 </urlset>
 `;
