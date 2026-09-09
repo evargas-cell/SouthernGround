@@ -156,6 +156,7 @@ for (const url of listed) {
 const SITEMAP_EXEMPT = new Set([
   'fix-flip-checklist.html', // gated thank-you page, intentionally not indexed
   'escrow.html',             // intake form; the marketing page /escrow-funding is listed
+  'apply.html',              // noindex,nofollow application form
 ]);
 for (const page of pages) {
   if (!PRIVATE.test(page) && !SITEMAP_EXEMPT.has(page)) {

@@ -468,7 +468,8 @@ const today = new Date().toISOString().slice(0, 10);
 const staticUrls = [
   ['/', 'weekly', '1.0'],
   ['/loans/', 'monthly', '0.9'],
-  ['/apply', 'monthly', '0.8'],
+  // /apply is deliberately absent: apply.html is noindex,nofollow, and a
+  // sitemap should only list URLs we want indexed.
   ['/escrow-funding', 'monthly', '0.8'],
   ['/brrrr-analyzer', 'monthly', '0.7'],
   ['/es', 'monthly', '0.7'],
