@@ -52,12 +52,31 @@ function captureResetToken() {
   cleanUrl();
 }
 
+// Tapping the emailed link while /portal is already open changes only the
+// fragment, which is a same-document navigation: no reload, so nothing would
+// read the token and the affiliate would sit on whatever they were looking at.
+window.addEventListener('hashchange', () => {
+  captureResetToken();
+  route();
+});
+
 // Re-route whenever auth state changes (e.g. after the magic-link redirect).
 sb.auth.onAuthStateChange(() => route());
 
 async function route() {
   // Surface an expired/invalid magic-link error (Supabase puts it in the hash).
   surfaceUrlError();
+
+  // A "set my password" link outranks whatever session this browser happens
+  // to be holding. Someone who followed it is here to set a password, and a
+  // stale session already carrying password_set would otherwise bounce them
+  // to the dashboard with no way to do the one thing they came to do.
+  if (pendingReset) {
+    hide('view-loading'); hide('view-dash'); hide('logout-btn');
+    show('view-login');
+    presentReset();
+    return;
+  }
 
   let session = null;
   try {
