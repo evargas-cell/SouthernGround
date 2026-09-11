@@ -43,8 +43,9 @@ const LINK_TTL    = '1 hour';
 // Supabase's action_link directly -- same credential, but in a query string,
 // where Defender Safe Links, Barracuda, Mimecast and friends consume it on
 // delivery.
-const resetUrl = (tokenHash) =>
-  `${SITE_URL}/portal#t=${encodeURIComponent(tokenHash)}&type=magiclink`;
+const resetUrl = (tokenHash, email) =>
+  `${SITE_URL}/portal#t=${encodeURIComponent(tokenHash)}&type=magiclink` +
+  `&e=${encodeURIComponent(email)}`;
 
 // Soft throttle: one link per address per minute. Netlify containers are
 // per-instance and short-lived, so this only catches impatient double
@@ -140,7 +141,7 @@ exports.handler = async function (event) {
       email,
       firstName,
       link: tokenHash ? null : link,
-      resetLink: tokenHash ? resetUrl(tokenHash) : null,
+      resetLink: tokenHash ? resetUrl(tokenHash, email) : null,
       resendKey: RESEND_API_KEY,
     });
 

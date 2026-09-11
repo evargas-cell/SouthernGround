@@ -43,7 +43,11 @@ function captureResetToken() {
   const hash = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
   const tokenHash = (hash.get('t') || '').trim();
   if (!tokenHash) return;
-  pendingReset = { tokenHash, type: hash.get('type') || 'magiclink' };
+  pendingReset = {
+    tokenHash,
+    type: hash.get('type') || 'magiclink',
+    email: (hash.get('e') || '').trim().toLowerCase(),
+  };
   cleanUrl();
 }
 
@@ -154,8 +158,9 @@ function bindLogin() {
 // Arrived on the emailed link: straight to the password form, no interstitial.
 function presentReset() {
   $('newpass-title').textContent = 'Choose your password';
-  $('newpass-intro').textContent =
-    "Pick a password you'll remember. From now on you sign in with just your email and this password.";
+  $('newpass-intro').textContent = pendingReset.email
+    ? `Pick a password for ${pendingReset.email}. From now on you sign in with just your email and this password.`
+    : "Pick a password you'll remember. From now on you sign in with just your email and this password.";
   showPanel('panel-newpass');
 }
 
@@ -251,14 +256,21 @@ async function onCreatePassword(e) {
   // then set the password on the session that produces.
   if (pendingReset) {
     const { error } = await redeemResetToken();
-    if (error) {
+    // A spent link is not a dead end if this browser is already signed in
+    // from it — that's the second tab, or the same link opened twice — and
+    // the password can still be set on the session they already have.
+    if (error && !(await haveSession())) {
       btn.disabled = false; btn.textContent = 'Save my password';
+      const address = pendingReset.email;
       pendingReset = null;
+      if (address) $('email').value = address;
       showPanel('panel-signin');
       setNote(
-        'That link has expired or was already used. Enter your email and tap "First time here, or forgot your password?" for a fresh one.',
+        'This link has already been used. If you have already set your password, sign in above. ' +
+        'If not, tap "First time here, or forgot your password?" for a fresh link.',
         'err'
       );
+      $('password').focus();
       return;
     }
     pendingReset = null;
@@ -273,6 +285,15 @@ async function onCreatePassword(e) {
   }
 
   route();
+}
+
+async function haveSession() {
+  try {
+    const { data } = await sb.auth.getSession();
+    return !!(data && data.session);
+  } catch {
+    return false;
+  }
 }
 
 // GoTrue names this token type differently across versions: portal-login
