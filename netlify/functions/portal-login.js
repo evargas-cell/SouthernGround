@@ -29,6 +29,15 @@ const FROM        = 'Southern Ground Capital <affiliates@sgcapital.io>';
 const SUPPORT     = 'edgar@sgcapital.io';
 const LINK_TTL    = '1 hour';
 
+// The one-click sign-in link. The code rides in the URL *fragment*, which a
+// browser never sends to any server: a mailbox scanner that pre-fetches this
+// URL asks sgcapital.io for a bare /portal and never sees the token, so it
+// can't spend it in transit. That is the whole reason we don't email
+// Supabase's action_link, which is an ordinary GET and gets consumed on
+// delivery by Defender Safe Links, Barracuda, Mimecast and friends.
+const setupUrl = (email, code) =>
+  `${SITE_URL}/portal#setup=${encodeURIComponent(code)}&email=${encodeURIComponent(email)}`;
+
 // Soft throttle: one link per address per minute. Netlify containers are
 // per-instance and short-lived, so this only catches impatient double
 // clicks — the real abuse gate is that the address must belong to a
@@ -114,18 +123,18 @@ exports.handler = async function (event) {
     if (!link && !code) return json(502, { error: 'We could not generate a sign-in code. Please try again.' });
 
     const firstName = String(affiliate.name || '').trim().split(/\s+/)[0] || '';
-    // The code and the link are the SAME one-time token: action_link is just
-    // /auth/v1/verify?token=<hash of the code>. Consuming either one burns
-    // both. Business mailboxes pre-fetch every URL in an incoming message
-    // (Defender Safe Links, Barracuda, Mimecast, Google), so shipping the
-    // link alongside the code meant a scanner spent the token on delivery and
-    // the affiliate's correct six digits came back invalid. When we have a
-    // code, the code is the only thing we send.
+    // The code and Supabase's action_link are the SAME one-time token --
+    // action_link is just /auth/v1/verify?token=<hash of the code>, so
+    // consuming either burns both, and a scanner that pre-fetches it burns it
+    // before the affiliate ever types the digits. So action_link never leaves
+    // this function when we have a code: the button we send instead is our own
+    // /portal#setup=... , which hides the token from every server in the path.
     await sendLinkEmail({
       email,
       firstName,
       link: code ? null : link,
       code,
+      setupLink: code ? setupUrl(email, code) : null,
       resendKey: RESEND_API_KEY,
     });
 
@@ -217,7 +226,7 @@ async function generateSignIn(email) {
 
 /* ---- EMAIL ---------------------------------------------------------- */
 
-async function sendLinkEmail({ email, firstName, link, code, resendKey }) {
+async function sendLinkEmail({ email, firstName, link, code, setupLink, resendKey }) {
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
@@ -228,27 +237,37 @@ async function sendLinkEmail({ email, firstName, link, code, resendKey }) {
       subject: code
         ? `${code} is your Southern Ground Capital sign-in code`
         : 'Your Southern Ground Capital portal sign-in link',
-      html: buildHtml(firstName, link, code),
-      text: buildText(firstName, link, code),
+      html: buildHtml(firstName, link, code, setupLink),
+      text: buildText(firstName, link, code, setupLink),
     }),
   });
   if (!res.ok) throw new Error(`Resend ${res.status}: ${await res.text()}`);
 }
 
-// The code leads, because typing six digits back into the page they're
-// already looking at is the step affiliates don't get lost in. The link is
-// kept underneath for anyone who'd rather click, and both parts print the
-// URL as visible text so it survives a client that strips the button.
-function buildHtml(firstName, link, code) {
+// The button leads: an affiliate who taps it lands on the portal with the
+// code already filled in and one tap from choosing a password, which is far
+// fewer places to get lost than copying six digits between two apps. The
+// digits stay underneath for anyone whose client strips the button, and the
+// URL prints as visible text for the same reason.
+function buildHtml(firstName, link, code, setupLink) {
   const hello = firstName ? `Hi ${escapeHtml(firstName)},` : 'Hi,';
   const codeBlock = code ? `
       <div style="text-align:center;margin:28px 0">
-        <div style="color:#8a8a8a;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Your sign-in code</div>
+        <div style="color:#8a8a8a;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Or enter this code on the sign-in page</div>
         <div style="display:inline-block;background:#f5f5f0;border:1px solid #e2e2d8;border-radius:8px;padding:16px 28px;font-family:monospace;font-size:34px;font-weight:bold;letter-spacing:8px;color:#101e14">${escapeHtml(code)}</div>
       </div>` : '';
+  const setupBlock = setupLink ? `
+      <div style="text-align:center;margin:24px 0 8px">
+        <a href="${setupLink}" style="background:#101e14;color:#fff;text-decoration:none;padding:14px 32px;border-radius:6px;font-size:15px;font-weight:bold;display:inline-block">Sign In to My Portal &rarr;</a>
+      </div>
+      <p style="color:#8a8a8a;font-size:12px;line-height:1.6;margin:0 0 20px;text-align:center">
+        Button not working? Copy this address into your browser:<br>
+        <span style="font-family:monospace;font-size:11px;color:#9B6820;word-break:break-all">${setupLink}</span>
+      </p>` : '';
+
   const linkBlock = link ? `
       <p style="color:#555;font-size:14px;line-height:1.7;margin:0 0 8px">
-        ${code ? 'Or skip the code and sign in with one click:' : 'Click the button below to sign in:'}
+        Click the button below to sign in:
       </p>
       <div style="text-align:center;margin:16px 0 28px">
         <a href="${link}" style="background:#101e14;color:#fff;text-decoration:none;padding:13px 30px;border-radius:6px;font-size:15px;font-weight:bold;display:inline-block">Sign In to My Portal &rarr;</a>
@@ -270,17 +289,17 @@ function buildHtml(firstName, link, code) {
     </div>
 
     <div style="padding:40px">
-      <h2 style="color:#101e14;font-size:26px;margin:0 0 16px">${code ? 'Your sign-in code' : 'Your sign-in link'}</h2>
+      <h2 style="color:#101e14;font-size:26px;margin:0 0 16px">${code ? 'Sign in to your portal' : 'Your sign-in link'}</h2>
       <p style="color:#555;font-size:15px;line-height:1.7;margin:0 0 8px">
         ${hello} ${code
-          ? `enter this code on the portal sign-in page to continue. Once you're in, you can set a password and sign in with that from now on.`
+          ? `tap the button below and you're in &mdash; nothing to type. Then choose a password, and from that point on you sign in with just your email and password.`
           : `use the button below to sign in to your affiliate portal.`}
         It expires in ${LINK_TTL} and can only be used once.
       </p>
-${codeBlock}${linkBlock}
+${setupBlock}${codeBlock}${linkBlock}
       <p style="color:#8a8a8a;font-size:12px;line-height:1.6;margin:0">
         Didn't request this? You can safely ignore this email &mdash; nobody can
-        access your portal without the code above.
+        access your portal without this email.
       </p>
 
       <p style="color:#555;font-size:15px;margin:24px 0 0">&mdash; Southern Ground Capital</p>
@@ -295,15 +314,21 @@ ${codeBlock}${linkBlock}
 </html>`;
 }
 
-function buildText(firstName, link, code) {
+function buildText(firstName, link, code, setupLink) {
   const hello = firstName ? `Hi ${firstName},` : 'Hi,';
   const body = code
-    ? `Your sign-in code is:
+    ? `Open this link and you're signed in — nothing to type:
+
+${setupLink}
+
+Then choose a password, and from that point on you sign in with just your
+email and password.
+
+If you'd rather type it, your sign-in code is:
 
     ${code}
 
-Enter it on the portal sign-in page at ${SITE_URL}/portal. Once you're in,
-you can set a password and sign in with that from now on.`
+Enter it on the portal sign-in page at ${SITE_URL}/portal.`
     : `Here is your sign-in link:
 
 ${link || ''}`;
@@ -317,7 +342,7 @@ ${body}
 It expires in ${LINK_TTL} and can only be used once.
 
 Didn't request this? You can safely ignore this email — nobody can access
-your portal without the code above.
+your portal without this email.
 
 — Southern Ground Capital
 Southern Ground Capital, LLC · (678) 842-8084 · ${SUPPORT}`;

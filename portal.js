@@ -1,7 +1,8 @@
 /* =====================================================================
    Affiliate Portal — front-end logic
-   Auth: Supabase email + password. First-time setup and resets go through a
-   6-digit code from /.netlify/functions/portal-login.
+   Auth: Supabase email + password. First-time setup and resets go through
+   /.netlify/functions/portal-login, which emails a one-click link and the
+   same code in typed form.
    Data: /.netlify/functions/affiliate-stats
    ===================================================================== */
 
@@ -22,6 +23,7 @@ const hide = (id) => $(id).classList.add('hidden');
 
 document.addEventListener('DOMContentLoaded', () => {
   $('yr').textContent = new Date().getFullYear();
+  captureSetupLink(); // before route(), which strips the URL
   bindLogin();
   bindLogout();
   bindCopy();
@@ -29,12 +31,22 @@ document.addEventListener('DOMContentLoaded', () => {
   route();
 });
 
-// Set when an affiliate dismisses the "create your password" prompt, so we
-// don't nag them again for the rest of the visit.
-let skippedPassword = false;
+// The sign-in email's button carries the one-time code in the URL *fragment*,
+// which browsers never send to a server. A mailbox scanner that pre-fetches
+// the link therefore asks sgcapital.io for a plain /portal and never sees the
+// token, so it can't spend it before the affiliate clicks. Read it once, then
+// strip it from the address bar so a refresh or a pasted URL can't replay it.
+let setupFromLink = null;
 
-// "Set password" for someone who has none, "Change password" once they do.
-let pwBtnLabel = 'Change password';
+function captureSetupLink() {
+  const hash = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
+  const code = (hash.get('setup') || '').replace(/\D/g, '');
+  const email = (hash.get('email') || '').trim().toLowerCase();
+  if (code.length === 6 && email) {
+    setupFromLink = { code, email };
+    cleanUrl();
+  }
+}
 
 // Re-route whenever auth state changes (e.g. after the magic-link redirect).
 sb.auth.onAuthStateChange(() => route());
@@ -57,10 +69,11 @@ async function route() {
   if (session) {
     cleanUrl(); // strip ?code=/#tokens so a refresh can't re-trigger an exchange
 
-    // Signed in but no password yet — either a first-time setup that came in
-    // on a code, or an affiliate who clicked a link. Offer the password now,
-    // while they're already here, so the next visit needs no email at all.
-    if (!hasPassword(session.user) && !skippedPassword) {
+    // Signed in but no password yet. There's no way past this panel on
+    // purpose: an affiliate who reaches the dashboard without setting one is
+    // an affiliate who needs an emailed code every single visit, which is the
+    // whole problem this flow exists to end. Sign out is still available.
+    if (!hasPassword(session.user)) {
       hide('view-loading'); hide('view-dash');
       show('view-login'); show('logout-btn');
       showPanel('panel-newpass');
@@ -69,12 +82,12 @@ async function route() {
 
     hide('view-loading'); hide('view-login');
     show('view-dash'); show('logout-btn');
-    reflectPasswordState(session.user);
     loadDashboard(session.access_token);
   } else {
     hide('view-loading'); hide('view-dash'); hide('logout-btn');
     show('view-login');
-    showPanel('panel-signin');
+    if (setupFromLink) presentLinkCode();
+    else showPanel('panel-signin');
   }
 }
 
@@ -82,17 +95,6 @@ async function route() {
 // ourselves the moment they set one.
 function hasPassword(user) {
   return !!(user && user.user_metadata && user.user_metadata.password_set);
-}
-
-// Someone who skipped the prompt should still be able to see, at a glance,
-// that setting a password is the thing that ends the emailed codes.
-function reflectPasswordState(user) {
-  const set = hasPassword(user);
-  pwBtnLabel = set ? 'Change password' : 'Set password';
-  $('pw-sub').textContent = set
-    ? 'Change the password you use to sign in.'
-    : "You haven't set a password yet. Set one and you can sign in without waiting for an emailed code.";
-  if ($('dash-pass-form').classList.contains('hidden')) $('show-pw-btn').textContent = pwBtnLabel;
 }
 
 function showPanel(id) {
@@ -143,7 +145,37 @@ function bindLogin() {
   $('need-code-btn').addEventListener('click', () => sendCode($('email').value.trim()));
   $('resend-btn').addEventListener('click', () => sendCode(codeEmail));
   $('back-signin-btn').addEventListener('click', () => showPanel('panel-signin'));
-  $('skip-pass-btn').addEventListener('click', () => { skippedPassword = true; route(); });
+}
+
+// Arrived on the email's one-click button: the code is already in hand, so
+// there is nothing to type. It still takes a tap. A scanner that renders the
+// page rather than merely fetching it would run an automatic verify and spend
+// the code, and a spent code is exactly the failure this link shape exists to
+// prevent — so the last step stays a deliberate human one.
+function presentLinkCode() {
+  codeEmail = setupFromLink.email;
+  $('code').value = setupFromLink.code;
+  $('code-title').textContent = 'Welcome back';
+  $('code-intro').innerHTML =
+    'Signing you in as <strong id="code-email"></strong>. Tap continue to choose your password.';
+  $('code-email').textContent = setupFromLink.email;
+  hide('code-manual');
+  $('code-btn').textContent = 'Continue';
+  showPanel('panel-code');
+}
+
+// Arrived by asking for a code, or falling back after a link didn't verify.
+function presentManualCode(email) {
+  setupFromLink = null;
+  $('code-title').textContent = 'Check your email';
+  $('code-intro').innerHTML =
+    'We sent a 6-digit code to <strong id="code-email"></strong>. Enter it below to continue — it expires in 1 hour.';
+  $('code-email').textContent = email;
+  show('code-manual');
+  $('code-btn').textContent = 'Continue';
+  $('code').value = '';
+  showPanel('panel-code');
+  $('code').focus();
 }
 
 async function onSignIn(e) {
@@ -193,10 +225,7 @@ async function sendCode(email) {
   // the same form rather than whatever casing the affiliate typed.
   codeEmail = email.toLowerCase();
   if (result.code) {
-    $('code-email').textContent = email;
-    showPanel('panel-code');
-    $('code').value = '';
-    $('code').focus();
+    presentManualCode(email);
   } else {
     // Fallback path — Supabase sent its own email, which has no typed code
     // in it, so point them at the link instead of asking for digits.
@@ -260,6 +289,9 @@ async function onVerifyCode(e) {
     // detail is the only way to tell the two apart when an affiliate
     // reports this.
     console.warn('verifyOtp failed:', error.status, error.message);
+    // If they came in on the link the digits were hidden, so show them now:
+    // otherwise the panel is a button with nothing to correct behind it.
+    show('code-manual');
     setNote('That code didn\'t work. Codes expire after an hour and can only be used once — tap "Send me another code" for a fresh one.', 'err');
   }
   // On success onAuthStateChange fires and route() shows the password panel.
@@ -283,7 +315,6 @@ async function onCreatePassword(e) {
     return;
   }
 
-  skippedPassword = false;
   route();
 }
 
@@ -299,6 +330,10 @@ function passwordProblem(password, confirm) {
 }
 
 /* ---- CHANGE PASSWORD (dashboard) ----------------------------------- */
+// Everyone who reaches the dashboard has a password now, so the button only
+// ever toggles between changing one and cancelling.
+const pwBtnLabel = 'Change password';
+
 function bindAccount() {
   $('show-pw-btn').addEventListener('click', () => {
     const form = $('dash-pass-form');
