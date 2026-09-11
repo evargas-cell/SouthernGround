@@ -34,8 +34,6 @@
     label.spaced{margin-top:16px}
     input[type=email],input[type=password],input[type=text]{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit}
     input[type=email]:focus,input[type=password]:focus,input[type=text]:focus{outline:none;border-color:var(--amber)}
-    /* The code is read off an email and typed back in — make it hard to misread. */
-    .codeinput{text-align:center;font-family:ui-monospace,Menlo,monospace;font-size:26px;font-weight:600;letter-spacing:8px;text-indent:8px}
     .altrow{margin-top:18px;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
     .linkbtn{background:none;border:none;padding:0;color:var(--amber);font-family:inherit;font-size:13px;text-align:left;cursor:pointer;text-decoration:underline}
     .linkbtn:hover{color:var(--amber-dark)}
@@ -113,33 +111,25 @@
         <button type="submit" class="btn" id="signin-btn">Sign in</button>
       </form>
       <div class="altrow">
-        <button type="button" class="linkbtn" id="need-code-btn">First time here, or forgot your password?</button>
+        <button type="button" class="linkbtn" id="need-link-btn">First time here, or forgot your password?</button>
       </div>
     </div>
 
-    <!-- 2. One-time code, for first-time setup and resets. Arriving from the
-         email's one-click button fills the code in and hides the digits; the
-         input is here for anyone who'd rather type it. -->
-    <div id="panel-code" class="hidden">
-      <h2 id="code-title">Check your email</h2>
-      <p id="code-intro">We sent a 6-digit code to <strong id="code-email">your inbox</strong>. Enter it below to continue &mdash; it expires in 1 hour.</p>
-      <form id="code-form">
-        <div id="code-manual">
-          <label for="code">6-digit code</label>
-          <input type="text" id="code" name="code" class="codeinput" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="000000" required autocomplete="one-time-code">
-        </div>
-        <button type="submit" class="btn" id="code-btn">Continue</button>
-      </form>
+    <!-- 2. Confirmation only. Nothing to type: the emailed link carries
+         everything, and lands the affiliate straight on the password form. -->
+    <div id="panel-sent" class="hidden">
+      <h2>Check your email</h2>
+      <p>We sent a link to <strong id="sent-email">your inbox</strong>. Open it and you can choose your password right away &mdash; it expires in 1 hour.</p>
       <div class="altrow">
-        <button type="button" class="linkbtn" id="resend-btn">Send me another code</button>
+        <button type="button" class="linkbtn" id="resend-btn">Send me another link</button>
         <button type="button" class="linkbtn" id="back-signin-btn">Back to sign in</button>
       </div>
     </div>
 
-    <!-- 3. Choose a password -->
+    <!-- 3. Choose a password. The emailed link lands here directly. -->
     <div id="panel-newpass" class="hidden">
-      <h2>Create your password</h2>
-      <p>Pick a password you'll remember. From now on you can sign in with just your email and this password &mdash; no emails, no links.</p>
+      <h2 id="newpass-title">Create your password</h2>
+      <p id="newpass-intro">Pick a password you'll remember. From now on you can sign in with just your email and this password &mdash; no emails, no links.</p>
       <form id="newpass-form">
         <label for="newpass">New password</label>
         <input type="password" id="newpass" placeholder="At least 8 characters" minlength="8" required autocomplete="new-password">
@@ -195,6 +185,6 @@
   <footer>&copy; <span id="yr"></span> Southern Ground Capital, LLC · Questions? <a href="mailto:edgar@sgcapital.io">edgar@sgcapital.io</a></footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="portal.js?v=5"></script>
+  <script src="portal.js?v=6"></script>
 </body>
 </html>

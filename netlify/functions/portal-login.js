@@ -1,10 +1,17 @@
 /* =====================================================================
-   Affiliate portal — one-time sign-in code.
+   Affiliate portal — set-a-password link.
 
    Affiliates sign in with an email and a password they choose. This
    function covers the two moments they don't have one yet: first-time
-   setup and a forgotten password. It emails a 6-digit code; the portal
-   verifies the code, then walks them through creating a password.
+   setup and a forgotten password. It emails a link that lands them on the
+   portal's password form; submitting it redeems the link and saves the
+   password in one step.
+
+   No typed code is sent. GoTrue's email_otp is not a fixed six digits --
+   this project issues eight -- and the portal's input had always assumed
+   six, so every pasted code was silently truncated and could never verify.
+   The link carries the token hash instead, which has no length to get
+   wrong and nothing for an affiliate to retype.
 
    Why we generate and send this ourselves instead of calling
    supabase.auth.signInWithOtp() from the browser: Supabase picks the
@@ -29,14 +36,15 @@ const FROM        = 'Southern Ground Capital <affiliates@sgcapital.io>';
 const SUPPORT     = 'edgar@sgcapital.io';
 const LINK_TTL    = '1 hour';
 
-// The one-click sign-in link. The code rides in the URL *fragment*, which a
-// browser never sends to any server: a mailbox scanner that pre-fetches this
+// The set-a-password link. The token hash rides in the URL *fragment*, which
+// a browser never sends to any server: a mailbox scanner that pre-fetches this
 // URL asks sgcapital.io for a bare /portal and never sees the token, so it
 // can't spend it in transit. That is the whole reason we don't email
-// Supabase's action_link, which is an ordinary GET and gets consumed on
-// delivery by Defender Safe Links, Barracuda, Mimecast and friends.
-const setupUrl = (email, code) =>
-  `${SITE_URL}/portal#setup=${encodeURIComponent(code)}&email=${encodeURIComponent(email)}`;
+// Supabase's action_link directly -- same credential, but in a query string,
+// where Defender Safe Links, Barracuda, Mimecast and friends consume it on
+// delivery.
+const resetUrl = (tokenHash) =>
+  `${SITE_URL}/portal#t=${encodeURIComponent(tokenHash)}&type=magiclink`;
 
 // Soft throttle: one link per address per minute. Netlify containers are
 // per-instance and short-lived, so this only catches impatient double
@@ -119,29 +127,25 @@ exports.handler = async function (event) {
 
   try {
     await ensureConfirmedUser(email);
-    const { link, code } = await generateSignIn(email);
-    if (!link && !code) return json(502, { error: 'We could not generate a sign-in code. Please try again.' });
+    const { link, tokenHash } = await generateSignIn(email);
+    if (!link && !tokenHash) return json(502, { error: 'We could not generate a sign-in link. Please try again.' });
 
     const firstName = String(affiliate.name || '').trim().split(/\s+/)[0] || '';
-    // The code and Supabase's action_link are the SAME one-time token --
-    // action_link is just /auth/v1/verify?token=<hash of the code>, so
-    // consuming either burns both, and a scanner that pre-fetches it burns it
-    // before the affiliate ever types the digits. So action_link never leaves
-    // this function when we have a code: the button we send instead is our own
-    // /portal#setup=... , which hides the token from every server in the path.
+    // Supabase's action_link never leaves this function when we managed to
+    // read the token hash out of it: the button we send instead is our own
+    // /portal#t=... , which hides that same token from every server in the
+    // path. Falling back to action_link only when the hash couldn't be parsed
+    // keeps a broken link shape from locking anyone out entirely.
     await sendLinkEmail({
       email,
       firstName,
-      link: code ? null : link,
-      code,
-      setupLink: code ? setupUrl(email, code) : null,
+      link: tokenHash ? null : link,
+      resetLink: tokenHash ? resetUrl(tokenHash) : null,
       resendKey: RESEND_API_KEY,
     });
 
     lastSent.set(email, now);
-    // `code` tells the portal whether to ask for a typed code or to fall
-    // back to "click the link in your email".
-    return json(200, { sent: true, code: !!code });
+    return json(200, { sent: true, link: true });
   } catch (err) {
     console.error('portal-login failed for', email, err);
     return json(500, { error: 'Something went wrong sending your link. Please try again.' });
@@ -200,12 +204,10 @@ async function findAuthUser(email) {
   }
 }
 
-// One generate_link call yields both representations of a single token: the
-// 6-digit `email_otp` an affiliate can type in, and the action_link that
-// verifies that same token by URL. They are not two independent credentials —
-// whichever is used first invalidates the other — so the caller sends exactly
-// one of them. Supabase owns expiry and one-time use, so there's no code
-// storage of our own to get wrong.
+// action_link is /auth/v1/verify?token=<hash>&type=...&redirect_to=..., so the
+// `token` query parameter IS the credential. We pull it out and carry it in our
+// own link's fragment instead of forwarding Supabase's URL. Supabase still owns
+// expiry and one-time use, so there's nothing of our own to store or get wrong.
 async function generateSignIn(email) {
   const res = await fetch(`${SB_URL}/auth/v1/admin/generate_link`, {
     method: 'POST',
@@ -218,15 +220,24 @@ async function generateSignIn(email) {
   }
   const data = await res.json();
   const props = data.properties || {};
-  return {
-    link: data.action_link || props.action_link || null,
-    code: data.email_otp || props.email_otp || null,
-  };
+  const link = data.action_link || props.action_link || null;
+  return { link, tokenHash: tokenHashFrom(link) };
+}
+
+function tokenHashFrom(link) {
+  if (!link) return null;
+  try {
+    return new URL(link).searchParams.get('token');
+  } catch (err) {
+    console.error('Could not parse action_link:', err);
+    return null;
+  }
 }
 
 /* ---- EMAIL ---------------------------------------------------------- */
 
-async function sendLinkEmail({ email, firstName, link, code, setupLink, resendKey }) {
+async function sendLinkEmail({ email, firstName, link, resetLink, resendKey }) {
+  const url = resetLink || link;
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
@@ -234,48 +245,18 @@ async function sendLinkEmail({ email, firstName, link, code, setupLink, resendKe
       from: FROM,
       to: [email],
       reply_to: SUPPORT,
-      subject: code
-        ? `${code} is your Southern Ground Capital sign-in code`
-        : 'Your Southern Ground Capital portal sign-in link',
-      html: buildHtml(firstName, link, code, setupLink),
-      text: buildText(firstName, link, code, setupLink),
+      subject: 'Set your Southern Ground Capital portal password',
+      html: buildHtml(firstName, url),
+      text: buildText(firstName, url),
     }),
   });
   if (!res.ok) throw new Error(`Resend ${res.status}: ${await res.text()}`);
 }
 
-// The button leads: an affiliate who taps it lands on the portal with the
-// code already filled in and one tap from choosing a password, which is far
-// fewer places to get lost than copying six digits between two apps. The
-// digits stay underneath for anyone whose client strips the button, and the
-// URL prints as visible text for the same reason.
-function buildHtml(firstName, link, code, setupLink) {
+// One button and nothing else to do. The URL also prints as visible text,
+// because plenty of clients strip the button and leave nothing behind.
+function buildHtml(firstName, url) {
   const hello = firstName ? `Hi ${escapeHtml(firstName)},` : 'Hi,';
-  const codeBlock = code ? `
-      <div style="text-align:center;margin:28px 0">
-        <div style="color:#8a8a8a;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Or enter this code on the sign-in page</div>
-        <div style="display:inline-block;background:#f5f5f0;border:1px solid #e2e2d8;border-radius:8px;padding:16px 28px;font-family:monospace;font-size:34px;font-weight:bold;letter-spacing:8px;color:#101e14">${escapeHtml(code)}</div>
-      </div>` : '';
-  const setupBlock = setupLink ? `
-      <div style="text-align:center;margin:24px 0 8px">
-        <a href="${setupLink}" style="background:#101e14;color:#fff;text-decoration:none;padding:14px 32px;border-radius:6px;font-size:15px;font-weight:bold;display:inline-block">Sign In to My Portal &rarr;</a>
-      </div>
-      <p style="color:#8a8a8a;font-size:12px;line-height:1.6;margin:0 0 20px;text-align:center">
-        Button not working? Copy this address into your browser:<br>
-        <span style="font-family:monospace;font-size:11px;color:#9B6820;word-break:break-all">${setupLink}</span>
-      </p>` : '';
-
-  const linkBlock = link ? `
-      <p style="color:#555;font-size:14px;line-height:1.7;margin:0 0 8px">
-        Click the button below to sign in:
-      </p>
-      <div style="text-align:center;margin:16px 0 28px">
-        <a href="${link}" style="background:#101e14;color:#fff;text-decoration:none;padding:13px 30px;border-radius:6px;font-size:15px;font-weight:bold;display:inline-block">Sign In to My Portal &rarr;</a>
-      </div>
-      <p style="color:#555;font-size:13px;line-height:1.6;margin:0 0 6px">
-        If the button doesn't work, copy and paste this address into your browser:
-      </p>
-      <p style="margin:0 0 24px;font-family:monospace;font-size:12px;color:#9B6820;word-break:break-all">${link}</p>` : '';
 
   return `<!DOCTYPE html>
 <html>
@@ -285,21 +266,28 @@ function buildHtml(firstName, link, code, setupLink) {
 
     <div style="background:#101e14;padding:32px 40px">
       <h1 style="margin:0;color:#c8923a;font-size:22px;letter-spacing:1px">SOUTHERN GROUND CAPITAL</h1>
-      <p style="margin:8px 0 0;color:rgba(255,255,255,0.7);font-size:13px">Affiliate Portal &middot; Sign In</p>
+      <p style="margin:8px 0 0;color:rgba(255,255,255,0.7);font-size:13px">Affiliate Portal &middot; Set Your Password</p>
     </div>
 
     <div style="padding:40px">
-      <h2 style="color:#101e14;font-size:26px;margin:0 0 16px">${code ? 'Sign in to your portal' : 'Your sign-in link'}</h2>
+      <h2 style="color:#101e14;font-size:26px;margin:0 0 16px">Set your password</h2>
       <p style="color:#555;font-size:15px;line-height:1.7;margin:0 0 8px">
-        ${hello} ${code
-          ? `tap the button below and you're in &mdash; nothing to type. Then choose a password, and from that point on you sign in with just your email and password.`
-          : `use the button below to sign in to your affiliate portal.`}
-        It expires in ${LINK_TTL} and can only be used once.
+        ${hello} tap the button below and pick a password. That's the whole thing &mdash;
+        from then on you sign in with just your email and that password.
+        This link expires in ${LINK_TTL} and can only be used once.
       </p>
-${setupBlock}${codeBlock}${linkBlock}
+
+      <div style="text-align:center;margin:28px 0 12px">
+        <a href="${url}" style="background:#101e14;color:#fff;text-decoration:none;padding:14px 32px;border-radius:6px;font-size:15px;font-weight:bold;display:inline-block">Set My Password &rarr;</a>
+      </div>
+      <p style="color:#8a8a8a;font-size:12px;line-height:1.6;margin:0 0 24px;text-align:center">
+        Button not working? Copy this address into your browser:<br>
+        <span style="font-family:monospace;font-size:11px;color:#9B6820;word-break:break-all">${url}</span>
+      </p>
+
       <p style="color:#8a8a8a;font-size:12px;line-height:1.6;margin:0">
         Didn't request this? You can safely ignore this email &mdash; nobody can
-        access your portal without this email.
+        access your portal without it.
       </p>
 
       <p style="color:#555;font-size:15px;margin:24px 0 0">&mdash; Southern Ground Capital</p>
@@ -314,35 +302,22 @@ ${setupBlock}${codeBlock}${linkBlock}
 </html>`;
 }
 
-function buildText(firstName, link, code, setupLink) {
+function buildText(firstName, url) {
   const hello = firstName ? `Hi ${firstName},` : 'Hi,';
-  const body = code
-    ? `Open this link and you're signed in — nothing to type:
 
-${setupLink}
-
-Then choose a password, and from that point on you sign in with just your
-email and password.
-
-If you'd rather type it, your sign-in code is:
-
-    ${code}
-
-Enter it on the portal sign-in page at ${SITE_URL}/portal.`
-    : `Here is your sign-in link:
-
-${link || ''}`;
-
-  return `SOUTHERN GROUND CAPITAL — Affiliate Portal Sign In
+  return `SOUTHERN GROUND CAPITAL — Affiliate Portal
 
 ${hello}
 
-${body}
+Open this link and pick a password. That's the whole thing — from then on
+you sign in with just your email and that password.
 
-It expires in ${LINK_TTL} and can only be used once.
+${url}
+
+This link expires in ${LINK_TTL} and can only be used once.
 
 Didn't request this? You can safely ignore this email — nobody can access
-your portal without this email.
+your portal without it.
 
 — Southern Ground Capital
 Southern Ground Capital, LLC · (678) 842-8084 · ${SUPPORT}`;

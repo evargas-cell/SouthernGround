@@ -1,8 +1,8 @@
 /* =====================================================================
    Affiliate Portal — front-end logic
    Auth: Supabase email + password. First-time setup and resets go through
-   /.netlify/functions/portal-login, which emails a one-click link and the
-   same code in typed form.
+   /.netlify/functions/portal-login, which emails a link that lands straight
+   on the password form. No typed codes anywhere.
    Data: /.netlify/functions/affiliate-stats
    ===================================================================== */
 
@@ -23,7 +23,7 @@ const hide = (id) => $(id).classList.add('hidden');
 
 document.addEventListener('DOMContentLoaded', () => {
   $('yr').textContent = new Date().getFullYear();
-  captureSetupLink(); // before route(), which strips the URL
+  captureResetToken(); // before route(), which strips the URL
   bindLogin();
   bindLogout();
   bindCopy();
@@ -31,21 +31,20 @@ document.addEventListener('DOMContentLoaded', () => {
   route();
 });
 
-// The sign-in email's button carries the one-time code in the URL *fragment*,
-// which browsers never send to a server. A mailbox scanner that pre-fetches
-// the link therefore asks sgcapital.io for a plain /portal and never sees the
-// token, so it can't spend it before the affiliate clicks. Read it once, then
-// strip it from the address bar so a refresh or a pasted URL can't replay it.
-let setupFromLink = null;
+// The emailed link carries Supabase's token *hash* — the same credential its
+// action_link would put in a query string — in the URL *fragment*, which a
+// browser never sends to a server. A mailbox scanner that pre-fetches the
+// link therefore asks sgcapital.io for a bare /portal and cannot spend it.
+// Read it once, strip it from the address bar so a refresh or a shared URL
+// can't replay it, and redeem it only when the affiliate submits a password.
+let pendingReset = null;
 
-function captureSetupLink() {
+function captureResetToken() {
   const hash = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
-  const code = (hash.get('setup') || '').replace(/\D/g, '');
-  const email = (hash.get('email') || '').trim().toLowerCase();
-  if (code.length === 6 && email) {
-    setupFromLink = { code, email };
-    cleanUrl();
-  }
+  const tokenHash = (hash.get('t') || '').trim();
+  if (!tokenHash) return;
+  pendingReset = { tokenHash, type: hash.get('type') || 'magiclink' };
+  cleanUrl();
 }
 
 // Re-route whenever auth state changes (e.g. after the magic-link redirect).
@@ -86,7 +85,7 @@ async function route() {
   } else {
     hide('view-loading'); hide('view-dash'); hide('logout-btn');
     show('view-login');
-    if (setupFromLink) presentLinkCode();
+    if (pendingReset) presentReset();
     else showPanel('panel-signin');
   }
 }
@@ -98,7 +97,7 @@ function hasPassword(user) {
 }
 
 function showPanel(id) {
-  ['panel-signin', 'panel-code', 'panel-newpass'].forEach((p) => (p === id ? show(p) : hide(p)));
+  ['panel-signin', 'panel-sent', 'panel-newpass'].forEach((p) => (p === id ? show(p) : hide(p)));
   setNote('', '');
 }
 
@@ -117,7 +116,7 @@ function surfaceUrlError() {
     const note = $('login-note');
     if (note) {
       note.className = 'note err';
-      note.textContent = decodeURIComponent(err).replace(/\+/g, ' ') + ' — please request a new code.';
+      note.textContent = decodeURIComponent(err).replace(/\+/g, ' ') + ' — please request a new link.';
     }
     cleanUrl();
   }
@@ -130,52 +129,34 @@ function cleanUrl() {
 }
 
 /* ---- LOGIN --------------------------------------------------------- *
-   Three steps, and most affiliates only ever see the first: sign in with
-   email + password. The code panel exists for the two moments they have no
-   password — first visit and a reset — and it hands straight over to the
-   panel where they choose one.
+   Two ways in. Every day: email + password. The two moments an affiliate has
+   no password — first visit and a reset — go through a link we email, which
+   lands them directly on the password form.
+
+   There is no typed code anywhere in this flow, deliberately. GoTrue's
+   email_otp is not a fixed six digits (this project issues eight), so the
+   form's maxlength quietly truncated every code an affiliate pasted and the
+   verify could never match. Beyond that bug, a code copied between two apps
+   was the step affiliates got lost in. The link carries the credential, so
+   there is nothing to read, retype, or truncate.
    -------------------------------------------------------------------- */
-let codeEmail = ''; // address the current code was sent to
+let resetEmail = ''; // address the current link was sent to
 
 function bindLogin() {
   $('signin-form').addEventListener('submit', onSignIn);
-  $('code-form').addEventListener('submit', onVerifyCode);
   $('newpass-form').addEventListener('submit', onCreatePassword);
 
-  $('need-code-btn').addEventListener('click', () => sendCode($('email').value.trim()));
-  $('resend-btn').addEventListener('click', () => sendCode(codeEmail));
+  $('need-link-btn').addEventListener('click', () => sendResetLink($('email').value.trim()));
+  $('resend-btn').addEventListener('click', () => sendResetLink(resetEmail));
   $('back-signin-btn').addEventListener('click', () => showPanel('panel-signin'));
 }
 
-// Arrived on the email's one-click button: the code is already in hand, so
-// there is nothing to type. It still takes a tap. A scanner that renders the
-// page rather than merely fetching it would run an automatic verify and spend
-// the code, and a spent code is exactly the failure this link shape exists to
-// prevent — so the last step stays a deliberate human one.
-function presentLinkCode() {
-  codeEmail = setupFromLink.email;
-  $('code').value = setupFromLink.code;
-  $('code-title').textContent = 'Welcome back';
-  $('code-intro').innerHTML =
-    'Signing you in as <strong id="code-email"></strong>. Tap continue to choose your password.';
-  $('code-email').textContent = setupFromLink.email;
-  hide('code-manual');
-  $('code-btn').textContent = 'Continue';
-  showPanel('panel-code');
-}
-
-// Arrived by asking for a code, or falling back after a link didn't verify.
-function presentManualCode(email) {
-  setupFromLink = null;
-  $('code-title').textContent = 'Check your email';
-  $('code-intro').innerHTML =
-    'We sent a 6-digit code to <strong id="code-email"></strong>. Enter it below to continue — it expires in 1 hour.';
-  $('code-email').textContent = email;
-  show('code-manual');
-  $('code-btn').textContent = 'Continue';
-  $('code').value = '';
-  showPanel('panel-code');
-  $('code').focus();
+// Arrived on the emailed link: straight to the password form, no interstitial.
+function presentReset() {
+  $('newpass-title').textContent = 'Choose your password';
+  $('newpass-intro').textContent =
+    "Pick a password you'll remember. From now on you sign in with just your email and this password.";
+  showPanel('panel-newpass');
 }
 
 async function onSignIn(e) {
@@ -197,7 +178,7 @@ async function onSignIn(e) {
     const wrong = /invalid login credentials/i.test(error.message || '');
     setNote(
       wrong
-        ? "That email and password don't match. If you haven't set a password yet, use the link below to get a code by email."
+        ? "That email and password don't match. If you haven't set a password yet, use the link below and we'll email you one."
         : error.message || 'Something went wrong. Please try again.',
       'err'
     );
@@ -205,7 +186,7 @@ async function onSignIn(e) {
   // On success onAuthStateChange fires and route() takes over.
 }
 
-async function sendCode(email) {
+async function sendResetLink(email) {
   if (!email) {
     showPanel('panel-signin');
     setNote('Enter your email address first, then tap that link again.', 'err');
@@ -213,29 +194,21 @@ async function sendCode(email) {
     return;
   }
 
-  setNote('Sending your code…', 'ok');
-  const result = await requestCode(email);
+  setNote('Sending your link…', 'ok');
+  const result = await requestResetLink(email);
 
   if (result.error) {
     setNote(result.error, 'err');
     return;
   }
 
-  // GoTrue issues the token against the lower-cased address, so verify with
-  // the same form rather than whatever casing the affiliate typed.
-  codeEmail = email.toLowerCase();
-  if (result.code) {
-    presentManualCode(email);
-  } else {
-    // Fallback path — Supabase sent its own email, which has no typed code
-    // in it, so point them at the link instead of asking for digits.
-    showPanel('panel-signin');
-    setNote('We emailed a sign-in link to ' + email + '. Open that email and click the link to continue.', 'ok');
-  }
+  resetEmail = email;
+  $('sent-email').textContent = email;
+  showPanel('panel-sent');
 }
 
-// Returns { code } on success or { error } with a message for the affiliate.
-async function requestCode(email) {
+// Returns {} on success or { error } with a message for the affiliate.
+async function requestResetLink(email) {
   try {
     const res = await fetch('/.netlify/functions/portal-login', {
       method: 'POST',
@@ -243,7 +216,7 @@ async function requestCode(email) {
       body: JSON.stringify({ email }),
     });
     const data = await res.json().catch(() => ({}));
-    if (res.ok) return { code: !!data.code };
+    if (res.ok) return {};
     // Function isn't configured (missing env) — don't leave the affiliate
     // stranded, let Supabase send its own email as a last resort.
     if (data.fallback) return await otpFallback(email);
@@ -253,59 +226,43 @@ async function requestCode(email) {
   }
 }
 
+// Supabase's own email links back to /portal with tokens in the hash, which
+// supabase-js picks up on load — so it lands in the same place, just without
+// the branding and the Resend logs.
 async function otpFallback(email) {
   const { error } = await sb.auth.signInWithOtp({
     email,
     options: { emailRedirectTo: REDIRECT_TO },
   });
   if (error) return { error: error.message || 'Something went wrong. Please try again.' };
-  return { code: false };
-}
-
-async function onVerifyCode(e) {
-  e.preventDefault();
-  const token = $('code').value.replace(/\D/g, '');
-  if (token.length !== 6) {
-    setNote('Please enter all 6 digits of the code from your email.', 'err');
-    return;
-  }
-
-  const btn = $('code-btn');
-  btn.disabled = true; btn.textContent = 'Checking…';
-  setNote('', '');
-
-  // portal-login generates the token as type 'magiclink', so try that first:
-  // every wrong-type attempt is still a failed verify against the same token.
-  // 'email' is the generic alias newer GoTrue accepts, kept as a fallback.
-  let { error } = await sb.auth.verifyOtp({ email: codeEmail, token, type: 'magiclink' });
-  if (error) {
-    ({ error } = await sb.auth.verifyOtp({ email: codeEmail, token, type: 'email' }));
-  }
-
-  btn.disabled = false; btn.textContent = 'Continue';
-  if (error) {
-    // GoTrue says "Token has expired or is invalid" for both a mistyped
-    // code and one that was already spent, so log the real error: that
-    // detail is the only way to tell the two apart when an affiliate
-    // reports this.
-    console.warn('verifyOtp failed:', error.status, error.message);
-    // If they came in on the link the digits were hidden, so show them now:
-    // otherwise the panel is a button with nothing to correct behind it.
-    show('code-manual');
-    setNote('That code didn\'t work. Codes expire after an hour and can only be used once — tap "Send me another code" for a fresh one.', 'err');
-  }
-  // On success onAuthStateChange fires and route() shows the password panel.
+  return {};
 }
 
 async function onCreatePassword(e) {
   e.preventDefault();
   const password = $('newpass').value;
-  const confirm = $('newpass2').value;
-  const problem = passwordProblem(password, confirm);
+  const problem = passwordProblem(password, $('newpass2').value);
   if (problem) { setNote(problem, 'err'); return; }
 
   const btn = $('newpass-btn');
   btn.disabled = true; btn.textContent = 'Saving…';
+
+  // Arrived on an emailed link: redeem it now, which signs them in, and only
+  // then set the password on the session that produces.
+  if (pendingReset) {
+    const { error } = await redeemResetToken();
+    if (error) {
+      btn.disabled = false; btn.textContent = 'Save my password';
+      pendingReset = null;
+      showPanel('panel-signin');
+      setNote(
+        'That link has expired or was already used. Enter your email and tap "First time here, or forgot your password?" for a fresh one.',
+        'err'
+      );
+      return;
+    }
+    pendingReset = null;
+  }
 
   const { error } = await savePassword(password);
 
@@ -318,7 +275,24 @@ async function onCreatePassword(e) {
   route();
 }
 
-// Shared by the first-time panel and the dashboard's change-password form.
+// GoTrue names this token type differently across versions: portal-login
+// generates it as 'magiclink', and 'email' is the newer generic alias.
+async function redeemResetToken() {
+  let { error } = await sb.auth.verifyOtp({
+    token_hash: pendingReset.tokenHash,
+    type: pendingReset.type,
+  });
+  if (error) {
+    ({ error } = await sb.auth.verifyOtp({ token_hash: pendingReset.tokenHash, type: 'email' }));
+  }
+  // "Token has expired or is invalid" covers both a spent link and a stale
+  // one, so log the real error — it's the only way to tell them apart when an
+  // affiliate reports this.
+  if (error) console.warn('verifyOtp (token_hash) failed:', error.status, error.message);
+  return { error };
+}
+
+// Shared by the emailed-link panel and the dashboard's change-password form.
 function savePassword(password) {
   return sb.auth.updateUser({ password, data: { password_set: true } });
 }

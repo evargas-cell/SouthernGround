@@ -227,8 +227,8 @@ function buildAnnounceEmail(name, email, affiliateLink) {
         <p style="margin:0 0 14px;color:#1C3D26;font-size:14.5px;line-height:1.7">
           <strong>How to log in the first time:</strong> go to the portal, enter
           <strong>${loginEmail}</strong>, and click "First time here, or forgot your
-          password?". We'll email you a sign-in button &mdash; tap it, choose a
-          password, and from then on you just sign in with your email and that password.
+          password?". We'll email you a link &mdash; open it, pick a password, and
+          from then on you just sign in with your email and that password.
         </p>
         <div style="background:#fff;border:1px dashed #c3d9c8;border-radius:6px;padding:14px 18px;margin:0 0 16px">
           <p style="margin:0;color:#46604f;font-size:13.5px;line-height:1.7">
