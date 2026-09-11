@@ -14,6 +14,7 @@ const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_k6oM2k-L227MgWFP9DL52Q_VLSKOPra
 /* -------------------------------------------------------------------- */
 
 const REDIRECT_TO = window.location.origin + '/portal';
+const SUPPORT_EMAIL = 'edgar@sgcapital.io';
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
@@ -276,7 +277,7 @@ async function onCreatePassword(e) {
     pendingReset = null;
   }
 
-  const { error } = await savePassword(password);
+  const { error } = await savePassword(await sessionEmail(), password);
 
   btn.disabled = false; btn.textContent = 'Save my password';
   if (error) {
@@ -285,6 +286,15 @@ async function onCreatePassword(e) {
   }
 
   route();
+}
+
+async function sessionEmail() {
+  try {
+    const { data } = await sb.auth.getSession();
+    return (data && data.session && data.session.user.email) || '';
+  } catch {
+    return '';
+  }
 }
 
 async function haveSession() {
@@ -314,8 +324,33 @@ async function redeemResetToken() {
 }
 
 // Shared by the emailed-link panel and the dashboard's change-password form.
-function savePassword(password) {
-  return sb.auth.updateUser({ password, data: { password_set: true } });
+//
+// updateUser can report success on a password that then fails to sign in, and
+// the affiliate only discovers it on their next visit, staring at "invalid
+// login credentials" for a password they watched us save. So prove it here,
+// while we can still say something useful: set the password, sign in with it,
+// and only mark password_set once that sign-in actually worked. The two
+// updateUser calls are kept apart deliberately — sending `password` and `data`
+// together means one server-side rejection can leave the flag set on an
+// account with no usable password, which is that same dead end with extra
+// steps.
+async function savePassword(email, password) {
+  const { error: saveError } = await sb.auth.updateUser({ password });
+  if (saveError) return { error: saveError };
+
+  const { error: proveError } = await sb.auth.signInWithPassword({ email, password });
+  if (proveError) {
+    console.warn('password saved but would not sign in:', proveError.status, proveError.message);
+    return {
+      error: {
+        message:
+          'We saved that password but it did not work when we tested it. Please try a ' +
+          'different password, or email ' + SUPPORT_EMAIL + ' and we will sort it out.',
+      },
+    };
+  }
+
+  return await sb.auth.updateUser({ data: { password_set: true } });
 }
 
 function passwordProblem(password, confirm) {
@@ -348,7 +383,7 @@ function bindAccount() {
     const btn = $('dashpass-btn');
     btn.disabled = true; btn.textContent = 'Saving…';
 
-    const { error } = await savePassword(password);
+    const { error } = await savePassword(await sessionEmail(), password);
 
     btn.disabled = false; btn.textContent = 'Save password';
     if (error) {
