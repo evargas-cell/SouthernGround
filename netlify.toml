@@ -90,10 +90,12 @@
   to = "/escrow-funding.html"
   status = 200
 
+# Alias, so 301 rather than a rewrite — a 200 here would publish a second
+# indexable copy of /escrow-funding for Google to pick a canonical between.
 [[redirects]]
   from = "/transactional-funding"
-  to = "/escrow-funding.html"
-  status = 200
+  to = "/escrow-funding"
+  status = 301
 
 [[redirects]]
   from = "/escrow"

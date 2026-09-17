@@ -172,7 +172,7 @@ function buildAnnounceEmail(name, email, affiliateLink) {
   const firstName  = titleCase((name || 'there').split(' ')[0]);
   const year       = new Date().getFullYear();
   const portalUrl  = 'https://sgcapital.io/portal';
-  const brrrrUrl   = 'https://sgcapital.io/brrrr-analyzer.html';
+  const brrrrUrl   = 'https://sgcapital.io/brrrr-analyzer';
   const loginEmail = email || 'the email you registered with';
 
   return `<!DOCTYPE html>
