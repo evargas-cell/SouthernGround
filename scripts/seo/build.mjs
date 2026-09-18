@@ -32,6 +32,7 @@ import {
 import { PROGRAMS, PROGRAM_BY_SLUG } from './programs.mjs';
 import { GEOS, TESTIMONIALS } from './geos.mjs';
 import { LEGAL_PAGES } from './legal.mjs';
+import { AFFILIATE_PAGE, AFFILIATE_FAQS } from './affiliates.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const written = [];
@@ -460,7 +461,149 @@ ${p.body.trimEnd()}
 for (const p of LEGAL_PAGES) write(`${p.slug}.html`, renderLegal(p));
 
 // ============================================================
-// 5. sitemap.xml
+// 5. Affiliate program page
+// ============================================================
+
+function renderAffiliates() {
+  const p = AFFILIATE_PAGE;
+  const trail = [
+    ['Home', '/'],
+    ['Affiliate Program', null],
+  ];
+
+  const metrics = p.metrics
+    .map(
+      ([l, v]) =>
+        `            <div class="metric"><span class="metric-l">${l}</span><span class="metric-v">${v}</span></div>`
+    )
+    .join('\n');
+
+  const sections = p.sections
+    .map(
+      (s) => `        <div class="prose-section">
+          <h2>${s.h2}</h2>
+${s.html}
+        </div>`
+    )
+    .join('\n\n');
+
+  return (
+    head({
+      title: p.title,
+      description: p.description,
+      path: p.path,
+      schemas: [jsonLd(breadcrumbSchema(trail)), jsonLd(faqSchema(AFFILIATE_FAQS))],
+    }) +
+    header() +
+    breadcrumbs(trail) +
+    `
+  <main id="main">
+
+    <section class="page-hero" aria-labelledby="page-h1">
+      <div class="container page-hero-inner">
+        <p class="section-eyebrow section-eyebrow--light">Partner Program</p>
+        <h1 id="page-h1" class="page-hero-title">${p.h1}</h1>
+        <p class="page-hero-lede">${p.lede}</p>
+        <div class="program-metrics program-metrics--hero">
+${metrics}
+        </div>
+        <div class="page-hero-ctas">
+          <a href="#join" class="btn btn-gold btn-lg">Join the Program</a>
+          <a href="${SITE.phoneHref}" class="btn btn-ghost-gold btn-lg">Call ${SITE.phone}</a>
+        </div>
+        <p class="page-hero-note">Flat 30% &middot; Paid on every funded deal &middot; Repeat business pays too</p>
+      </div>
+    </section>
+
+    <section class="prose-wrap section--white">
+      <div class="container prose-container">
+
+${sections}
+
+      </div>
+    </section>
+
+` +
+    faqBlock(AFFILIATE_FAQS) +
+    affiliateSignup() +
+    `
+  </main>
+
+` +
+    footer()
+  );
+}
+
+/**
+ * The registration form. Markup is shared with the homepage teaser's
+ * target, and the IDs are the ones script.js binds to — keep
+ * #affiliate-form, .affiliate-form-fields, #aff-success,
+ * #aff-link-display and #aff-copy-btn in step with script.js.
+ */
+function affiliateSignup() {
+  const roles = [
+    'Real Estate Agent',
+    'Mortgage Broker',
+    'Wholesaler',
+    'Real Estate Investor',
+    'Title / Closing Agent',
+    'Financial Advisor',
+    'Other',
+  ]
+    .map((r) => `                  <option value="${r}">${r}</option>`)
+    .join('\n');
+
+  return `    <section class="affiliates section--light" id="join" aria-labelledby="join-heading">
+      <div class="container affiliates-inner">
+        <p class="section-eyebrow">Registration</p>
+        <h2 id="join-heading" class="section-heading">Join the Partner Program</h2>
+        <p class="section-sub">One form, no cost, no volume commitment. We will email your referral link and your portal login.</p>
+
+        <form class="affiliate-form" id="affiliate-form" method="POST" novalidate>
+          <div class="affiliate-form-fields">
+            <div class="form-group">
+              <label for="aff-name">Your Name</label>
+              <input type="text" id="aff-name" name="aff-name" placeholder="First &amp; Last Name" required autocomplete="name" />
+              <span class="form-error" aria-live="polite"></span>
+            </div>
+            <div class="form-group">
+              <label for="aff-email">Email Address</label>
+              <input type="email" id="aff-email" name="aff-email" placeholder="you@example.com" required autocomplete="email" />
+              <span class="form-error" aria-live="polite"></span>
+            </div>
+            <div class="form-group">
+              <label for="aff-phone">Phone Number</label>
+              <input type="tel" id="aff-phone" name="aff-phone" placeholder="(678) 000-0000" required autocomplete="tel" />
+              <span class="form-error" aria-live="polite"></span>
+            </div>
+            <div class="form-group">
+              <label for="aff-role">Your Role</label>
+              <select id="aff-role" name="aff-role" required>
+                <option value="">Select your role…</option>
+${roles}
+              </select>
+              <span class="form-error" aria-live="polite"></span>
+            </div>
+            <button type="submit" class="btn btn-gold">Join Affiliate Program →</button>
+          </div>
+          <div class="aff-success" id="aff-success" hidden>
+            <p>✅ Welcome to the team! Your unique affiliate link:</p>
+            <div class="aff-link-box">
+              <code id="aff-link-display"></code>
+              <button type="button" class="btn-copy" id="aff-copy-btn">Copy</button>
+            </div>
+            <p class="aff-email-note">We emailed you the link along with tips to get your first deal.</p>
+          </div>
+        </form>
+      </div>
+    </section>
+`;
+}
+
+write('affiliates.html', renderAffiliates());
+
+// ============================================================
+// 6. sitemap.xml
 // ============================================================
 
 const today = new Date().toISOString().slice(0, 10);
@@ -471,6 +614,7 @@ const staticUrls = [
   // /apply is deliberately absent: apply.html is noindex,nofollow, and a
   // sitemap should only list URLs we want indexed.
   ['/escrow-funding', 'monthly', '0.8'],
+  ['/affiliates', 'monthly', '0.8'],
   ['/brrrr-analyzer', 'monthly', '0.7'],
   ['/es', 'monthly', '0.7'],
   ['/blog/', 'weekly', '0.7'],

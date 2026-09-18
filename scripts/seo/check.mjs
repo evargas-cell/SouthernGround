@@ -28,6 +28,7 @@ const REWRITES = new Map(
     '/brrrr-analyzer': 'brrrr-analyzer.html',
     '/escrow': 'escrow.html',
     '/escrow-funding': 'escrow-funding.html',
+    '/affiliates': 'affiliates.html',
     '/transactional-funding': 'escrow-funding.html',
     '/emd': 'escrow.html',
     '/fundmydeal': 'escrow.html',

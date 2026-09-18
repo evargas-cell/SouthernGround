@@ -101,8 +101,45 @@ async function loadAdmin(token) {
   }
 
   show('view-admin'); show('logout-btn');
+  PARTNERS = data.affiliates || [];
+  REPEATS = repeatIndex(data.leads || []);
   renderSummary(data.leads || []);
   renderRows(data.leads || []);
+}
+
+let PARTNERS = [];
+let REPEATS = {};
+
+/**
+ * Maps a borrower's email/phone to the affiliate who introduced them, so a
+ * repeat deal that arrives with no ?ref= link can still be credited. This is
+ * what the repeat-business promise on /affiliates rests on: the borrower
+ * comes back directly, and the partner still gets paid.
+ */
+function repeatIndex(leads) {
+  const byContact = {};
+  leads.forEach((l) => {
+    if (!l.affiliate_id) return;
+    contactKeys(l).forEach((k) => {
+      if (!byContact[k]) byContact[k] = { id: l.affiliate_id, name: l.affiliate };
+    });
+  });
+  const out = {};
+  leads.forEach((l) => {
+    if (l.affiliate_id) return;
+    const hit = contactKeys(l).map((k) => byContact[k]).find(Boolean);
+    if (hit) out[l.id] = hit;
+  });
+  return out;
+}
+
+function contactKeys(l) {
+  const keys = [];
+  const email = String(l.email || '').trim().toLowerCase();
+  const phone = String(l.phone || '').replace(/\D/g, '');
+  if (email) keys.push('e:' + email);
+  if (phone.length >= 10) keys.push('p:' + phone.slice(-10));
+  return keys;
 }
 
 function renderSummary(leads) {
@@ -133,7 +170,7 @@ function rowHtml(l) {
   return '<tr data-id="' + l.id + '">' +
     '<td class="meta">' + esc(l.date) + '</td>' +
     '<td><div class="applicant">' + esc(l.applicant) + '</div><div class="meta">' + esc(l.email) + (l.phone ? ' · ' + esc(l.phone) : '') + '</div></td>' +
-    '<td>' + esc(l.affiliate) + '</td>' +
+    '<td>' + affCell(l) + '</td>' +
     '<td>' + esc(l.loan_program || '—') + '</td>' +
     '<td><select class="status-in">' + opts + '</select></td>' +
     '<td>$<input class="fee-in" type="number" min="0" step="50" value="' + fee + '" placeholder="0"></td>' +
@@ -143,6 +180,20 @@ function rowHtml(l) {
     '</tr>';
 }
 
+function affCell(l) {
+  const opts = ['<option value="">Direct (no affiliate)</option>']
+    .concat(PARTNERS.map((a) =>
+      '<option value="' + esc(a.id) + '"' + (a.id === l.affiliate_id ? ' selected' : '') + '>' +
+      esc(a.name || a.ref_code) + '</option>'))
+    .join('');
+  const hit = REPEATS[l.id];
+  const hint = hit
+    ? '<div class="meta repeat-hint">Repeat borrower &middot; ' + esc(hit.name) +
+      ' <button type="button" class="creditb" data-aff="' + esc(hit.id) + '">credit</button></div>'
+    : '';
+  return '<select class="aff-in">' + opts + '</select>' + hint;
+}
+
 function wireRow(id) {
   const tr = document.querySelector('tr[data-id="' + cssEsc(id) + '"]');
   if (!tr) return;
@@ -150,7 +201,18 @@ function wireRow(id) {
   const pctIn = tr.querySelector('.pct-in');
   const comm = tr.querySelector('.commission');
   const statusSel = tr.querySelector('.status-in');
+  const affSel = tr.querySelector('.aff-in');
+  const creditb = tr.querySelector('.creditb');
   const saveb = tr.querySelector('.saveb');
+
+  // "credit" just fills the picker — nothing is written until Save, so a
+  // misread repeat match costs a click, not a payout.
+  if (creditb && affSel) {
+    creditb.addEventListener('click', () => {
+      affSel.value = creditb.getAttribute('data-aff') || '';
+      saveb.focus();
+    });
+  }
 
   // Live preview of computed commission as you type.
   const preview = () => {
@@ -173,7 +235,9 @@ function wireRow(id) {
       status: statusSel.value,
       origination_fee: feeIn.value === '' ? null : Number(feeIn.value),
       commission_pct: Number(pctIn.value || 0),
+      affiliate_id: affSel ? (affSel.value || null) : undefined,
     };
+    if (payload.affiliate_id === undefined) delete payload.affiliate_id;
     try {
       const res = await fetch('/.netlify/functions/admin-update-lead', {
         method: 'POST',

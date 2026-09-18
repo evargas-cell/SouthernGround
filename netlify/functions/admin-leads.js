@@ -21,8 +21,13 @@ exports.handler = async function (event) {
   // Embed the affiliate name/ref via the leads.affiliate_id FK.
   const leads = await sbSelect(
     'leads',
-    'select=id,created_at,first_name,last_name,email,phone,loan_program,loan_amount,property_address,status,origination_fee,commission_pct,commission,ref_code,affiliates(name,ref_code)&order=created_at.desc'
+    'select=id,created_at,first_name,last_name,email,phone,loan_program,loan_amount,property_address,status,origination_fee,commission_pct,commission,ref_code,affiliate_id,affiliates(name,ref_code)&order=created_at.desc'
   );
+
+  // The partner list powers the "credit this deal to" picker in admin.js —
+  // a repeat borrower arrives with no ref link, so the deal is tied back by
+  // hand. See the repeat-business promise on /affiliates.
+  const partners = await sbSelect('affiliates', 'select=id,name,ref_code&order=name.asc');
 
   const rows = leads.map((l) => ({
     id: l.id,
@@ -34,6 +39,7 @@ exports.handler = async function (event) {
     loan_amount: l.loan_amount,
     property_address: l.property_address || '',
     affiliate: (l.affiliates && l.affiliates.name) || (l.ref_code ? l.ref_code : 'Direct (no affiliate)'),
+    affiliate_id: l.affiliate_id || '',
     ref_code: l.ref_code || '',
     status: l.status || 'new',
     origination_fee: l.origination_fee,
@@ -41,7 +47,11 @@ exports.handler = async function (event) {
     commission: l.commission,
   }));
 
-  return json(200, { count: rows.length, leads: rows });
+  return json(200, {
+    count: rows.length,
+    leads: rows,
+    affiliates: (partners || []).map((a) => ({ id: a.id, name: a.name, ref_code: a.ref_code })),
+  });
 };
 
 function json(statusCode, obj) {

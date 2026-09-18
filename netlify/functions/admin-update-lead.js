@@ -1,7 +1,13 @@
-// Admin-only: update a lead's status and/or commission.
-// Commission is computed server-side as origination_fee * commission_pct/100
-// (affiliate share capped at 30%). Gated to emails in ADMIN_EMAILS.
-const { verifySession, isAdmin, SB_URL, SB_KEY } = require('./lib/supabase');
+// Admin-only: update a lead's status, commission, and/or the affiliate it
+// is credited to. Commission is computed server-side as
+// origination_fee * commission_pct/100 (affiliate share capped at 30%).
+// Gated to emails in ADMIN_EMAILS.
+//
+// Crediting a lead by hand is what makes the repeat-business promise on
+// /affiliates keep working: a returning borrower comes straight to us with
+// no ?ref= link, so the new lead lands unattributed and an admin ties it
+// back to the partner who introduced them.
+const { verifySession, isAdmin, SB_URL, SB_KEY, sbSelect } = require('./lib/supabase');
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -58,6 +64,29 @@ exports.handler = async function (event) {
     const effPct = pct !== undefined ? pct : null;
     if (effFee != null && effPct != null) {
       patch.commission = Math.round(effFee * (effPct / 100) * 100) / 100;
+    }
+  }
+
+  // Credit (or un-credit) the lead to an affiliate. Pass affiliate_id: null
+  // to clear it. The id is checked against the affiliates table so a typo
+  // cannot point a payable lead at a partner who does not exist, and
+  // ref_code is kept in step so the portal and admin list agree.
+  if ('affiliate_id' in body) {
+    if (body.affiliate_id === null || body.affiliate_id === '') {
+      patch.affiliate_id = null;
+      patch.ref_code = null;
+    } else {
+      const id = String(body.affiliate_id);
+      if (!/^[0-9a-f-]{36}$/i.test(id)) return json(400, { error: 'Invalid affiliate id' });
+      let match;
+      try {
+        match = await sbSelect('affiliates', `select=id,ref_code&id=eq.${encodeURIComponent(id)}`);
+      } catch (err) {
+        return json(502, { error: 'Affiliate lookup failed', detail: String(err) });
+      }
+      if (!match || !match.length) return json(400, { error: 'No such affiliate' });
+      patch.affiliate_id = match[0].id;
+      patch.ref_code = match[0].ref_code || null;
     }
   }
 

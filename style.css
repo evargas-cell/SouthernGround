@@ -3529,6 +3529,16 @@ body.bar-visible .breadcrumbs { padding-top: calc(80px + 42px); }
   .nav-phone { font-size: 0.85rem; }
 }
 
+/* The Affiliates link is a sixth item, and the full lockup with it needs
+   ~1380px. Between the hamburger hand-off and that, buy the width back by
+   tightening the links and dropping the nav phone number — it is still one
+   tap away in the hero CTA, the footer and the mobile menu. */
+@media (min-width: 1220px) and (max-width: 1379px) {
+  .nav-links a { padding-inline: 0.4rem; font-size: 0.775rem; letter-spacing: 0.02em; }
+  .nav-actions { gap: 0.6rem; margin-left: 0.6rem; }
+  .nav-phone { display: none; }
+}
+
 /* === DEAL CARD ON A LIGHT SECTION ===
    .deal-card was written for the dark case-study band, so its ledger text is
    white. The geographic pages reuse the same markup inside light prose, where
