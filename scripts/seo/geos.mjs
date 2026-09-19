@@ -51,12 +51,12 @@ export const GEOS = [
         <p><strong>Multi-Family</strong> financing for 2–10 unit buildings is active around Atlanta, Savannah, Macon, and the college markets, where small value-add apartment product still trades at prices a value-add plan can support.</p>`,
       },
       {
-        h2: 'Private money in Spanish: TuFlipEnGeorgia',
-        html: `<p>A meaningful share of the people renovating houses in Georgia &mdash; across Gwinnett and the Buford Highway corridor, Hall County, Whitfield and the Dalton carpet belt, Clayton, and the poultry towns of the northeast &mdash; are Spanish-speaking investors who file taxes with an ITIN and have little or no US credit file. The hard money program described above is not built for them: it prices off FICO and off verified experience. So we run a separate one that does neither.</p>
-        <p><a href="https://tuflipengeorgia.com" rel="noopener">TuFlipEnGeorgia.com</a> is our Spanish-first private money program for Georgia fix and flip, funded through our network of capital partners. <strong>There is no credit pull at any point in the process.</strong> The file is underwritten on the property's as-is value, which is precisely what makes a deal fundable for a borrower with no credit history &mdash; if the numbers work on the collateral, the borrower's credit report never enters the decision, because there is no credit report.</p>
+        h2: 'Private money loans in Georgia',
+        html: `<p>Not every Georgia deal fits a hard money file. The buying entity is newly formed and has no track record to verify. The credit report is thin, or recovering, or belongs to an investor who has simply never borrowed in the United States. The property is rough enough that the value is genuinely in the land and the renovation rather than in anything a scorecard can see. For those deals we place capital from a second source: a private money program, funded through our network of capital partners and underwritten on the property alone.</p>
+        <p><strong>There is no credit pull at any point in the process.</strong> No minimum score, because no score is ever pulled. No tax returns, no W-2s, no schedule of prior flips. The decision rests on the as-is value of the property you are buying &mdash; which is why an investor with no US credit file, a foreign national, or someone filing on an ITIN closes on the same terms here as anyone else.</p>
         <div class="deal-card deal-card--inline">
           <div class="deal-card-header">
-            <div class="deal-badge">Private Money &middot; Spanish &middot; Georgia</div>
+            <div class="deal-badge">Private Money &middot; Georgia</div>
             <div class="deal-result">No credit check &mdash; <strong>ever</strong></div>
           </div>
           <div class="deal-ledger">
@@ -68,10 +68,11 @@ export const GEOS = [
             <div class="ledger-row ledger-row--highlight"><span class="ledger-label">Underwriting</span><span class="ledger-value text-gold">The property, not the borrower</span></div>
           </div>
         </div>
-        <p>The requirements are short. The loan closes in a business entity &mdash; an LLC, which we will walk you through setting up if you do not have one &mdash; and the collateral has to be investment property. Never a primary residence, never owner-occupied. No minimum credit score, no tax returns, no W-2s. You do still need cash on hand: rehab is reimbursed in draws as the work is completed, so you fund the first stage and carry the monthly interest yourself.</p>
-        <p>Full leverage is the exception, not the rule. It happens when the purchase price sits far enough below as-is value that the entire loan still fits inside the property. Buy at or near as-is value and you will bring money to the closing table &mdash; the same discipline the rest of this page describes, said in a different language.</p>
-        <p>Working capital for new construction is available as well, when you already own the lot or the project free and clear.</p>
-        <p>The site, the application, and the person who handles these files are all in Spanish. Apply in Spanish at <a href="https://tuflipengeorgia.com" rel="noopener">TuFlipEnGeorgia.com</a>, or call us at <a href="tel:+16788428084">(678) 842-8084</a> and ask about the Spanish private money program. Pricing, terms, and underwriting on that program are its own &mdash; it is a separate product from the SGC hard money loans above, not a version of them.</p>`,
+        <p>The requirements are short. The loan closes in a business entity &mdash; an LLC, which we will walk you through setting up if you do not have one &mdash; and the collateral has to be investment property. Never a primary residence, never owner-occupied. You do still need cash on hand: rehab is reimbursed in draws as the work is completed, so you fund the first stage yourself and carry the monthly interest until you sell or refinance.</p>
+        <p>Full leverage is the exception rather than the rule. It happens when the purchase price sits far enough below as-is value that the entire loan still fits inside the property. Buy at or near as-is value and you will bring money to the closing table &mdash; the same discipline the rest of this page describes, applied without a credit report.</p>
+        <p>Working capital against a new construction project is available on the same basis, when you already own the lot or the build free and clear.</p>
+        <p><strong>Which one you want.</strong> Be clear-eyed about the trade. Our hard money program starts at 7.73% and goes to 90% LTC, and it is much cheaper capital &mdash; 1.5% a month is roughly 18% annualized. If you have the credit and the track record to qualify for it, take it. Private money exists for the deals where you do not, or where the closing window is too short to document a borrower at all. On a four-month flip the difference in carry is real but rarely decisive; on a project that drags past a year it is the whole margin.</p>
+        <p>Send us the property either way and we will tell you which of the two it belongs in. Call <a href="tel:+16788428084">(678) 842-8084</a> or <a href="/apply">start an application</a> &mdash; there is no credit pull to get a quote on either program.</p>`,
       },
     ],
     faqs: [
@@ -96,8 +97,8 @@ export const GEOS = [
         a: 'The same as everywhere we lend: fix and flip from 7.73%, bridge from 8.25%, DSCR from 5.75%, total points of 2–4%. Pricing moves with leverage, credit, and experience — not with geography. There is no Georgia surcharge and no in-state discount.',
       },
       {
-        q: 'Do you lend to Georgia investors with an ITIN or no US credit?',
-        a: 'Yes, through a separate program. <a href="https://tuflipengeorgia.com" rel="noopener">TuFlipEnGeorgia.com</a> is our Spanish-first private money product for Georgia fix and flip: no credit pull at any point, underwritten on the property&rsquo;s as-is value, up to 100% of purchase and rehab when the deal supports it, 2 points and 1.5% monthly interest-only on a six-month balloon. The loan closes in an LLC and the property must be investment property. It is priced and underwritten separately from the hard money program on this page.',
+        q: 'Do you offer private money loans in Georgia with no credit check?',
+        a: 'Yes, as a separate program alongside hard money. It is underwritten on the property&rsquo;s as-is value with no credit pull at any point: no minimum score, no tax returns, no verified track record, and up to 100% of purchase and rehab when the as-is value supports it, at 2 points and 1.5% monthly interest-only on a six-month balloon. The loan closes in an LLC and the collateral has to be investment property. It is more expensive than our hard money program &mdash; 1.5% a month is roughly 18% annualized &mdash; so it is the right tool when the borrower profile or the closing window rules out a conventional file, not the default choice.',
       },
     ],
     areaType: 'State',
@@ -114,7 +115,6 @@ export const GEOS = [
       ['/blog/arv-explained', 'ARV 101: After-Repair Value', 'Why submarket-specific comps matter so much in metro Atlanta.'],
       ['/blog/close-in-5-days', 'How to Close a Hard Money Loan Fast', 'What to have ready before a first-Tuesday auction.'],
       ['/hard-money-loans/atlanta', 'Hard Money Lender in Atlanta', 'Neighborhood-level detail on our home city.'],
-      ['https://tuflipengeorgia.com', 'TuFlipEnGeorgia.com', 'Pr&eacute;stamos privados en espa&ntilde;ol para inversionistas con ITIN en Georgia.'],
     ],
   },
 
