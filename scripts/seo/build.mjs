@@ -8,7 +8,7 @@
 // site.mjs, then commit the changed HTML alongside the source.
 // ============================================================
 
-import { writeFileSync, mkdirSync, readdirSync } from 'node:fs';
+import { writeFileSync, readFileSync, existsSync, statSync, mkdirSync, readdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -36,6 +36,7 @@ import { AFFILIATE_PAGE, AFFILIATE_FAQS } from './affiliates.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const written = [];
+const unchanged = [];
 
 // Internal notes live in the generator source, not in shipped page source.
 // scripts/seo/check.mjs and the README track what is still outstanding.
@@ -47,8 +48,39 @@ function write(relPath, html) {
   if (relPath.endsWith('.html')) html = stripInternalNotes(html);
   const full = resolve(ROOT, relPath);
   mkdirSync(dirname(full), { recursive: true });
+  // Skip byte-identical writes. sitemap <lastmod> is derived from file mtime,
+  // so rewriting an unchanged page would claim every page changed on every
+  // build — the surest way to get lastmod discounted entirely.
+  if (existsSync(full) && readFileSync(full, 'utf8') === html) {
+    unchanged.push(relPath);
+    return;
+  }
   writeFileSync(full, html, 'utf8');
   written.push(relPath);
+}
+
+// The company, scoped to the market a geographic page is about. areaServed
+// is the part that does the work: it is what tells Google this page is the
+// one that answers a location-qualified query, not just another site page.
+function geoBusinessSchema(g) {
+  return {
+    ...organizationSchema(),
+    '@id': `${SITE.origin}/hard-money-loans/${g.slug}#business`,
+    name: `${SITE.name} — Hard Money Lender in ${g.location}`,
+    description: stripTags(g.description),
+    url: `${SITE.origin}/hard-money-loans/${g.slug}`,
+    areaServed: [
+      {
+        '@type': g.areaType || 'State',
+        name: g.location,
+        containedInPlace: g.containedIn
+          ? { '@type': 'State', name: g.containedIn }
+          : { '@type': 'Country', name: 'United States' },
+      },
+      ...(g.serviceCities || []).map((name) => ({ '@type': 'City', name })),
+    ],
+    knowsLanguage: g.languages || ['en'],
+  };
 }
 
 function serviceSchema(p) {
@@ -366,7 +398,7 @@ ${inner}      </section>`;
       title: g.title,
       description: g.description,
       path,
-      schemas: [jsonLd(faqSchema(g.faqs)), jsonLd(breadcrumbSchema(trail))],
+      schemas: [jsonLd(geoBusinessSchema(g)), jsonLd(faqSchema(g.faqs)), jsonLd(breadcrumbSchema(trail))],
     }) +
     header() +
     breadcrumbs(trail) +
@@ -608,6 +640,18 @@ write('affiliates.html', renderAffiliates());
 
 const today = new Date().toISOString().slice(0, 10);
 
+// lastmod has to be true to be useful — Google ignores the field outright on
+// sites where it is just "the day of the last deploy". write() above leaves
+// unchanged files alone, so mtime is a real content-change date.
+function lastmodFor(loc) {
+  const rel =
+    loc === '/' ? 'index.html'
+    : loc.endsWith('/') ? `${loc.slice(1)}index.html`
+    : `${loc.slice(1)}.html`;
+  const full = resolve(ROOT, rel);
+  return existsSync(full) ? statSync(full).mtime.toISOString().slice(0, 10) : today;
+}
+
 const staticUrls = [
   ['/', 'weekly', '1.0'],
   ['/loans/', 'monthly', '0.9'],
@@ -645,7 +689,7 @@ ${[...staticUrls, ...programUrls, ...geoUrls, ...blogUrls]
   .map(
     ([loc, freq, pri]) => `  <url>
     <loc>${SITE.origin}${loc}</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>${lastmodFor(loc)}</lastmod>
     <changefreq>${freq}</changefreq>
     <priority>${pri}</priority>
   </url>`,
@@ -656,5 +700,5 @@ ${[...staticUrls, ...programUrls, ...geoUrls, ...blogUrls]
 
 write('sitemap.xml', sitemap);
 
-console.log(`Wrote ${written.length} files:`);
+console.log(`Wrote ${written.length} file(s), ${unchanged.length} unchanged:`);
 for (const f of written) console.log('  ' + f);

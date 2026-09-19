@@ -62,8 +62,8 @@ export function organizationSchema() {
     areaServed: 'US',
     priceRange: '$$',
     openingHours: 'Mo-Fr 08:00-18:00',
-    // REVIEW: add the Google Business Profile + LinkedIn URLs here once claimed.
-    sameAs: [],
+    // REVIEW: add the Google Business Profile URL here once the listing is claimed.
+    sameAs: ['https://www.linkedin.com/company/southern-ground-capital'],
   };
 }
 
@@ -93,13 +93,23 @@ export function faqSchema(faqs) {
   };
 }
 
+// Entities have to be decoded, not just the tags stripped. stripTags() feeds
+// JSON-LD, and a <script type="application/ld+json"> block is not HTML-parsed
+// — an &rsquo; left in there reaches Google as the literal six characters.
+const ENTITIES = {
+  amp: '&', nbsp: ' ', mdash: '—', ndash: '–', rarr: '→', hellip: '…',
+  lsquo: '‘', rsquo: '’', ldquo: '“', rdquo: '”',
+  middot: '·', times: '×', deg: '°', quot: '"', apos: "'", lt: '<', gt: '>',
+  aacute: 'á', eacute: 'é', iacute: 'í', oacute: 'ó', uacute: 'ú',
+  ntilde: 'ñ', uuml: 'ü',
+};
+
 export function stripTags(html) {
   return html
     .replace(/<[^>]+>/g, '')
-    .replace(/&amp;/g, '&')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&mdash;/g, '—')
-    .replace(/&rarr;/g, '→')
+    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&([a-z]+);/gi, (m, name) => ENTITIES[name.toLowerCase()] ?? m)
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -155,6 +165,7 @@ ${o.noindex ? '  <meta name="robots" content="noindex, follow" />\n' : ''}${href
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:site_name" content="${SITE.name}" />
+  <meta property="og:locale" content="en_US" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />

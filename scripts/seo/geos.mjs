@@ -50,6 +50,29 @@ export const GEOS = [
         <p><strong>New Construction</strong> is concentrated in infill teardowns inside the perimeter and in the outer-ring growth counties along the I-75 and I-85 corridors. Up to 85% LTC with draws that fund on schedule.</p>
         <p><strong>Multi-Family</strong> financing for 2–10 unit buildings is active around Atlanta, Savannah, Macon, and the college markets, where small value-add apartment product still trades at prices a value-add plan can support.</p>`,
       },
+      {
+        h2: 'Private money in Spanish: TuFlipEnGeorgia',
+        html: `<p>A meaningful share of the people renovating houses in Georgia &mdash; across Gwinnett and the Buford Highway corridor, Hall County, Whitfield and the Dalton carpet belt, Clayton, and the poultry towns of the northeast &mdash; are Spanish-speaking investors who file taxes with an ITIN and have little or no US credit file. The hard money program described above is not built for them: it prices off FICO and off verified experience. So we run a separate one that does neither.</p>
+        <p><a href="https://tuflipengeorgia.com" rel="noopener">TuFlipEnGeorgia.com</a> is our Spanish-first private money program for Georgia fix and flip, funded through our network of capital partners. <strong>There is no credit pull at any point in the process.</strong> The file is underwritten on the property's as-is value, which is precisely what makes a deal fundable for a borrower with no credit history &mdash; if the numbers work on the collateral, the borrower's credit report never enters the decision, because there is no credit report.</p>
+        <div class="deal-card deal-card--inline">
+          <div class="deal-card-header">
+            <div class="deal-badge">Private Money &middot; Spanish &middot; Georgia</div>
+            <div class="deal-result">No credit check &mdash; <strong>ever</strong></div>
+          </div>
+          <div class="deal-ledger">
+            <div class="ledger-row"><span class="ledger-label">Leverage</span><span class="ledger-value">Up to 100% of purchase + rehab, if it qualifies on as-is value</span></div>
+            <div class="ledger-row"><span class="ledger-label">Interest</span><span class="ledger-value">1.5% monthly, interest-only on the full loan</span></div>
+            <div class="ledger-row"><span class="ledger-label">Points</span><span class="ledger-value">2 points, paid at closing</span></div>
+            <div class="ledger-row"><span class="ledger-label">Term</span><span class="ledger-value">6-month balloon &middot; 2-month minimum &middot; 6-month extension for 1 point</span></div>
+            <div class="ledger-divider"></div>
+            <div class="ledger-row ledger-row--highlight"><span class="ledger-label">Underwriting</span><span class="ledger-value text-gold">The property, not the borrower</span></div>
+          </div>
+        </div>
+        <p>The requirements are short. The loan closes in a business entity &mdash; an LLC, which we will walk you through setting up if you do not have one &mdash; and the collateral has to be investment property. Never a primary residence, never owner-occupied. No minimum credit score, no tax returns, no W-2s. You do still need cash on hand: rehab is reimbursed in draws as the work is completed, so you fund the first stage and carry the monthly interest yourself.</p>
+        <p>Full leverage is the exception, not the rule. It happens when the purchase price sits far enough below as-is value that the entire loan still fits inside the property. Buy at or near as-is value and you will bring money to the closing table &mdash; the same discipline the rest of this page describes, said in a different language.</p>
+        <p>Working capital for new construction is available as well, when you already own the lot or the project free and clear.</p>
+        <p>The site, the application, and the person who handles these files are all in Spanish. Apply in Spanish at <a href="https://tuflipengeorgia.com" rel="noopener">TuFlipEnGeorgia.com</a>, or call us at <a href="tel:+16788428084">(678) 842-8084</a> and ask about the Spanish private money program. Pricing, terms, and underwriting on that program are its own &mdash; it is a separate product from the SGC hard money loans above, not a version of them.</p>`,
+      },
     ],
     faqs: [
       {
@@ -72,6 +95,18 @@ export const GEOS = [
         q: 'What are your rates in Georgia?',
         a: 'The same as everywhere we lend: fix and flip from 7.73%, bridge from 8.25%, DSCR from 5.75%, total points of 2–4%. Pricing moves with leverage, credit, and experience — not with geography. There is no Georgia surcharge and no in-state discount.',
       },
+      {
+        q: 'Do you lend to Georgia investors with an ITIN or no US credit?',
+        a: 'Yes, through a separate program. <a href="https://tuflipengeorgia.com" rel="noopener">TuFlipEnGeorgia.com</a> is our Spanish-first private money product for Georgia fix and flip: no credit pull at any point, underwritten on the property&rsquo;s as-is value, up to 100% of purchase and rehab when the deal supports it, 2 points and 1.5% monthly interest-only on a six-month balloon. The loan closes in an LLC and the property must be investment property. It is priced and underwritten separately from the hard money program on this page.',
+      },
+    ],
+    areaType: 'State',
+    languages: ['en', 'es'],
+    serviceCities: [
+      'Atlanta', 'Marietta', 'Decatur', 'Sandy Springs', 'Roswell', 'Alpharetta',
+      'Duluth', 'Lawrenceville', 'Stockbridge', 'McDonough', 'Douglasville', 'Newnan',
+      'Savannah', 'Augusta', 'Columbus', 'Macon', 'Athens', 'Warner Robins',
+      'Gainesville', 'Rome', 'Dalton', 'Valdosta',
     ],
     testimonialKey: 'marcus',
     programs: ['fix-and-flip', 'dscr', 'bridge', 'new-construction', 'multi-family'],
@@ -79,6 +114,7 @@ export const GEOS = [
       ['/blog/arv-explained', 'ARV 101: After-Repair Value', 'Why submarket-specific comps matter so much in metro Atlanta.'],
       ['/blog/close-in-5-days', 'How to Close a Hard Money Loan Fast', 'What to have ready before a first-Tuesday auction.'],
       ['/hard-money-loans/atlanta', 'Hard Money Lender in Atlanta', 'Neighborhood-level detail on our home city.'],
+      ['https://tuflipengeorgia.com', 'TuFlipEnGeorgia.com', 'Pr&eacute;stamos privados en espa&ntilde;ol para inversionistas con ITIN en Georgia.'],
     ],
   },
 
@@ -148,6 +184,8 @@ export const GEOS = [
         a: 'Yes. Our fix and flip program finances purchase plus rehab, up to 90% of total cost on strong deals. The renovation budget is held back and released in draws as work is completed and inspected, so you are not paying interest on rehab dollars you have not spent. Covering the last 10% of cost through a separate gap lender is possible on select deals — it is a two-loan structure and the gap capital is priced separately.',
       },
     ],
+    areaType: 'City',
+    containedIn: 'Georgia',
     testimonialKey: 'marcus',
     programs: ['fix-and-flip', 'dscr', 'bridge', 'new-construction'],
     related: [
