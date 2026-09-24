@@ -4,6 +4,35 @@
    Palette: Forest Green (#2B4A30) + Amber (#9B6820) — from actual SGC logo
    ============================================================ */
 
+/* === WEBFONTS ===
+   Self-hosted per the ITF Free Font Licence, which permits commercial use and
+   recommends self-hosting. The licence forbids subsetting and format
+   conversion, so these are Fontshare's own .woff2 files, shipped unmodified.
+   Full terms: /fonts/LICENSE-fontshare-FFL.txt
+   Both are VARIABLE fonts — any weight from 100-900 is available at no extra
+   download, which is what lets headings run light and labels run heavy. */
+@font-face {
+  font-family: 'Zodiak';
+  src: url('/fonts/Zodiak-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Switzer';
+  src: url('/fonts/Switzer-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Switzer';
+  src: url('/fonts/Switzer-VariableItalic.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 /* === VARIABLES === */
 :root {
   /* Brand palette — extracted from actual SGC logo */
@@ -45,8 +74,8 @@
   --neutral-bg:   #F3F4F6;
 
   /* Typography */
-  --font-heading: 'Playfair Display', Georgia, serif;
-  --font-body:    'Inter', -apple-system, system-ui, sans-serif;
+  --font-heading: 'Zodiak', Georgia, 'Times New Roman', serif;
+  --font-body:    'Switzer', -apple-system, system-ui, sans-serif;
 
   /* Spacing */
   --section-py:      96px;
@@ -110,13 +139,23 @@ select { -webkit-appearance: none; appearance: none; }
 /* === TYPOGRAPHY === */
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
-h1 { font-size: clamp(2.75rem, 7vw, 5.5rem); font-weight: 900; }
-h2 { font-size: clamp(2rem, 4.5vw, 3.5rem); font-weight: 800; }
-h3 { font-size: clamp(1.25rem, 2.5vw, 1.6rem); font-weight: 700; font-family: var(--font-body); }
-p { line-height: 1.75; }
+/* Bigger type needs tighter tracking and less weight, not more of both. */
+h1 { font-size: clamp(2.75rem, 7vw, 5.5rem); font-weight: 500; letter-spacing: -0.035em; }
+h2 { font-size: clamp(2rem, 4.5vw, 3.5rem);  font-weight: 500; letter-spacing: -0.028em; }
+h3 { font-size: clamp(1.25rem, 2.5vw, 1.6rem); font-weight: 600; letter-spacing: -0.012em; font-family: var(--font-body); }
+p { line-height: 1.75; text-wrap: pretty; }
+/* Keep running text to a readable measure. Long lines are the other half of
+   why body copy can look unconsidered. Scoped to the long-form containers on
+   purpose: the site centres text in ~20 places, and a blanket rule on p would
+   left-shift every one of them. */
+.prose-section > p,
+.prose-wrap > p,
+.prose-container > p,
+.article-body > p { max-width: 68ch; }
 
 /* === LAYOUT === */
 .container {

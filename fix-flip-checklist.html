@@ -9,10 +9,38 @@
   <meta name="robots" content="noindex, follow" />
   <meta name="robots" content="noindex, follow" />
   <link rel="icon" href="/logo.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/Zodiak-Variable.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/Switzer-Variable.woff2" crossorigin />
   <style>
+/* === WEBFONTS ===
+   Self-hosted per the ITF Free Font Licence, which permits commercial use and
+   recommends self-hosting. The licence forbids subsetting and format
+   conversion, so these are Fontshare's own .woff2 files, shipped unmodified.
+   Full terms: /fonts/LICENSE-fontshare-FFL.txt
+   Both are VARIABLE fonts — any weight from 100-900 is available at no extra
+   download, which is what lets headings run light and labels run heavy. */
+@font-face {
+  font-family: 'Zodiak';
+  src: url('/fonts/Zodiak-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Switzer';
+  src: url('/fonts/Switzer-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Switzer';
+  src: url('/fonts/Switzer-VariableItalic.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
     :root {
       --forest-deep: #16261C;
       --forest-mid:  #1E3226;
@@ -22,8 +50,8 @@
       --text:        #1C2B20;
       --text-muted:  #556B5C;
       --border:      #DAE3DC;
-      --font-heading:'Playfair Display', Georgia, serif;
-      --font-body:   'Inter', -apple-system, system-ui, sans-serif;
+      --font-heading:'Zodiak', Georgia, serif;
+      --font-body:   'Switzer', -apple-system, system-ui, sans-serif;
     }
     * { box-sizing: border-box; }
     body {

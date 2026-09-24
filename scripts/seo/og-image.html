@@ -9,13 +9,17 @@
   Uses the brand palette from style.css. The logo is loaded from the
   repo root at render time, so it stays in sync with logo.png.
 -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <style>
+  /* Rendered from a file:// URL by render-og.mjs, so these paths are
+     relative to this file, not to the site root. */
+  @font-face { font-family:'Zodiak';  src:url('../../fonts/Zodiak-Variable.woff2') format('woff2');  font-weight:100 900; font-style:normal; }
+  @font-face { font-family:'Switzer'; src:url('../../fonts/Switzer-Variable.woff2') format('woff2'); font-weight:100 900; font-style:normal; }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1200px; height: 630px; }
   body {
     background: #16261C;
-    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    font-family: 'Switzer', -apple-system, system-ui, sans-serif;
     color: #fff;
     position: relative;
     overflow: hidden;
@@ -59,7 +63,7 @@
     filter: brightness(0) invert(1) sepia(0.12) brightness(0.96);
   }
   .brand-name {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Zodiak', Georgia, serif;
     font-weight: 700;
     font-size: 25px;
     line-height: 1.22;
@@ -68,7 +72,7 @@
     color: rgba(255,255,255,0.94);
   }
   h1 {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Zodiak', Georgia, serif;
     font-weight: 800;
     font-size: 74px;
     line-height: 1.06;
@@ -92,7 +96,7 @@
     border-top: 1px solid rgba(255,255,255,0.13);
   }
   .stat-v {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Zodiak', Georgia, serif;
     font-weight: 700;
     font-size: 34px;
     color: #C88A2C;
