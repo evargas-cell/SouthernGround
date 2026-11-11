@@ -174,8 +174,8 @@ export const LEGAL_PAGES = [
       <h2>9. Not professional advice</h2>
       <p>Content on this site — including articles, guides, market commentary, and worked examples — is general information about real estate finance. It is not legal, tax, accounting, appraisal, or investment advice, and it is not tailored to your circumstances. Real estate investing carries risk, including the loss of your invested capital. Consult your own attorney, CPA, and advisors before acting.</p>
 
-      <h2>10. Testimonials and case studies</h2>
-      <p>Borrower testimonials and deal case studies on this site reflect the experience of specific borrowers on specific transactions. They are not typical results, not a guarantee, and not a prediction of what your deal will do. Outcomes depend on the property, the market, the execution, and factors outside anyone's control.</p>
+      <h2>10. Case studies and examples</h2>
+      <p>Deal case studies and worked examples on this site illustrate specific transactions or hypothetical scenarios. They are not typical results, not a guarantee, and not a prediction of what your deal will do. Outcomes depend on the property, the market, the execution, and factors outside anyone's control.</p>
 
       <h2>11. Affiliate program</h2>
       <p>Participation in the SGC affiliate or referral program is governed by the separate terms presented at registration. Referral compensation is payable only on loans that actually close and fund, is calculated as described in those terms, and may be modified or discontinued prospectively. Affiliates are independent, are not agents or employees of SGC, and may not quote rates or terms, make commitments, or represent themselves as speaking for SGC.</p>

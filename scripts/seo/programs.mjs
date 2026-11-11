@@ -4,30 +4,6 @@
 // program cards and the rates note in index.html.
 // ============================================================
 
-const T_MARCUS = {
-  initials: 'MT',
-  name: 'Marcus T.',
-  meta: 'Atlanta, GA · Fix &amp; Flip Investor',
-  quote:
-    'Southern Ground Capital funded my fix and flip in 6 days. I had another lender fall through at the last minute, and SGC stepped in and saved the deal. Their team was responsive, professional, and delivered exactly what they promised. I\'ve done 4 deals with them since.',
-};
-
-const T_JENNIFER = {
-  initials: 'JR',
-  name: 'Jennifer R.',
-  meta: 'Charlotte, NC · DSCR / Rental Portfolio',
-  quote:
-    'As a rental portfolio investor, the DSCR loan program was exactly what I needed. No W-2s, no tax returns — just the property\'s cash flow. SGC made it simple and closed in under 5 weeks. I\'ve already refinanced two more properties through them.',
-};
-
-const T_DAVID = {
-  initials: 'DK',
-  name: 'David K.',
-  meta: 'Nashville, TN · New Construction',
-  quote:
-    'I\'ve worked with a lot of hard money lenders over the years. Southern Ground Capital is different — they actually understand construction draws and timelines. The draw process was smooth, communication was excellent, and they funded every draw on schedule.',
-};
-
 export const PROGRAMS = [
   // ----------------------------------------------------------
   {
@@ -132,7 +108,6 @@ export const PROGRAMS = [
         a: 'Yes. Mid-construction takeouts are one of our most common scenarios — typically when another lender stopped funding draws or a hard money loan is coming due before the project is finished. We underwrite the remaining scope, the cost already in the ground, and the ARV, and we can pay off the existing lender at closing.',
       },
     ],
-    testimonial: T_MARCUS,
     related: [
       ['/blog/rehab-budget-guide', 'How to Scope Your Rehab Budget So Your Lender Says Yes', 'Build a scope of work that gets approved quickly and funded fully.'],
       ['/blog/arv-explained', 'ARV 101: How Lenders Calculate After-Repair Value', 'The number that drives your leverage — and how underwriters check it.'],
@@ -227,7 +202,6 @@ export const PROGRAMS = [
         a: 'Yes. Cash-out refinances are available at reduced leverage compared with a purchase. If cash-out is your primary goal, look at our dedicated Cash-Out Refinance program, which is built around that use case.',
       },
     ],
-    testimonial: T_JENNIFER,
     related: [
       ['/blog/dscr-loans-explained', 'DSCR Loans Explained: How to Qualify Without W-2s', 'The full walkthrough, with a worked DSCR calculation.'],
       ['/brrrr-analyzer', 'BRRRR Analyzer', 'Model the buy-rehab-rent-refinance sequence before you make an offer.'],
@@ -326,7 +300,6 @@ export const PROGRAMS = [
         a: 'You do not need it approved, but you do need a credible plan. Underwriting evaluates whether the property will realistically qualify for your intended takeout at the leverage you are counting on. A bridge loan without a defensible exit is the file we decline most often.',
       },
     ],
-    testimonial: T_MARCUS,
     related: [
       ['/blog/close-in-5-days', 'How to Close a Hard Money Loan Fast', 'What prepared borrowers do differently when the clock is running.'],
       ['/blog/llc-docs-checklist', 'The LLC Doc Checklist', 'Have these ready and a fast close becomes realistic.'],
@@ -421,7 +394,6 @@ export const PROGRAMS = [
         a: 'Yes. Builders who intend to hold the finished property routinely refinance the construction loan into our DSCR program once the home is complete and leased. Model that takeout before you close the construction loan so you know the as-completed value supports the permanent leverage you need.',
       },
     ],
-    testimonial: T_DAVID,
     related: [
       ['/blog/construction-draw-schedule', 'Construction Draw Schedules: What to Expect', 'How draws are structured and how to keep your build on track.'],
       ['/blog/rehab-budget-guide', 'Scoping a Budget Your Lender Will Approve', 'Line-item budgeting that survives underwriting.'],
@@ -514,7 +486,6 @@ export const PROGRAMS = [
         a: 'You either sell or refinance into permanent debt. For two-to-four unit properties that is often our DSCR program; above four units it is typically agency or a commercial lender, which will want several months of stabilized operating history. Build that seasoning requirement into the term you choose at closing.',
       },
     ],
-    testimonial: T_JENNIFER,
     related: [
       ['/blog/dscr-loans-explained', 'DSCR Loans Explained', 'The most common permanent takeout for 2–4 unit properties.'],
       ['/blog/rehab-budget-guide', 'Scoping a Renovation Budget', 'Unit-by-unit budgeting that underwriting can verify.'],
@@ -610,7 +581,6 @@ export const PROGRAMS = [
         a: 'A 660 minimum FICO. Higher scores improve both your rate and your maximum leverage. Credit matters more on this program than on our short-term products because it is a thirty-year loan being priced for the long term.',
       },
     ],
-    testimonial: T_JENNIFER,
     related: [
       ['/blog/dscr-loans-explained', 'DSCR Loans Explained', 'How the cash-flow ratio behind this program is calculated.'],
       ['/brrrr-analyzer', 'BRRRR Analyzer', 'Model whether your refinance actually returns your capital.'],

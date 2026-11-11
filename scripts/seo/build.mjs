@@ -24,13 +24,12 @@ import {
   organizationSchema,
   jsonLd,
   ctaBand,
-  testimonialBlock,
   termsTable,
   relatedLinks,
   stripTags,
 } from './site.mjs';
 import { PROGRAMS, PROGRAM_BY_SLUG } from './programs.mjs';
-import { GEOS, TESTIMONIALS } from './geos.mjs';
+import { GEOS } from './geos.mjs';
 import { LEGAL_PAGES } from './legal.mjs';
 import { AFFILIATE_PAGE, AFFILIATE_FAQS } from './affiliates.mjs';
 
@@ -201,7 +200,6 @@ ${body}
     </div>
 
 ` +
-    testimonialBlock(p.testimonial) +
     faqBlock(p.faqs) +
     `    <section class="related-links section--white" aria-labelledby="cross-heading">
       <div class="container">
@@ -366,19 +364,12 @@ function renderGeo(g) {
     ['Where We Lend', '/loans#geo-heading'],
     [`Hard Money Loans in ${g.location}`, null],
   ];
-  const t = TESTIMONIALS[g.testimonialKey];
 
   const body = g.sections
     .map((s, i) => {
       const id = `sec-${i + 1}`;
       let inner;
       if (s.deal) inner = ATLANTA_DEAL;
-      else if (s.testimonialSection)
-        inner = `        <blockquote class="pull-quote">
-          <p>${t.quote}</p>
-          <cite>&mdash; ${t.name}, ${stripTags(t.meta)}</cite>
-        </blockquote>
-`;
       else inner = `        ${s.html.trim()}\n`;
       return `      <section class="prose-section" aria-labelledby="${id}">
         <h2 id="${id}">${s.h2}</h2>
@@ -425,7 +416,6 @@ ${body}
     </div>
 
 ` +
-    testimonialBlock(t) +
     faqBlock(g.faqs) +
     `    <section class="related-links section--white" aria-labelledby="prog-heading">
       <div class="container">

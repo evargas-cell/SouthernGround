@@ -109,7 +109,6 @@ export const GEOS = [
       'Savannah', 'Augusta', 'Columbus', 'Macon', 'Athens', 'Warner Robins',
       'Gainesville', 'Rome', 'Dalton', 'Valdosta',
     ],
-    testimonialKey: 'marcus',
     programs: ['fix-and-flip', 'dscr', 'bridge', 'new-construction', 'multi-family'],
     related: [
       ['/blog/arv-explained', 'ARV 101: After-Repair Value', 'Why submarket-specific comps matter so much in metro Atlanta.'],
@@ -213,7 +212,6 @@ export const GEOS = [
     ],
     areaType: 'City',
     containedIn: 'Georgia',
-    testimonialKey: 'marcus',
     programs: ['fix-and-flip', 'dscr', 'bridge', 'new-construction'],
     related: [
       ['/hard-money-loans/georgia', 'Hard Money Loans in Georgia', 'Statewide coverage beyond the metro.'],
@@ -279,12 +277,7 @@ export const GEOS = [
         q: 'How fast can you close in North Carolina?',
         a: 'Two to three weeks from a complete file on fix and flip, bridge, and construction loans, with approvals in 24–48 hours. DSCR and cash-out refinances run four to five weeks because they require a full appraisal with a rent schedule.',
       },
-      {
-        q: 'Do you have North Carolina borrowers we can hear from?',
-        a: 'Jennifer R., a rental portfolio investor in Charlotte, used our DSCR program to finance and then refinance multiple properties — her account is on this page. We can discuss the general shape of comparable deals in your submarket on a call.',
-      },
     ],
-    testimonialKey: 'jennifer',
     programs: ['dscr', 'fix-and-flip', 'cash-out-refinance', 'bridge'],
     related: [
       ['/blog/dscr-loans-explained', 'DSCR Loans Explained', 'The product doing most of the work in the Carolinas.'],
@@ -325,10 +318,6 @@ export const GEOS = [
         <p>If you already own the lot, that equity typically counts toward your borrower contribution — which is frequently what moves a Middle Tennessee builder to maximum leverage.</p>`,
       },
       {
-        h2: 'A Tennessee borrower',
-        testimonialSection: true,
-      },
-      {
         h2: 'Which programs Tennessee investors use most',
         html: `<p><strong>New Construction</strong> — up to 85% LTC, 6–18 month terms, draws on schedule. Concentrated in the Nashville ring counties and the Knoxville and Chattanooga growth corridors.</p>
         <p><strong>Fix &amp; Flip</strong> — up to 90% LTC with rehab financed, min FICO 660. Strongest in Memphis, Knoxville, Chattanooga, and the Middle Tennessee markets outside the Nashville core, where acquisition margins still support a full renovation.</p>
@@ -358,7 +347,6 @@ export const GEOS = [
         a: 'Two to three weeks from a complete file on construction, fix and flip, and bridge loans, with approvals in 24–48 hours. DSCR and cash-out refinances take four to five weeks because of the full appraisal and rent schedule.',
       },
     ],
-    testimonialKey: 'david',
     programs: ['new-construction', 'fix-and-flip', 'dscr', 'bridge'],
     related: [
       ['/blog/construction-draw-schedule', 'Construction Draw Schedules', 'How draws are structured and how to keep a build on track.'],
@@ -367,27 +355,3 @@ export const GEOS = [
     ],
   },
 ];
-
-export const TESTIMONIALS = {
-  marcus: {
-    initials: 'MT',
-    name: 'Marcus T.',
-    meta: 'Atlanta, GA · Fix &amp; Flip Investor',
-    quote:
-      'Southern Ground Capital funded my fix and flip in 6 days. I had another lender fall through at the last minute, and SGC stepped in and saved the deal. Their team was responsive, professional, and delivered exactly what they promised. I\'ve done 4 deals with them since.',
-  },
-  jennifer: {
-    initials: 'JR',
-    name: 'Jennifer R.',
-    meta: 'Charlotte, NC · DSCR / Rental Portfolio',
-    quote:
-      'As a rental portfolio investor, the DSCR loan program was exactly what I needed. No W-2s, no tax returns — just the property\'s cash flow. SGC made it simple and closed in under 5 weeks. I\'ve already refinanced two more properties through them.',
-  },
-  david: {
-    initials: 'DK',
-    name: 'David K.',
-    meta: 'Nashville, TN · New Construction',
-    quote:
-      'I\'ve worked with a lot of hard money lenders over the years. Southern Ground Capital is different — they actually understand construction draws and timelines. The draw process was smooth, communication was excellent, and they funded every draw on schedule.',
-  },
-};

@@ -392,27 +392,6 @@ ${items}
 `;
 }
 
-export function testimonialBlock(t) {
-  return `    <section class="program-testimonial section--white" aria-label="Borrower testimonial">
-      <div class="container">
-        <article class="testimonial-card testimonial-card--featured">
-          <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
-          <blockquote><p>${t.quote}</p></blockquote>
-          <footer>
-            <div class="t-meta">
-              <div class="t-avatar" aria-hidden="true">${t.initials}</div>
-              <div>
-                <cite><strong>${t.name}</strong></cite>
-                <span>${t.meta}</span>
-              </div>
-            </div>
-          </footer>
-        </article>
-      </div>
-    </section>
-`;
-}
-
 /** Terms table from [[label, value], ...]. */
 export function termsTable(caption, rows) {
   const body = rows
